@@ -13,6 +13,8 @@ Estas responsabilidades se dividen según los módulos clave de la aplicación:
 - La coordinación, la documentación y el aseguramiento del flujo de trabajo serán tareas principales de **Fran**.
 - La comunicación del equipo se gestionará a través de **Discord** para reuniones, intercambio de avances y coordinación continua.
 
+---
+
 ### 2) Recursos materiales y tecnológicos:
 El stack y las herramientas seleccionadas se ajustan a las necesidades y requerimientos específicos del proyecto:
 - **Librerías y frameworks:** Se utilizará React para la interfaz, junto con Node.js y Express para montar el backend. Complementarán el desarrollo librerías como Material UI, Styled Components o similares para diseño e interacción.
@@ -20,6 +22,8 @@ El stack y las herramientas seleccionadas se ajustan a las necesidades y requeri
 - **APIs externas:** La API pública de ReccoBeats será el eje de la generación de playlists, atendiendo a sus limitaciones de uso gratuito, tasa de peticiones y documentación oficial.
 - **Herramientas de desarrollo:** Se trabajará con Git como sistema de control de versiones, IntelliJ Idea e WebStorm como IDEs principales, y herramientas de testing (Jest, React Testing Librar, Maestro) y formateo (ESLint, Prettier) para asegurar la calidad del código.
 Todos estos recursos y roles podrán reorganizarse en función de la evolución del proyecto y de los resultados de las primeras iteraciones y pruebas.​
+
+---
 
 ### 3) Gestión del proyecto:
 Enlace al repositorio de GitHub:
