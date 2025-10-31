@@ -1,6 +1,17 @@
-## Fase 2: Estudio de viabilidad técnica
+# Fase 2: Estudio de viabilidad técnica
 
-### 1) Análisis de requisitos funcionales: 
+# Índice
+
+1. [Requisitos funcionales priorizados](#1-requisitos-funcionales-priorizados)
+2. [Requisitos técnicos del stack MERN](#2-requisitos-técnicos-del-stack-mern)
+3. [Esquema de base de datos (diagrama)](#3-esquema-de-base-de-datos-diagrama)
+4. [Arquitectura de la aplicación (diagrama)](#4-arquitectura-de-la-aplicación-diagrama)
+5. [Evaluación de capacidades del equipo](#5-evaluación-de-capacidades-del-equipo)
+6. [Análisis de riesgos y mitigaciones](#6-análisis-de-riesgos-y-mitigaciones)
+
+---
+
+## 1. Requisitos funcionales priorizados
 
 Las funcionalidades principales del proyecto son las siguientes:
 
@@ -30,7 +41,7 @@ Por esto, el MVP deberá contener únicamente las funcionalidades clasificadas c
 
 ---
 
-### 2) Análisis de requisitos técnicos: 
+## 2. Requisitos técnicos del stack MERN
 
 El desarrollo técnico de (Nombre de la app) se realizará utilizando el stack MERN, que integra cuatro tecnologías clave para aplicaciones web modernas: **MongoDB, Express, React y Node.** Este enfoque permitirá construir una plataforma robusta y flexible, donde la interfaz gráfica, la lógica del servidor y la gestión de datos se articulan de manera eficiente.
 
@@ -38,11 +49,61 @@ El desarrollo técnico de (Nombre de la app) se realizará utilizando el stack M
 - **Express y Node** se encargarán de gestionar la comunicación entre la interfaz y la base de datos, además de integrar las funcionalidades principales, como la autenticación y el procesamiento de información proveniente de servicios externos, particularmente la API de Spotify.
 - Por su parte, **MongoDB** servirá como sistema de almacenamiento para toda la información relevante del proyecto, asegurando que los datos sean accesibles y escalables para futuras ampliaciones.
 
-En términos de despliegue, se tiene pensado desplegar en ()
+En términos de despliegue, se tiene pensado desplegar en servicios en la nube como Vercel (para el frontend) y Render o Heroku (para el backend), utilizando MongoDB Atlas como base de datos gestionada, lo que permitirá asegurar la disponibilidad, flexibilidad y facilidad de mantenimiento del proyecto desde el primer MVP.
 
 ---
 
-### 3) Evaluación de capacidades del equipo: 
+## 3. Esquema de base de datos (diagrama)
+
+```mermaid
+erDiagram
+    USER {
+        string _id
+        string name
+        string email
+        string mood
+    }
+    PLAYLIST {
+        string _id
+        string name
+        string mood
+        int durationMinutes
+        string[] preferredSongs
+        string[] excludedSongs
+        string ownerId
+    }
+    SONG {
+        string _id
+        string title
+        string artist
+        string genre
+        int tempo
+        float valence
+        float energy
+    }
+
+    USER ||--o{ PLAYLIST : creates
+    PLAYLIST ||--o{ SONG : includes
+```
+
+## 4. Arquitectura de la aplicación (diagrama)
+
+```mermaid
+flowchart TD
+    FrontendReact -->|Solicita datos de usuario y estado de ánimo| BackendNodeExpress
+    BackendNodeExpress -->|Solicita recomendaciones| APIReccoBeatsSpotify
+    BackendNodeExpress -->|Lee o escribe playlists y preferencias| MongoDB
+    BackendNodeExpress -->|Envía playlist generada| FrontendReact
+
+    subgraph Tecnologias
+        FrontendReact
+        BackendNodeExpress
+        APIReccoBeatsSpotify
+        MongoDB
+    end
+```
+
+## 5. Evaluación de capacidades del equipo
 
 En términos de experiencia, como equipo tenemos bastante conocimiento con respecto al **diseño de frontend**, por lo que podemos garantizar que la página sea intuitiva y visualmente atractiva. 
 
@@ -61,7 +122,7 @@ Teniendo en cuenta el reparto de roles, la experiencia previa del equipo en fron
 
 ---
 
-### 4) Identificación de riesgos técnicos:
+## 6. Análisis de riesgos y mitigaciones
 
 El riesgo principal de nuestro proyecto es la utilización de una API pública, la cual presenta los siguientes riesgos:
 
