@@ -1,8 +1,16 @@
-# Propuesta formal
+# Fase 1: Detección del problema
 
-## Fase 1: Detección del problema
+## Índice
 
-### 1) Identificación de la necesidad: 
+1. [Descripción detallada del problema identificado](#1-descripción-detallada-del-problema-identificado)
+2. [Usuarios objetivo (user personas)](#2-usuarios-objetivo-user-personas)
+3. [Evidencias de investigación (resultados de entrevistasencuestas)](#3-evidencias-de-investigación-resultados-de-entrevistasencuestas)
+4. [Análisis de competencia](#4-análisis-de-competencia)
+5. [Propuesta de valor](#5-propuesta-de-valor)
+
+---
+
+## 1. Descripción detallada del problema identificado
 
 Antes de escoger una idea del proyecto definitiva, se sugirieron diversas ideas para ver su viabilidad:
 
@@ -10,15 +18,27 @@ Antes de escoger una idea del proyecto definitiva, se sugirieron diversas ideas 
 - **Idea 2:** Nuestra segunda idea fue una aplicación web colaborativa donde los usuarios podrían descubrir, compartir y valorar lugares curiosos o experiencias locales de su ciudad.
 - **Idea 3:** La última idea fue una aplicación web enfocada a los calendarios de juegos de lucha, donde se mostrarían en un calendario diversos torneos en función de popularidad con la capacidad de filtrarlos.
 
-La propuesta seleccionada ha acabado siendo nuestra primera idea, debido a que no solo la idea es algo único que no se ha realizado sino que además trabaja con APIs ya existente (Una variante de la API de Spotify) para crear playlists con mayor facilidad, la cual llamamos (Nombre de la app).
+La propuesta seleccionada ha acabado siendo nuestra primera idea, debido a que no solo la idea es algo único que no se ha realizado sino que además trabaja con APIs ya existente (Una variante de la API de Spotify) para crear playlists con mayor facilidad, la cual llamamos (Nombre de la app, aún no la hemos definido).
 
 Sin embargo, conforme fuimos debatiendo funcionalidades de la aplicación decidimos determinar la funcionalidad principal: La creación de playlists a partir del estado de ánimo del usuario. Por ende, se terminó descartando tanto la idea del tiempo como la generación de imágenes o actividades para que este proyecto estuviera mucho más enfocado.
 
 #### Investigación del problema: ¿Quién lo sufre? ¿Con qué frecuencia? ¿Cuál es el impacto?
 
-(Nombre de la app) permite al usuario crear playlists automáticamente sin necesidad de tener que buscar las canciones que se adapten al momento, ya que muchas veces encontrar una playlist que se ajuste a tu estado de ánimo es complicado. Por esto, cada vez que el usuario quiera escuchar música y no tenga ganas de construir una playlist desde cero, este podrá utilizar [Nombre de la app, tenemos que buscar uno con más gancho]. Esto permitirá a los usuarios ahorrar mucho más tiempo.
+Esta app permite al usuario crear playlists automáticamente sin necesidad de tener que buscar las canciones que se adapten al momento, ya que muchas veces encontrar una playlist que se ajuste a tu estado de ánimo es complicado. Por esto, cada vez que el usuario quiera escuchar música y no tenga ganas de construir una playlist desde cero, este podrá utilizar [Nombre de la app, tenemos que buscar uno con más gancho]. Esto permitirá a los usuarios ahorrar mucho más tiempo.
 
-#### Recopilación de evidencias (entrevistas, encuestas, análisis de situaciones reales, etc):
+---
+
+## 2. Usuarios objetivo (user personas)
+
+**User persona 1:** Un individuo que desee escuchar música pero no sepa exactamente qué música escoger para el momento. 
+Para este usuario en particular, la página deberá cumplir su propósito principal: Generar una playlist de Spotify u otra plataforma de música automáticamente en función de la emoción que sienta. Debido a que este usuario no está seguro de qué escucha y quiere una playlist sin tener que buscar cada canción individualmente, generar la playlist en función de la emoción es la mejor forma de satisfacer esa necesidad.
+
+**User persona 2:** Persona mayor con menor conocimiento de dispositivos electrónicos. 
+Para este usuario en concreto, la página tiene que ser simple, sencilla y directa, para que simplemente pueda escoger los botones e intuitivamente.
+
+---
+
+## 3. Evidencias de investigación (resultados de entrevistas/encuestas)
 
 A continuación, se enumeran diferentes evidencias basadas en datos y estudios reales, publicados, sobre la relación de los usuarios con la música y las playlist:
 
@@ -40,17 +60,7 @@ Un estudio de la Universidad de Londres (How Do You Feel? Exploring Mood-Music M
 
 ---
 
-### 2) Definición de usuarios objetivo: 
-
-**User persona 1:** Un individuo que desee escuchar música pero no sepa exactamente qué música escoger para el momento. 
-Para este usuario en particular, la página deberá cumplir su propósito principal: Generar una playlist de Spotify u otra plataforma de música automáticamente en función de la emoción que sienta. Debido a que este usuario no está seguro de qué escucha y quiere una playlist sin tener que buscar cada canción individualmente, generar la playlist en función de la emoción es la mejor forma de satisfacer esa necesidad.
-
-**User persona 2:** Persona mayor con menor conocimiento de dispositivos electrónicos. 
-Para este usuario en concreto, la página tiene que ser simple, sencilla y directa, para que simplemente pueda escoger los botones e intuitivamente.
-
----
-
-### 3) Análisis de competencia: 
+## 4. Análisis de competencia
 
 - **Solución existente 1: Chosic.**
 Chosic es una página web capaz de encontrar canciones similares a otras en Spotify. Se puede usar como buscador para encontrar otras canciones o playlists similares a otras ya existentes. Su principal problema es que no está enfocada a la generación de playlists, sino en la búsqueda de otras ya existentes. Es un recurso útil para ahorrar tiempo, pero no cumple la misma funcionalidad que nuestra idea para página.
@@ -65,3 +75,7 @@ Debido a esto, nuestra web deberá enfocarse especialmente en la capacidad de de
 Además, podemos tomar como referencia la estructura de estas páginas, puesto que partir de un diseño similar o familiar para otros usuarios fomentará la facilidad de uso de la página.
 
 ---
+
+## 5. Propuesta de valor
+
+Nuestra propuesta de valor consiste en ofrecer al usuario la posibilidad de generar playlists musicales de manera automática partiendo de su estado de ánimo y preferencias emocionales, sin necesidad de buscar cada canción individualmente. A diferencia de las soluciones existentes, nuestra app prioriza la experiencia personalizada, simplicidad de uso para todo tipo de usuario, y una interfaz accesible. Esta funcionalidad única —la generación basada en emociones— es lo que nos diferencia, haciendo que los usuarios nos elijan frente a otras opciones más genéricas o centradas en la búsqueda tradicional.
