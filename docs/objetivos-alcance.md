@@ -1,6 +1,15 @@
-## Fase 3: Estudio de viabilidad técnica
+# Fase 3: Estudio de viabilidad técnica
 
-### 1) Objetivos del proyecto: 
+## Índice
+
+1. [Objetivos SMART del proyecto](#1-objetivos-smart-del-proyecto)
+2. [Definición del MVP](#2-definición-del-mvp)
+3. [Delimitación del alcance (qué SÍ y qué NO)](#3-delimitación-del-alcance-qué-sí-y-qué-no)
+4. [Criterios de éxito](#4-criterios-de-éxito)
+
+---
+
+## 1. Objetivos SMART del proyecto
 
 Para asegurar la viabilidad y el impacto del proyecto, es fundamental definir claramente los objetivos, establecer criterios SMART para su medición y delimitar el alcance de la solución. Todo esto se hará teniendo en cuenta tanto el aspecto técnico como la relación emocional con la música que ofrece la aplicación.
 
@@ -16,14 +25,14 @@ De manera más concreta, los objetivos específicos describen las metas a corto 
 - Presentar la plataforma en **pruebas internas y demostraciones**, recopilando comentarios de usuarios reales para evaluar su experiencia de uso en el contexto educativo.
 - Redactar la **documentación técnica** y **de usuario**, asegurando que se expliquen tanto la arquitectura MERN como los flujos funcionales clave.
 
-La medición del éxito del proyecto se basará en varios criterios fundamentales, que se describen a continuación:
-- **Funcionamiento técnico**: la plataforma debe ser capaz de crear y mostrar playlists personalizadas con las canciones adecuadas según los parámetros elegidos, lo cual será validado mediante pruebas funcionales y de usuario.
-- **Usabilidad**: al menos cinco usuarios tipo probarán la herramienta, registrándose el tiempo y el número de clics necesarios para completar el proceso. Se considerará exitoso si el 80% logra la tarea sin dificultades y en el tiempo estimado.
-- **Accesibilidad**: se realizarán revisiones manuales y automáticas de la interfaz (usando herramientas como Lighthouse) para garantizar que sea navegable a través de teclado, tenga buen contraste y cumpla estándares básicos de accesibilidad.
-- **Retroalimentación y satisfacción**: se recopilarán comentarios en cuestionarios tras las pruebas, considerando exitoso el proyecto si se supera una valoración global de 7/10 por parte de los participantes.
-- **Documentación**: el manual técnico y de usuario será revisado por al menos dos personas ajenas al equipo para asegurar claridad y exhaustividad.
+---
+
+## 2. Definición del MVP
+
+*Este apartado agrupa la información de los objetivos y la delimitación inicial de alcance para explicar el primer producto funcional.*
 
 Por último, es necesario delimitar el alcance del proyecto, estableciendo lo que sí y lo que no se incluirá en esta primera versión:
+
 - **Sí se incluye**: una SPA desarrollada con React, la lógica backend con Node y Express para comunicarse con la API de ReccoBeats, la configuración de sliders para los parámetros emocionales, y todas las pruebas y documentación técnica necesarias vinculadas a este primer MVP.
 - **No se incluye**: integración directa con cuentas de Spotify, autenticación de usuarios ni persistencia avanzada de playlists en MongoDB, centrándose únicamente en la creación instantánea de playlists durante las pruebas académicas.
 
@@ -31,10 +40,9 @@ Posibles ampliaciones futuras: integración full con Spotify para guardar listas
 
 ---
 
-### 2) Delimitación del alcance: 
+## 3. Delimitación del alcance (qué SÍ y qué NO)
 
-La delimitación del alcance es fundamental para establecer las fronteras del desarrollo y evitar que el proyecto se disperse, permitiendo centrarse en los objetivos principales y garantizar resultados tangibles en el tiempo previsto.
-En esta primera fase, la solución abarcará los elementos esenciales para que la generación de playlists personalizadas sea posible y funcional en un contexto académico.
+La delimitación del alcance es fundamental para establecer las fronteras del desarrollo y evitar que el proyecto se disperse, permitiendo centrarse en los objetivos principales y garantizar resultados tangibles en el tiempo previsto. En esta primera fase, la solución abarcará los elementos esenciales para que la generación de playlists personalizadas sea posible y funcional en un contexto académico.
 
 - **Sí se incluye:**
   - Una Single Page Application (SPA) creada en React, con un diseño sencillo y accesible, orientado al manejo intuitivo de sliders para definir parámetros emocionales y musicales.
@@ -49,4 +57,17 @@ En esta primera fase, la solución abarcará los elementos esenciales para que l
   - Esto garantiza que el esfuerzo del equipo se concentre en entregar una aplicación funcional y evaluable, sin que el desarrollo se vea retrasado por integraciones o funcionalidades complejas que pueden convertirse en ampliaciones futuras.
   - Entre las posibles mejoras y ampliaciones para siguientes fases, se contemplan la integración total con Spotify para guardar playlists reales, la creación de perfiles emocionales de usuario ajustados mediante aprendizaje automático, la persistencia de preferencias y sesiones a través de login, y un mayor refinamiento tanto de la interfaz como de los algoritmos internos, según la experiencia recopilada en el entorno académico.
   - Este enfoque permite a la vez limitar el desarrollo y abrir la puerta a futuras evoluciones, asegurando que la solución inicial sea accesible, testeable y lista para extenderse según las necesidades y los avances tecnológicos.​
+
+---
+
+## 4. Criterios de éxito
+
+La medición del éxito del proyecto se basará en varios criterios fundamentales, que se describen a continuación:
+- **Funcionamiento técnico**: la plataforma debe ser capaz de crear y mostrar playlists personalizadas con las canciones adecuadas según los parámetros elegidos, lo cual será validado mediante pruebas funcionales y de usuario.
+- **Usabilidad**: al menos cinco usuarios tipo probarán la herramienta, registrándose el tiempo y el número de clics necesarios para completar el proceso. Se considerará exitoso si el 80% logra la tarea sin dificultades y en el tiempo estimado.
+- **Accesibilidad**: se realizarán revisiones manuales y automáticas de la interfaz (usando herramientas como Lighthouse) para garantizar que sea navegable a través de teclado, tenga buen contraste y cumpla estándares básicos de accesibilidad.
+- **Retroalimentación y satisfacción**: se recopilarán comentarios en cuestionarios tras las pruebas, considerando exitoso el proyecto si se supera una valoración global de 7/10 por parte de los participantes.
+- **Documentación**: el manual técnico y de usuario será revisado por al menos dos personas ajenas al equipo para asegurar claridad y exhaustividad.
+
+---
 
