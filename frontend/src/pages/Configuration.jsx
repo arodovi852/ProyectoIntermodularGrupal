@@ -1,7 +1,7 @@
 function Configuration() {
     return (
         <div>
-            <h1>Inicio</h1>
+            <h1>Configuration</h1>
         </div>
     )
 }

@@ -31,18 +31,7 @@ function Header() {
                     isActive ? "nav-link active text-white" : "nav-link text-white-50"
                   }
                 >
-                  Presentacion
-                </NavLink>
-              </li>
-
-              <li className="nav-item">
-                <NavLink
-                  to="/Home"
-                  className={({ isActive }) =>
-                    isActive ? "nav-link active text-white" : "nav-link text-white-50"
-                  }
-                >
-                  Inicio
+                  Home
                 </NavLink>
               </li>
 
@@ -53,7 +42,18 @@ function Header() {
                     isActive ? "nav-link active text-white" : "nav-link text-white-50"
                   }
                 >
-                  Perfil
+                  Profile
+                </NavLink>
+              </li>
+
+              <li className="nav-item">
+                <NavLink
+                  to="/Configuration"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active text-white" : "nav-link text-white-50"
+                  }
+                >
+                  Configuration
                 </NavLink>
               </li>
             </ul>
