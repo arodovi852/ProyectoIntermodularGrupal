@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router";
-import Home from "../pages/Home";
-import Presentation from "../pages/Presentation.jsx";
+import Home from "../pages/Configuration.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import LayoutRoot from "../layouts/LayoutRoot.jsx";
@@ -11,16 +10,17 @@ import API from "../pages/API.jsx";
 import Terms from "../pages/Terms.jsx";
 import News from "../pages/News.jsx";
 import Contact from "../pages/Contact.jsx";
+import Configuration from "../pages/Configuration.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         Component: LayoutRoot,
         children: [
-            { index: true, Component: Presentation },
+            { index: true, Component: Home },
             { path: "/Login", Component: Login },
             { path: "/Register", Component: Register },
-            { path: "/Home", Component: Home },
+            { path: "/Configuration", Component: Configuration },
             { path: "/Profile", Component: Profile },
             { path: "/About", Component: About },
             { path: "/Contact", Component: Contact },
