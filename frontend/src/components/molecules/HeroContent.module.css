@@ -2,7 +2,7 @@
 .heroContent {
     position: relative;
     z-index: 1;
-    max-width: 1200px;
+    max-width: 1400px;
 }
 
 .title {
@@ -22,16 +22,8 @@
 }
 
 .highlight {
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.9);
-}
-
-.link {
-    color: #ff4d5e;
-    font-size: 1.2rem;
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 3rem;
+    font-weight: 700;
+    color: rgb(239, 239, 239);
 }
 
 .ctaContainer {

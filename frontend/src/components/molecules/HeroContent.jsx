@@ -10,13 +10,9 @@ export const HeroContent = () => {
             </h1>
 
             <p className={styles.description}>
-                <span className={styles.highlight}>Transforma tus</span> emociones en música: tu playlist,
-                <span className={styles.highlight}> hecha a medida</span> para este instante.
+                Transforma tus emociones en música: tu playlist, hecha
+                <span className={styles.highlight}> a medida</span> para este instante.
             </p>
-
-            <Link href="#" className={styles.link}>
-                Más sobre el sitio.
-            </Link>
 
             <div className={styles.ctaContainer}>
                 <Button variant="cta">

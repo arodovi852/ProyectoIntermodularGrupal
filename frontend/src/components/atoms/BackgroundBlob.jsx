@@ -17,4 +17,3 @@ export const BackgroundBlob = ({ size = 400, color, top, left, right, bottom, bl
         ></div>
     )
 }
-
