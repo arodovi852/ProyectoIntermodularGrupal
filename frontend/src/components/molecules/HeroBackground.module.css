@@ -1,0 +1,8 @@
+.videoBackground {
+    position: absolute;
+    object-fit: fill;
+    z-index: 0;
+    opacity: 0.7;
+    transform: rotate(90deg);
+}
+
