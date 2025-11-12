@@ -27,9 +27,9 @@ function Footer() {
             <li><a href="#" aria-label={altFacebookLogo} target="_blank" rel="noopener noreferrer"><img src={facebookLogo} alt={altFacebookLogo} /></a></li>
             <li><a href="#" aria-label={altInstagramLogo} target="_blank" rel="noopener noreferrer"><img src={instagramLogo} alt={altInstagramLogo} /></a></li>
         </ul>
-        <div>
+        <article>
             © {new Date().getFullYear()} — Tu proyecto
-        </div>
+        </article>
     </footer>
   );
 }

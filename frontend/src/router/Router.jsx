@@ -12,6 +12,9 @@ import News from "../pages/News.jsx";
 import Contact from "../pages/Contact.jsx";
 import Configuration from "../pages/Configuration.jsx";
 import EditProfile from "../pages/EditProfile.jsx";
+import RecoverPassword from "../pages/RecoverPassword.jsx";
+import DashBoard from "../pages/DashBoard.jsx";
+import PrivateLayoutRoot from "../layouts/PrivateLayoutRoot.jsx";
 
 const router = createBrowserRouter([
     {
@@ -19,11 +22,10 @@ const router = createBrowserRouter([
         Component: LayoutRoot,
         children: [
             { index: true, Component: Home },
-            { path: "/Login", Component: Login },
+            { path: "/Login", Component: Login},
             { path: "/Register", Component: Register },
-            { path: "/Configuration", Component: Configuration },
-            { path: "/Profile", Component: Profile },
-            {path: "/EditProfile", Component: EditProfile },
+            { path: "/RecoverPassword", Component: RecoverPassword },
+            { element: PrivateLayoutRoot, children: [ { path: "/DashBoard", Component: DashBoard }, { path: "/Profile", Component: Profile }, { path: "/EditProfile", Component: EditProfile }, {path: "/Configuration", Component: Configuration },],},
             { path: "/About", Component: About },
             { path: "/Contact", Component: Contact },
             { path: "/News", Component: News },
