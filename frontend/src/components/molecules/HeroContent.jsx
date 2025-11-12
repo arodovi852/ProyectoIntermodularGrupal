@@ -6,7 +6,7 @@ export const HeroContent = () => {
     return (
         <div className={styles.heroContent}>
             <h1 className={styles.title}>
-                BROADCASTTD
+                playthemood
             </h1>
 
             <p className={styles.description}>
