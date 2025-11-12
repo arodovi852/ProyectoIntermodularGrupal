@@ -1,0 +1,48 @@
+/* HeroContent Styles */
+.heroContent {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+}
+
+.title {
+    font-size: 6rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: 3px;
+}
+
+.description {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    line-height: 1.4;
+}
+
+.highlight {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.link {
+    color: #ff4d5e;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 3rem;
+}
+
+.ctaContainer {
+    margin-top: 2rem;
+}
+
+.ctaLight {
+    font-weight: 300;
+}
+
+.ctaBlack {
+    font-weight: 900;
+}
+

@@ -1,0 +1,7 @@
+/* SocialLinks Styles */
+.socialLinks {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+

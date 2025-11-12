@@ -1,0 +1,18 @@
+/* SocialIcon Styles */
+.socialIcon {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.socialIcon:hover {
+    opacity: 0.7;
+}
+
+.socialIcon svg {
+    width: 25px;  /* <-- Cambia este valor */
+    height: 25px; /* <-- Cambia este valor */
+}
+
