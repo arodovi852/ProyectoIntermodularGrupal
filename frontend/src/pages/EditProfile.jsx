@@ -1,4 +1,4 @@
-function Contact() {
+function EditProfile() {
     return (
         <main>
 
@@ -6,4 +6,4 @@ function Contact() {
     )
 }
 
-export default Contact
+export default EditProfile

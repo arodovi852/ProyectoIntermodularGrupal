@@ -1,8 +1,8 @@
 function Terms() {
     return (
-        <div>
+        <main>
 
-        </div>
+        </main>
     )
 }
 

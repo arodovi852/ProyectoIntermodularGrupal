@@ -11,6 +11,7 @@ import Terms from "../pages/Terms.jsx";
 import News from "../pages/News.jsx";
 import Contact from "../pages/Contact.jsx";
 import Configuration from "../pages/Configuration.jsx";
+import EditProfile from "../pages/EditProfile.jsx";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
             { path: "/Register", Component: Register },
             { path: "/Configuration", Component: Configuration },
             { path: "/Profile", Component: Profile },
+            {path: "/EditProfile", Component: EditProfile },
             { path: "/About", Component: About },
             { path: "/Contact", Component: Contact },
             { path: "/News", Component: News },

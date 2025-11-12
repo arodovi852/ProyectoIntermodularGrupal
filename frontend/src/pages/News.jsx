@@ -1,8 +1,8 @@
 function News() {
     return (
-        <div>
+        <main>
 
-        </div>
+        </main>
     )
 }
 

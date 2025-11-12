@@ -1,8 +1,8 @@
 function Roadmap() {
     return (
-        <div>
+        <main>
 
-        </div>
+        </main>
     )
 }
 

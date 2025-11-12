@@ -1,8 +1,8 @@
 function API() {
     return (
-        <div>
+        <main>
 
-        </div>
+        </main>
     )
 }
 
