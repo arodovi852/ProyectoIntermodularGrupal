@@ -6,27 +6,6 @@
 - ✅ Un servidor (VPS) para alojar tu aplicación
 - ✅ Docker instalado en el servidor
 
-## 🌐 Opciones de Hosting (Recomendadas para Estudiantes)
-
-### Opción 1: **DigitalOcean** (Recomendada) 💙
-- **Precio**: $6/mes (plan básico)
-- **GitHub Student Pack**: $200 gratis de crédito
-- **Facilidad**: ⭐⭐⭐⭐⭐
-
-### Opción 2: **AWS EC2** (Gratuito 1 año)
-- **Precio**: Gratis el primer año (t2.micro)
-- **Facilidad**: ⭐⭐⭐
-
-### Opción 3: **Contabo VPS**
-- **Precio**: €4.99/mes
-- **Facilidad**: ⭐⭐⭐⭐
-
-### Opción 4: **Oracle Cloud** (Gratis permanente)
-- **Precio**: GRATIS (Always Free Tier)
-- **Facilidad**: ⭐⭐
-
----
-
 ## 🎯 PASO 1: Configurar el Servidor VPS
 
 ### 1.1. Crear el servidor
