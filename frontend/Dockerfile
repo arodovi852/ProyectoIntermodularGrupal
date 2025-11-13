@@ -16,11 +16,18 @@ RUN npm run build
 # Etapa de producción con nginx
 FROM nginx:stable-alpine
 
+# Instalar certificados CA para permitir proxy a backends HTTPS
+RUN apk add --no-cache ca-certificates && update-ca-certificates || true
+
 # Copiar archivos construidos
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copiar configuración personalizada de nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copiar plantilla de configuración y entrypoint para reemplazar BACKEND_HOST en tiempo de ejecución
+COPY default.conf.template /app/default.conf.template
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Usar entrypoint que genera la configuración final y arranca nginx
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

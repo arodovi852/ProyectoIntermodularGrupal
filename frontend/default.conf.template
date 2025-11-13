@@ -1,0 +1,36 @@
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # Servir archivos estáticos del frontend
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Construir la URL del backend en una variable nginx para evitar errores de prefijo
+    # ${BACKEND_SCHEME} y ${BACKEND_HOST_CLEAN} serán sustituidos por envsubst en tiempo de arranque
+    set $backend_url "${BACKEND_SCHEME}://${BACKEND_HOST_CLEAN}";
+
+    # Proxy para el backend (cuando se use en Docker o en producción).
+    location /api/ {
+        proxy_pass $backend_url;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_ssl_server_name on;
+        proxy_ssl_trusted_certificate /etc/ssl/certs/ca-certificates.crt;
+    }
+
+    # Configuración de caché para assets
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}

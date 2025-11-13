@@ -1,7 +1,7 @@
-
 services:
   backend:
     build: ./backend
+    image: falbmun0906/play_backend:latest
     container_name: play_backend
     restart: always
     environment:
@@ -13,12 +13,15 @@ services:
 
   frontend:
     build: ./frontend
+    image: falbmun0906/play_frontend:latest
     container_name: play_frontend
     restart: always
     depends_on:
       - backend
     ports:
       - "80:80"
+    environment:
+      - BACKEND_HOST=backend:3001
     networks:
       - app-network
 
