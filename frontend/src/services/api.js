@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 // Configuración base del API
-// En desarrollo: http://localhost:3001
-// En producción: usa VITE_API_URL del archivo .env
-// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-const API_BASE_URL = "https://mind-mineral-unto-advice.trycloudflare.com";
+// En desarrollo local: apunta directamente al backend (http://localhost:3001)
+// En Docker/producción: usa rutas relativas para que nginx haga el proxy
+const isDevelopment = import.meta.env.MODE === 'development';
+const API_BASE_URL = isDevelopment
+    ? (import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001')
+    : ''; // En producción/Docker, usa rutas relativas para que nginx haga el proxy
 
 const api = axios.create({
     baseURL: API_BASE_URL,
