@@ -1,12 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/UseAuth.jsx";
-import {use} from "react";
 
 function Header() {
-  const { user, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => { logout(); navigate('/login');};
+  const handleLogout = () => { logout(); navigate('/'); };
 
   return (
       <header>
@@ -14,9 +13,9 @@ function Header() {
           <nav id="mainNavbar">
               <ul>
                   <li><NavLink to="/" end>Home</NavLink></li>
-                  {user ? (
+                  {isAuthenticated ? (
                       <>
-                          <li><NavLink to="/Dashboard">Login</NavLink></li>
+                          <li><NavLink to="/DashBoard">Dashboard</NavLink></li>
                           <li><NavLink to="/Profile">Profile</NavLink></li>
                           <li><NavLink to="/Configuration">Configuration</NavLink></li>
                           <li><button onClick={handleLogout}>Logout</button></li>

@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
             .then(data => {
                 if (data.token) {
                     localStorage.setItem('token', data.token);
-                    setUser({ token: data.token });
+                    setUser({ token: data.token, ...data.user });
                     return true;
                 }
                 return false;
@@ -35,10 +35,12 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('token');
         setUser(null);
     };
+
+    const isAuthenticated = !!user;
+
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
 }
-
