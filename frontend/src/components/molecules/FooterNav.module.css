@@ -1,0 +1,14 @@
+/* FooterNav Styles */
+.footerNav {
+    display: flex;
+    gap: 2rem;
+    font-size: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 14px;
+    font-weight: 500;
+}
