@@ -1,16 +1,17 @@
 import { Link } from '../atoms/Link'
 import { SocialIcon } from '../atoms/SocialIcon'
 import styles from './Footer.module.css'
+import {NavLink} from "react-router-dom";
 
 export const Footer = () => {
     const links = [
-        { text: 'About', href: '#about' },
-        { text: 'Contact', href: '#contact' },
-        { text: 'News', href: '#news' },
-        { text: 'Terms', href: '#terms' },
-        { text: 'Privacy', href: '#privacy' },
-        { text: 'API', href: '#api' },
-        { text: 'Roadmap', href: '#roadmap' },
+        { text: 'About', href: '/About' },
+        { text: 'Contact', href: '/Contact' },
+        { text: 'News', href: '/News' },
+        { text: 'Terms', href: '/Terms' },
+        { text: 'Privacy', href: '/Privacy' },
+        { text: 'API', href: '/API' },
+        { text: 'Roadmap', href: '/Roadmap' },
         { text: '/', href: '#', isSpecial: true }
     ]
 
@@ -31,9 +32,9 @@ export const Footer = () => {
                             {link.text}
                         </span>
                     ) : (
-                        <Link key={`link-${index}`} href={link.href}>
+                        <NavLink key={`link-${index}`} to={link.href} className={styles.links}>
                             {link.text}
-                        </Link>
+                        </NavLink>
                     )
                 ))}
 

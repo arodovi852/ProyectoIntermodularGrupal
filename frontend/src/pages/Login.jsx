@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../hooks/UseAuth.jsx';
 import {NavLink} from "react-router-dom";
+import styles from "./Login.module.css";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ function Login() {
     }
 
     return (
-        <main>
+        <main className={styles.login}>
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <article>

@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router";
-import Home from "../pages/Home.jsx";
 import Login from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import LayoutRoot from "../layouts/LayoutRoot.jsx";
@@ -30,6 +29,7 @@ const router = createBrowserRouter([
             { path: "/Contact", Component: Contact },
             { path: "/News", Component: News },
             { path: "/Terms", Component: Terms },
+            { path: "Privacy", Component: Terms },
             { path: "/API", Component: API },
             { path: "/Roadmap", Component: Roadmap },
         ],
