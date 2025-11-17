@@ -1,12 +1,9 @@
-// Handlers para MSW: interceptan las llamadas de login y register usadas por la app
 import { rest } from 'msw';
 
 export const handlers = [
-  // Login
   rest.post('http://braodcastts.com/api/v1/login', async (req, res, ctx) => {
     const { email, password } = await req.json();
 
-    // Respuestas de ejemplo para pruebas
     if (email === 'dev@example.com' && password === 'password') {
       return res(
         ctx.status(200),
@@ -14,14 +11,12 @@ export const handlers = [
       );
     }
 
-    // Respuesta por defecto: credenciales inválidas
     return res(
       ctx.status(401),
       ctx.json({ message: 'Credenciales inválidas' })
     );
   }),
 
-  // Register
   rest.post('http://braodcastts.com/api/v1/register', async (req, res, ctx) => {
     const { username, email, password } = await req.json();
 
@@ -37,7 +32,6 @@ export const handlers = [
     );
   }),
 
-  // Ejemplo: proteger una ruta de usuario
   rest.get('http://braodcastts.com/api/v1/user', (req, res, ctx) => {
     const auth = req.headers.get('authorization');
     if (auth === 'Bearer fake-jwt-token') {

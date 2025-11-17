@@ -6,7 +6,7 @@ const PrivateLayoutRoot = () => {
     const { isAuthenticated } = UseAuth();
     return (
         <Fragment>
-            {isAuthenticated ? <Outlet/> : <Navigate to="/Login"/>}
+            {isAuthenticated ? <Outlet/> : <Navigate to="/"/>}
         </Fragment>
     )
 };
