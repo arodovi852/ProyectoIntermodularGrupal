@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/UseAuth.jsx';
+import { UseAuth } from '../hooks/UseAuth.jsx';
 import {NavLink} from "react-router-dom";
 
 function Login() {
@@ -8,7 +8,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login } = UseAuth();
 
     async function handleSubmit(e){
         e.preventDefault();

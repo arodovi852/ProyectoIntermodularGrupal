@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/UseAuth.jsx';
+import { UseAuth } from '../hooks/UseAuth.jsx';
 import {Fragment} from "react";
 
 const PrivateLayoutRoot = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = UseAuth();
     return (
         <Fragment>
             {isAuthenticated ? <Outlet/> : <Navigate to="/Login"/>}

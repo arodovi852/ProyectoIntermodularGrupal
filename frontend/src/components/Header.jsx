@@ -1,8 +1,9 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/UseAuth.jsx";
+import { UseAuth } from "../hooks/UseAuth.jsx";
 
 function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout } = UseAuth();
+
   const navigate = useNavigate();
 
   const handleLogout = () => { logout(); navigate('/'); };
