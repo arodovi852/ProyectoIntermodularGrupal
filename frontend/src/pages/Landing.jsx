@@ -1,9 +1,9 @@
-import { Header } from '../components/Header/Header'
+import React, {Fragment} from 'react'
 import { Hero } from '../components/Hero/Hero'
 import styles from './Landing.module.css'
 import ConnectionStatus from "../components/ConnectionStatus/ConnectionStatus.jsx";
 
-export const Landing = () => {
+const Landing = () => {
     return (
         <div className={styles.landing}>
             <ConnectionStatus />
@@ -13,4 +13,4 @@ export const Landing = () => {
         </div>
     )
 }
-
+export default Landing

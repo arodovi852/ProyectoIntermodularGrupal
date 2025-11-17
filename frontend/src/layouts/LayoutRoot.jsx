@@ -1,8 +1,7 @@
 import {Outlet} from "react-router";
-import {Fragment} from "react";
-import Header from "../components/Header.jsx";
-import Footer from "../components/Footer.jsx";
-
+import React, {Fragment} from "react";
+import {Footer} from "../components/Footer/Footer.jsx";
+import {Header} from "../components/Header/Header.jsx";
 
 function LayoutRoot() {
     return (

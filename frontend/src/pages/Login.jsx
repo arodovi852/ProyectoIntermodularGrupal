@@ -4,7 +4,9 @@ import { UseAuth } from '../hooks/UseAuth.jsx';
 import {NavLink} from "react-router-dom";
 import styles from "./Login.module.css";
 
-function Login() {
+import React from 'react'
+
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -45,3 +47,4 @@ function Login() {
 }
 
 export default Login
+

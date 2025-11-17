@@ -14,17 +14,17 @@ import EditProfile from "../pages/EditProfile.jsx";
 import RecoverPassword from "../pages/RecoverPassword.jsx";
 import DashBoard from "../pages/DashBoard.jsx";
 import PrivateLayoutRoot from "../layouts/PrivateLayoutRoot.jsx";
+import Landing from "../pages/Landing.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         Component: LayoutRoot,
         children: [
-            { index: true, Component: Home },
+            { index: true, Component: Landing },
             { path: "/Login", Component: Login},
             { path: "/Register", Component: Register },
             { path: "/RecoverPassword", Component: RecoverPassword },
-            { Component: PrivateLayoutRoot, children: [ { path: "/DashBoard", Component: DashBoard }, { path: "/Profile", Component: Profile }, { path: "/EditProfile", Component: EditProfile }, {path: "/Configuration", Component: Configuration },],},
             { path: "/About", Component: About },
             { path: "/Contact", Component: Contact },
             { path: "/News", Component: News },
@@ -32,6 +32,12 @@ const router = createBrowserRouter([
             { path: "Privacy", Component: Terms },
             { path: "/API", Component: API },
             { path: "/Roadmap", Component: Roadmap },
+            { Component: PrivateLayoutRoot,
+                children: [
+                    { path: "/DashBoard", Component: DashBoard },
+                    { path: "/Profile", Component: Profile },
+                    { path: "/EditProfile", Component: EditProfile },
+                    {path: "/Configuration", Component: Configuration },],},
         ],
     },
     ]);
