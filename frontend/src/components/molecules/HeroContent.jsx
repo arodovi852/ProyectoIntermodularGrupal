@@ -1,8 +1,10 @@
 import { Button } from '../atoms/Button'
-import { Link } from '../atoms/Link'
 import styles from './HeroContent.module.css'
+import { useNavigate } from 'react-router-dom'
 
 export const HeroContent = () => {
+    const navigate = useNavigate()
+
     return (
         <div className={styles.heroContent}>
             <h1 className={styles.title}>
@@ -15,7 +17,10 @@ export const HeroContent = () => {
             </p>
 
             <div className={styles.ctaContainer}>
-                <Button variant="cta">
+                <Button
+                    variant="cta"
+                    onClick={() => navigate('/Generate')}
+                >
                     <span className={styles.ctaLight}>Crea tu </span>
                     <span className={styles.ctaBlack}>playlist.</span>
                 </Button>

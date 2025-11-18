@@ -1,0 +1,121 @@
+:root{--accent:#6D28D9;--muted:#f0f2f5;--bg:#fff}
+
+.container{
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.sliderSection{
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 980px;
+}
+
+.songSection{
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 980px;
+}
+
+.sectionTitle{
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.searchResultsWrap{
+  margin: 1.5rem 0;
+}
+
+.searchResults{
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.resultItem{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.resultActions{
+  display: flex;
+  gap: 0.5rem;
+}
+
+.likeBtn, .dislikeBtn{
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.likeBtn{
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.likeBtn:hover:not(:disabled){
+  background: #fca5a5;
+}
+
+.dislikeBtn{
+  background: #f0f0f0;
+  color: #666;
+}
+
+.dislikeBtn:hover:not(:disabled){
+  background: #e0e0e0;
+}
+
+.likeBtn:disabled, .dislikeBtn:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonWrap{
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.generateBtn{
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.generateBtn:hover:not(:disabled){
+  background: #5b21b6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+}
+
+.generateBtn:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}

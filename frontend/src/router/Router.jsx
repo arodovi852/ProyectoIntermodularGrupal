@@ -15,6 +15,7 @@ import RecoverPassword from "../pages/RecoverPassword.jsx";
 import DashBoard from "../pages/DashBoard.jsx";
 import PrivateLayoutRoot from "../layouts/PrivateLayoutRoot.jsx";
 import Landing from "../pages/Landing.jsx";
+import Generate from "../pages/Generate.jsx";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
             { path: "Privacy", Component: Terms },
             { path: "/API", Component: API },
             { path: "/Roadmap", Component: Roadmap },
+            { path: "/Generate", Component: Generate },
             { Component: PrivateLayoutRoot,
                 children: [
                     { path: "/DashBoard", Component: DashBoard },
