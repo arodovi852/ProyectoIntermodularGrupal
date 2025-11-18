@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env.local
+.env.production.local
+.env.*.local
+
+# Permitir estos archivos de configuración
+!.env
+!.env.example
+!.env.docker
+!.env.production.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
