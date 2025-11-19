@@ -19,6 +19,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Test reports
+tests/reports/
+newman/
+
 # OS
 .DS_Store
 Thumbs.db

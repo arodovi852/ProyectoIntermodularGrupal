@@ -3,50 +3,29 @@
  * Gestiona autenticación, registro y operaciones de usuario
  */
 
-const bcrypt = require('bcrypt');
-const { User } = require('../models');
+const userService = require('../services/userService');
+const { generateToken } = require('../utils/jwtHelper');
 
 /**
  * Registrar un nuevo usuario
  */
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const user = await userService.register(req.body);
 
-    // Validar campos requeridos
-    if (!name || !email || !password) {
-      return res.status(400).json({
-        success: false,
-        error: 'Todos los campos son requeridos'
-      });
-    }
+    // Generar token JWT
+    const token = generateToken({ _id: user.id, email: user.email });
 
-    // Verificar si el usuario ya existe
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        error: 'El email ya está registrado'
-      });
-    }
-
-    // Hashear la contraseña
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Crear el usuario
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword
-    });
-
-    // Devolver usuario sin password
     res.status(201).json({
       success: true,
-      data: user.toPublicJSON()
+      data: {
+        user,
+        token
+      }
     });
   } catch (error) {
-    res.status(400).json({
+    const statusCode = error.message.includes('ya está registrado') ? 400 : 400;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -58,42 +37,22 @@ const register = async (req, res) => {
  */
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const user = await userService.login(req.body);
 
-    // Validar campos requeridos
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        error: 'Email y contraseña son requeridos'
-      });
-    }
+    // Generar token JWT
+    const token = generateToken({ _id: user.id, email: user.email });
 
-    // Buscar el usuario
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        error: 'Credenciales inválidas'
-      });
-    }
-
-    // Verificar la contraseña
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
-      return res.status(401).json({
-        success: false,
-        error: 'Credenciales inválidas'
-      });
-    }
-
-    // Login exitoso
     res.status(200).json({
       success: true,
       message: 'Login exitoso',
-      data: user.toPublicJSON()
+      data: {
+        user,
+        token
+      }
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message.includes('Credenciales inválidas') ? 401 : 500;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -106,22 +65,15 @@ const login = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const user = await User.findById(id);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuario no encontrado'
-      });
-    }
+    const user = await userService.getUserById(id);
 
     res.status(200).json({
       success: true,
-      data: user.toPublicJSON()
+      data: user
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message.includes('no encontrado') ? 404 : 500;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -134,31 +86,17 @@ const getUserProfile = async (req, res) => {
 const updateUserProfile = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
-
-    const updateData = {};
-    if (name) updateData.name = name;
-    if (email) updateData.email = email;
-
-    const user = await User.findByIdAndUpdate(
-      id,
-      updateData,
-      { new: true, runValidators: true }
-    );
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuario no encontrado'
-      });
-    }
+    const user = await userService.updateUser(id, req.body);
 
     res.status(200).json({
       success: true,
-      data: user.toPublicJSON()
+      data: user
     });
   } catch (error) {
-    res.status(400).json({
+    let statusCode = 400;
+    if (error.message.includes('no encontrado')) statusCode = 404;
+
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -171,43 +109,19 @@ const updateUserProfile = async (req, res) => {
 const changePassword = async (req, res) => {
   try {
     const { id } = req.params;
-    const { currentPassword, newPassword } = req.body;
-
-    if (!currentPassword || !newPassword) {
-      return res.status(400).json({
-        success: false,
-        error: 'Contraseña actual y nueva son requeridas'
-      });
-    }
-
-    const user = await User.findById(id);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuario no encontrado'
-      });
-    }
-
-    // Verificar contraseña actual
-    const isValid = await bcrypt.compare(currentPassword, user.password);
-    if (!isValid) {
-      return res.status(401).json({
-        success: false,
-        error: 'Contraseña actual incorrecta'
-      });
-    }
-
-    // Hashear nueva contraseña
-    user.password = await bcrypt.hash(newPassword, 10);
-    await user.save();
+    await userService.changePassword(id, req.body);
 
     res.status(200).json({
       success: true,
       message: 'Contraseña actualizada exitosamente'
     });
   } catch (error) {
-    res.status(500).json({
+    let statusCode = 500;
+    if (error.message.includes('no encontrado')) statusCode = 404;
+    if (error.message.includes('incorrecta')) statusCode = 401;
+    if (error.message.includes('requeridas')) statusCode = 400;
+
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -220,22 +134,15 @@ const changePassword = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const user = await User.findByIdAndDelete(id);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuario no encontrado'
-      });
-    }
+    await userService.deleteUser(id);
 
     res.status(200).json({
       success: true,
       message: 'Usuario eliminado exitosamente'
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message.includes('no encontrado') ? 404 : 500;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -247,23 +154,12 @@ const deleteUser = async (req, res) => {
  */
 const getAllUsers = async (req, res) => {
   try {
-    const { page = 1, limit = 50 } = req.query;
-
-    const users = await User.find()
-      .select('-password')
-      .limit(parseInt(limit))
-      .skip((parseInt(page) - 1) * parseInt(limit))
-      .sort({ created_at: -1 });
-
-    const total = await User.countDocuments();
+    const result = await userService.getAllUsers(req.query);
 
     res.status(200).json({
       success: true,
-      count: users.length,
-      total,
-      page: parseInt(page),
-      pages: Math.ceil(total / parseInt(limit)),
-      data: users
+      ...result.pagination,
+      data: result.users
     });
   } catch (error) {
     res.status(500).json({

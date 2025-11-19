@@ -5,7 +5,13 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "seed": "node src/config/seed.js"
+    "seed": "node src/config/seed.js",
+    "test": "newman run tests/postman/PlayTheMood.postman_collection.json -e tests/postman/PlayTheMood.postman_environment.json",
+    "test:complete": "newman run tests/postman/PlayTheMood_Complete.postman_collection.json -e tests/postman/PlayTheMood.postman_environment.json",
+    "test:verbose": "newman run tests/postman/PlayTheMood.postman_collection.json -e tests/postman/PlayTheMood.postman_environment.json --verbose",
+    "test:html": "newman run tests/postman/PlayTheMood.postman_collection.json -e tests/postman/PlayTheMood.postman_environment.json -r htmlextra --reporter-htmlextra-export tests/reports/report.html --reporter-htmlextra-title \"PlayTheMood API - Tests Basicos\"",
+    "test:html:complete": "newman run tests/postman/PlayTheMood_Complete.postman_collection.json -e tests/postman/PlayTheMood.postman_environment.json -r htmlextra --reporter-htmlextra-export tests/reports/report-complete.html --reporter-htmlextra-title \"PlayTheMood API - Tests Completos\"",
+    "test:ci": "newman run tests/postman/PlayTheMood.postman_collection.json -e tests/postman/PlayTheMood.postman_environment.json --bail"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -15,11 +21,14 @@
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^7.0.0",
     "mongoose": "^8.20.0",
     "morgan": "^1.10.1"
   },
   "devDependencies": {
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1",
     "nodemon": "^3.1.11"
   }
 }

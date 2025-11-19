@@ -1,9 +1,9 @@
 /**
- * Ejemplo de controlador para Playlists
- * Demuestra cómo usar los modelos de Mongoose en los controladores
+ * Controlador para Playlists
+ * Gestiona operaciones CRUD sobre playlists
  */
 
-const { Playlist, Song, User } = require('../models');
+const playlistService = require('../services/playlistService');
 
 /**
  * Obtener todas las playlists de un usuario
@@ -11,8 +11,7 @@ const { Playlist, Song, User } = require('../models');
 const getUserPlaylists = async (req, res) => {
   try {
     const { userId } = req.params;
-
-    const playlists = await Playlist.findByUserId(userId);
+    const playlists = await playlistService.getUserPlaylists(userId, req.query);
 
     res.status(200).json({
       success: true,
@@ -20,7 +19,8 @@ const getUserPlaylists = async (req, res) => {
       data: playlists
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message.includes('no encontrado') ? 404 : 500;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -32,32 +32,15 @@ const getUserPlaylists = async (req, res) => {
  */
 const createPlaylist = async (req, res) => {
   try {
-    const { name, tracks, userId, cover_image_url, spotify_url } = req.body;
-
-    // Validar que el usuario existe
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        error: 'Usuario no encontrado'
-      });
-    }
-
-    // Crear la playlist
-    const playlist = await Playlist.create({
-      name,
-      tracks: tracks || [],
-      userId,
-      cover_image_url,
-      spotify_url
-    });
+    const playlist = await playlistService.createPlaylist(req.body);
 
     res.status(201).json({
       success: true,
       data: playlist
     });
   } catch (error) {
-    res.status(400).json({
+    const statusCode = error.message.includes('no encontrado') ? 404 : 400;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -70,34 +53,15 @@ const createPlaylist = async (req, res) => {
 const getPlaylistDetails = async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Obtener la playlist
-    const playlist = await Playlist.findById(id);
-
-    if (!playlist) {
-      return res.status(404).json({
-        success: false,
-        error: 'Playlist no encontrada'
-      });
-    }
-
-    // Obtener las canciones
-    const songs = await Song.find({ _id: { $in: playlist.tracks } });
-
-    // Obtener duración total
-    const totalDuration = await playlist.getTotalDuration();
+    const playlist = await playlistService.getPlaylistDetails(id);
 
     res.status(200).json({
       success: true,
-      data: {
-        ...playlist.toObject(),
-        songs,
-        totalDuration,
-        trackCount: playlist.getTrackCount()
-      }
+      data: playlist
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message.includes('no encontrada') ? 404 : 500;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -110,27 +74,15 @@ const getPlaylistDetails = async (req, res) => {
 const updatePlaylist = async (req, res) => {
   try {
     const { id } = req.params;
-    const updates = req.body;
-
-    const playlist = await Playlist.findByIdAndUpdate(
-      id,
-      updates,
-      { new: true, runValidators: true }
-    );
-
-    if (!playlist) {
-      return res.status(404).json({
-        success: false,
-        error: 'Playlist no encontrada'
-      });
-    }
+    const playlist = await playlistService.updatePlaylist(id, req.body);
 
     res.status(200).json({
       success: true,
       data: playlist
     });
   } catch (error) {
-    res.status(400).json({
+    const statusCode = error.message.includes('no encontrada') ? 404 : 400;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -143,22 +95,15 @@ const updatePlaylist = async (req, res) => {
 const deletePlaylist = async (req, res) => {
   try {
     const { id } = req.params;
-
-    const playlist = await Playlist.findByIdAndDelete(id);
-
-    if (!playlist) {
-      return res.status(404).json({
-        success: false,
-        error: 'Playlist no encontrada'
-      });
-    }
+    await playlistService.deletePlaylist(id);
 
     res.status(200).json({
       success: true,
       data: {}
     });
   } catch (error) {
-    res.status(500).json({
+    const statusCode = error.message.includes('no encontrada') ? 404 : 500;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });
@@ -171,28 +116,15 @@ const deletePlaylist = async (req, res) => {
 const addTracksToPlaylist = async (req, res) => {
   try {
     const { id } = req.params;
-    const { tracks } = req.body; // Array de IDs de canciones
-
-    const playlist = await Playlist.findById(id);
-
-    if (!playlist) {
-      return res.status(404).json({
-        success: false,
-        error: 'Playlist no encontrada'
-      });
-    }
-
-    // Añadir tracks sin duplicados
-    playlist.tracks = [...new Set([...playlist.tracks, ...tracks])];
-
-    await playlist.save();
+    const playlist = await playlistService.addTracksToPlaylist(id, req.body);
 
     res.status(200).json({
       success: true,
       data: playlist
     });
   } catch (error) {
-    res.status(400).json({
+    const statusCode = error.message.includes('no encontrada') ? 404 : 400;
+    res.status(statusCode).json({
       success: false,
       error: error.message
     });

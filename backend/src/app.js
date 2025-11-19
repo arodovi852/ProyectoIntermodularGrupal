@@ -10,6 +10,7 @@ const indexRouter = require('../routes/index');
 const usersRouter = require('../routes/users');
 
 // Rutas de la API
+const authRoutes = require('./routes/authRoutes');
 const userRoutesAPI = require('./routes/userRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const songRoutes = require('./routes/songRoutes');
@@ -42,7 +43,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // Rutas de la API
-app.use('/api/auth', userRoutesAPI);
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutesAPI);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/songs', songRoutes);
