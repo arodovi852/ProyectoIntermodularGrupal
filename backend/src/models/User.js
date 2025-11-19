@@ -39,9 +39,6 @@ const userSchema = new mongoose.Schema({
   collection: 'users'
 });
 
-// Índice único para email
-userSchema.index({ email: 1 }, { unique: true });
-
 // Método para obtener información pública del usuario (sin password)
 userSchema.methods.toPublicJSON = function() {
   return {
