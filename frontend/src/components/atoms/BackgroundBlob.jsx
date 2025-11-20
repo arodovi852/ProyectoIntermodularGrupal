@@ -1,4 +1,4 @@
-import styles from './BackgroundBlob.module.css'
+import styles from '../../styles/BackgroundBlob.module.css'
 
 export const BackgroundBlob = ({ size = 400, color, top, left, right, bottom, blur = 100 }) => {
     return (

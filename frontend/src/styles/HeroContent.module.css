@@ -38,3 +38,13 @@
     font-weight: 900;
 }
 
+@media (max-width: 768px) {
+    .title {
+        font-size: 4rem;
+    }
+
+    .description {
+        font-size: 2rem;
+    }
+}
+

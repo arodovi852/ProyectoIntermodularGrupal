@@ -1,6 +1,6 @@
 import { BackgroundBlob } from '../atoms/BackgroundBlob'
 import backgroundVideo from '../../assets/backgroundvideo.mp4'
-import styles from './HeroBackground.module.css'
+import styles from '../../styles/HeroBackground.module.css'
 
 export const HeroBackground = () => {
     return (

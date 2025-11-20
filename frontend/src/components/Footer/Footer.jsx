@@ -1,6 +1,6 @@
 import { Link } from '../atoms/Link'
 import { SocialIcon } from '../atoms/SocialIcon'
-import styles from './Footer.module.css'
+import styles from '../../styles/Footer.module.css'
 import {NavLink} from "react-router-dom";
 
 export const Footer = () => {
@@ -37,7 +37,6 @@ export const Footer = () => {
                         </NavLink>
                     )
                 ))}
-
                 {/* Iconos sociales */}
                 {socials.map((social, index) => (
                     <SocialIcon key={`social-${index}`} type={social.type} href={social.href} />

@@ -1,4 +1,4 @@
-import styles from './Logo.module.css'
+import styles from '../../styles/Logo.module.css'
 import {NavLink} from "react-router-dom";
 import {Button} from "./Button.jsx";
 

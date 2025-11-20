@@ -1,6 +1,6 @@
 import { Button } from '../atoms/Button'
 import { Link } from '../atoms/Link'
-import styles from './HeroContent.module.css'
+import styles from '../../styles/HeroContent.module.css'
 
 export const HeroContent = () => {
     return (

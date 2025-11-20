@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import { Hero } from '../components/Hero/Hero'
-import styles from './Landing.module.css'
+import styles from '../styles/Landing.module.css'
 import ConnectionStatus from "../components/ConnectionStatus/ConnectionStatus.jsx";
 
 const Landing = () => {

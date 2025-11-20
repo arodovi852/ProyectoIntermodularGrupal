@@ -12,3 +12,8 @@
     box-sizing: border-box;
 }
 
+@media (max-width: 768px) {
+    .hero {
+        padding: 4rem 1.5rem 8rem 1.5rem;
+    }
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { checkHealth } from '../../services/api.js';
-import styles from './ConnectionStatus.module.css';
+import styles from '../../styles/ConnectionStatus.module.css';
 
 export default function ConnectionStatus() {
   const [status, setStatus] = useState('checking');

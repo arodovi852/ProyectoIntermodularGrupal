@@ -12,12 +12,14 @@
 .primary {
     background: linear-gradient(to top, #AA3039, #F95461);
     color: #fff;
+    margin: 0.5rem;
 }
 
 .secondary {
     background: transparent;
     color: #fff;
     border: 2px solid rgba(255, 255, 255, 0.2);
+    margin: 0.5rem;
 }
 
 .cta {

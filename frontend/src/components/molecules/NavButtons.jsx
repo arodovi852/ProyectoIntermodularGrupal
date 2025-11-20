@@ -1,7 +1,7 @@
 import { Button } from '../atoms/Button'
 import {NavLink, useNavigate} from "react-router-dom";
 import {UseAuth} from "../../hooks/UseAuth.jsx";
-import styles from "./NavButtons.module.css"
+import styles from "../../styles/NavButtons.module.css"
 
 export const NavButtons = () => {
     const { isAuthenticated, logout } = UseAuth();
