@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import {UseAuth} from "../hooks/UseAuth.jsx";
+import styles from './Login.module.css'
+
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -28,7 +30,7 @@ function Register() {
     }
 
     return (
-        <main>
+        <main className={styles.login}>
             <h2>Create an account</h2>
             <form onSubmit={handleSubmit}>
                 <article>

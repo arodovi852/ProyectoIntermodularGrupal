@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import {AuthContext} from "../hooks/UseAuth.jsx";
 
 export function AuthProvider({ children }) {
@@ -16,36 +16,36 @@ export function AuthProvider({ children }) {
 
     const login = (email, password) => {
 
-        return fetch('http://braodcastts.com/api/v1/login', {
+        return fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         })
             .then(response => response.json())
             .then(data => {
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                    setUser({ token: data.token, ...data.user });
-                    return true;
-                }
+                localStorage.setItem('token', data.token);
+                setUser({ token: data.token, ...data.user });
+                return true;
+            }).catch(error => {
+                console.error('Error during login:', error);
                 return false;
             });
     };
 
     const register = (username, email, password) => {
 
-        return fetch('http://braodcastts.com/api/v1/register', {
+        return fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username, email, password})
         })
             .then(response => response.json())
             .then(data => {
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                    setUser({ token: data.token, ...data.user });
-                    return true;
-                }
+                localStorage.setItem('token', data.token);
+                setUser({token: data.token, ...data.user});
+                return true;
+            }).catch(error => {
+                console.error('Error during registration:', error);
                 return false;
             });
     };
