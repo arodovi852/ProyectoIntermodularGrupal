@@ -23,6 +23,7 @@ const SongList = ({ likedSongs, dislikedSongs, onRemove }) => {
                                         <div className={styles.songInfo}>
                                             <p className={styles.songName}>{song.name}</p>
                                             <p className={styles.songArtist}>{song.artist}</p>
+                                            {song.album && <p className={styles.songAlbum}>{song.album}</p>}
                                         </div>
                                         <button
                                             className={styles.removeBtn}
@@ -54,6 +55,7 @@ const SongList = ({ likedSongs, dislikedSongs, onRemove }) => {
                                         <div className={styles.songInfo}>
                                             <p className={styles.songName}>{song.name}</p>
                                             <p className={styles.songArtist}>{song.artist}</p>
+                                            {song.album && <p className={styles.songAlbum}>{song.album}</p>}
                                         </div>
                                         <button
                                             className={styles.removeBtn}

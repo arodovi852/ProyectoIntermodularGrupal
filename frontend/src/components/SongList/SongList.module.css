@@ -76,6 +76,16 @@
   white-space: nowrap;
 }
 
+.songAlbum{
+  font-size: 0.75rem;
+  color: #999;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: italic;
+}
+
 .removeBtn{
   position: absolute;
   top: 0.5rem;

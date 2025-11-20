@@ -2,19 +2,54 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-// GET endpoint for search functionality (simple mock)
+// GET endpoint for search functionality - queries ReccoBeats API
 router.get('/search', async (req, res) => {
     try {
         const { q } = req.query;
         if (!q) {
             return res.json([]);
         }
-        // Mock search results - in production, connect to a real music API
-        const mockResults = [
-            { id: '1', name: 'Song A', artist: 'Artist 1', image: 'https://via.placeholder.com/150' },
-            { id: '2', name: 'Song B', artist: 'Artist 2', image: 'https://via.placeholder.com/150' },
-        ];
-        res.json(mockResults);
+        
+        // Call ReccoBeats API to search for songs
+        try {
+            const response = await axios.get('https://api.reccobeats.com/search', {
+                params: { q }
+            });
+            
+            // Extract and format song data from ReccoBeats response
+            const songs = (response.data.tracks || response.data || []).slice(0, 20).map((track) => ({
+                id: track.id || track.uri || track.track_id,
+                name: track.name || track.title,
+                artist: track.artist || track.artists?.[0]?.name || 'Unknown Artist',
+                album: track.album || track.album_name || 'Unknown Album',
+                image: track.image || track.album_image_url || track.images?.[0]?.url || 'https://via.placeholder.com/150',
+                uri: track.uri,
+                preview_url: track.preview_url || null,
+                duration_ms: track.duration_ms
+            }));
+            
+            res.json(songs);
+        } catch (apiErr) {
+            console.error('ReccoBeats search error:', apiErr.message);
+            // Fallback to mock results if API fails
+            const mockResults = [
+                { 
+                    id: 'mock-1', 
+                    name: `${q} - Demo Track 1`, 
+                    artist: 'Demo Artist', 
+                    album: 'Demo Album',
+                    image: 'https://via.placeholder.com/150' 
+                },
+                { 
+                    id: 'mock-2', 
+                    name: `${q} - Demo Track 2`, 
+                    artist: 'Demo Artist 2', 
+                    album: 'Demo Album 2',
+                    image: 'https://via.placeholder.com/150' 
+                },
+            ];
+            res.json(mockResults);
+        }
     } catch (err) {
         console.error('Search error', err.message);
         res.status(500).json({ error: 'Search failed' });
