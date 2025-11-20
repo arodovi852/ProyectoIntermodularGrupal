@@ -1,10 +1,15 @@
 /**
  * Rutas para gestión de playlists
+ * Rutas protegidas con JWT
  */
 
 const express = require('express');
 const router = express.Router();
 const playlistController = require('../controllers/playlistController');
+const { authMiddleware } = require('../middleware/authMiddleware');
+
+// Todas las rutas requieren autenticación
+router.use(authMiddleware);
 
 // Obtener todas las playlists de un usuario
 router.get('/user/:userId', playlistController.getUserPlaylists);

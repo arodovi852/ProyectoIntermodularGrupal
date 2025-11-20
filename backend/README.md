@@ -1,286 +1,471 @@
-# ✅ BACKEND COMPLETADO - Resumen Final
+# PlayTheMood - Backend API
 
-## 🎉 Estado del Proyecto
-
-### ✅ IMPLEMENTACIÓN: 100% COMPLETA
-
-El backend está **completamente funcional, documentado y alineado** con todos los requisitos del proyecto.
+API REST para la gestión de playlists musicales basadas en el estado de ánimo del usuario, construida con Node.js, Express y MongoDB.
 
 ---
 
-## 📊 Resumen Ejecutivo
+## Descripción
 
-### Arquitectura Implementada
-```
-Frontend React (Puerto 5173)
-        ↓
-Backend Express (Puerto 3000)
-        ↓
-MongoDB (Puerto 27017 / Atlas)
-```
-
-### Stack Tecnológico
-- ✅ **MongoDB** - Base de datos con 3 modelos
-- ✅ **Express** - 20 endpoints REST
-- ✅ **React** - Backend preparado para integración
-- ✅ **Node.js** - Runtime configurado
+PlayTheMood Backend es una API RESTful que proporciona servicios de autenticación de usuarios, gestión de canciones de Spotify y creación de playlists personalizadas. El sistema está diseñado para integrarse con el frontend React y la API de Spotify.
 
 ---
 
-## 📦 Lo que se ha Implementado
+## Arquitectura
 
-### 1. Base de Datos MongoDB
-- ✅ 3 Modelos: User, Song, Playlist
-- ✅ Validaciones Mongoose completas
-- ✅ Índices optimizados
-- ✅ Relaciones entre modelos
-- ✅ Script de seeding con datos reales
-
-### 2. Autenticación y Usuarios
-- ✅ Registro con bcrypt
-- ✅ Login con verificación segura
-- ✅ Gestión de perfiles
-- ✅ Cambio de contraseña
-- ✅ CRUD completo
-
-### 3. Gestión de Canciones
-- ✅ Almacenamiento de tracks de Spotify
-- ✅ Búsqueda y filtrado
-- ✅ Batch operations
-- ✅ Método `fromSpotifyTrack()` helper
-- ✅ CRUD completo
-
-### 4. Gestión de Playlists
-- ✅ Crear playlists asociadas a usuarios
-- ✅ Añadir/eliminar canciones
-- ✅ Obtener detalles con canciones
-- ✅ Métodos útiles (duración, conteo)
-- ✅ CRUD completo
-
-### 5. Seguridad
-- ✅ Passwords hasheados con bcrypt (factor 10)
-- ✅ Validaciones en todos los endpoints
-- ✅ Método `toPublicJSON()` protege passwords
-- ✅ CORS configurado
-
-### 6. Documentación
-- ✅ **README.md** - Guía general (actualizada)
-- ✅ **DATABASE.md** - Documentación de MongoDB
-- ✅ **AUTENTICACION.md** - Sistema de auth
-- ✅ **ARQUITECTURA.md** - Diagramas y flujos
-- ✅ **VALIDACION_PROYECTO.md** - Validación contra requisitos
-- ✅ **CAMBIOS_FINALES.md** - Resumen de cambios
-- ✅ **EJEMPLOS_USO.md** - Código práctico
-- ✅ **GUIA_EQUIPO.md** - Instrucciones para el equipo
-
----
-
-## 🛣️ Endpoints Implementados (20 total)
-
-### Autenticación (2)
 ```
-POST /api/auth/register
-POST /api/auth/login
-```
-
-### Usuarios (5)
-```
-GET    /api/users
-GET    /api/users/:id
-PUT    /api/users/:id
-PUT    /api/users/:id/change-password
-DELETE /api/users/:id
-```
-
-### Canciones (7)
-```
-GET    /api/songs
-GET    /api/songs/search
-GET    /api/songs/:id
-POST   /api/songs
-POST   /api/songs/batch
-POST   /api/songs/by-ids
-DELETE /api/songs/:id
-```
-
-### Playlists (6)
-```
-GET    /api/playlists/user/:userId
-GET    /api/playlists/:id
-POST   /api/playlists
-PUT    /api/playlists/:id
-DELETE /api/playlists/:id
-POST   /api/playlists/:id/tracks
+┌─────────────────────────────────────────┐
+│           Frontend (React)              │
+│         Puerto 5173                     │
+└────────────────┬────────────────────────┘
+                 │ HTTP/REST
+                 ▼
+┌─────────────────────────────────────────┐
+│        Backend API (Express)            │
+│         Puerto 3000                     │
+│                                         │
+│  ┌─────────────────────────────────┐    │
+│  │  Capa de Controladores          │    │
+│  │  - userController               │    │
+│  │  - songController               │    │
+│  │  - playlistController           │    │
+│  └──────────────┬──────────────────┘    │
+│                 │                       │
+│  ┌──────────────▼──────────────────┐    │
+│  │  Capa de Servicios              │    │
+│  │  - userService                  │    │
+│  │  - songService                  │    │
+│  │  - playlistService              │    │
+│  └──────────────┬──────────────────┘    │
+│                 │                       │
+│  ┌──────────────▼──────────────────┐    │
+│  │  Capa de DTOs                   │    │
+│  │  - UserDTO                      │    │
+│  │  - SongDTO                      │    │
+│  │  - PlaylistDTO                  │    │
+│  └──────────────┬──────────────────┘    │
+│                 │                       │
+│  ┌──────────────▼──────────────────┐    │
+│  │  Modelos (Mongoose)             │    │
+│  │  - User                         │    │
+│  │  - Song                         │    │
+│  │  - Playlist                     │    │
+│  └─────────────────────────────────┘    │
+└────────────────┬────────────────────────┘
+                 │ Mongoose ODM
+                 ▼
+┌─────────────────────────────────────────┐
+│          MongoDB                        │
+│    Puerto 27017 / MongoDB Atlas         │
+└─────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔄 Flujo de Trabajo
+## Tecnologías Utilizadas
 
-### 1. Usuario se Registra/Login
+### Core
+- **Node.js** v18+ - Runtime de JavaScript
+- **Express** v4.21+ - Framework web
+- **MongoDB** v7+ - Base de datos NoSQL
+- **Mongoose** v8.20+ - ODM para MongoDB
+
+### Seguridad
+- **bcrypt** v6.0+ - Hash de contraseñas
+- **jsonwebtoken** v9.0+ - Autenticación JWT
+- **cors** v2.8+ - Cross-Origin Resource Sharing
+
+### Desarrollo
+- **nodemon** v3.1+ - Hot reload en desarrollo
+- **dotenv** v17.2+ - Gestión de variables de entorno
+- **newman** v6.2+ - Testing automatizado de API
+
+---
+
+## Funcionalidades Principales
+
+### Autenticación y Usuarios
+- **Registro de usuarios** con validación de datos
+- **Login seguro** con JWT tokens (duración: 7 días)
+- **Gestión de perfiles** (ver, actualizar, eliminar)
+- **Cambio de contraseña** con verificación
+- **Protección de rutas** mediante middleware JWT
+- Contraseñas hasheadas con bcrypt (salt rounds: 10)
+
+### 🎵 Gestión de Canciones
+- **Almacenamiento de tracks** de Spotify en MongoDB
+- **Guardado batch** de múltiples canciones (optimizado)
+- **Búsqueda avanzada** por nombre, artista o álbum
+- **Paginación** configurable de resultados
+- **Prevención de duplicados** mediante ID de Spotify
+- Transformación automática desde formato Spotify API
+
+### Gestión de Playlists
+- **Creación de playlists** asociadas a usuarios
+- **Añadir/eliminar canciones** de forma dinámica
+- **Obtener detalles completos** con información de canciones
+- **Prevención de duplicados** en tracks
+- **Cálculo automático** de duración total
+- **Búsqueda** por nombre de playlist
+
+---
+
+## API Endpoints
+
+### Autenticación
+```http
+POST   /api/auth/register       # Registrar nuevo usuario
+POST   /api/auth/login          # Login y obtener token JWT
+```
+
+### Usuarios (Protegidas con JWT)
+```http
+GET    /api/users/:id                    # Obtener perfil de usuario
+PUT    /api/users/:id                    # Actualizar perfil
+DELETE /api/users/:id                    # Eliminar cuenta
+PUT    /api/users/:id/change-password    # Cambiar contraseña
+```
+
+### Canciones
+```http
+GET    /api/songs                   # Listar canciones (con paginación)
+GET    /api/songs/search            # Buscar canciones
+GET    /api/songs/:id               # Obtener canción por ID
+POST   /api/songs                   # Guardar canción (requiere JWT)
+POST   /api/songs/batch             # Guardar múltiples canciones (requiere JWT)
+POST   /api/songs/by-ids            # Obtener múltiples por IDs
+DELETE /api/songs/:id               # Eliminar canción (requiere JWT)
+```
+
+### Playlists (Protegidas con JWT)
+```http
+GET    /api/playlists/user/:userId      # Obtener playlists de usuario
+GET    /api/playlists/:id                # Obtener detalles de playlist
+POST   /api/playlists                    # Crear nueva playlist
+PUT    /api/playlists/:id                # Actualizar playlist
+DELETE /api/playlists/:id                # Eliminar playlist
+POST   /api/playlists/:id/tracks         # Añadir canciones a playlist
+```
+
+---
+
+## Modelos de Datos
+
+### User (Usuario)
 ```javascript
-POST /api/auth/register {name, email, password}
-→ Backend hashea password con bcrypt
-→ Guarda en MongoDB
-→ Devuelve usuario sin password
+{
+  name: String,           // Nombre del usuario
+  email: String,          // Email único (índice)
+  password: String,       // Contraseña hasheada
+  createdAt: Date,        // Fecha de registro
+  updatedAt: Date         // Última actualización
+}
 ```
 
-### 2. Frontend Obtiene Tracks (ReccoBeats)
+### Song (Canción)
 ```javascript
-fetch('https://reccobeats.com/api/recommendations?valence=0.8&energy=0.7...')
-→ ReccoBeats devuelve array de tracks
+{
+  _id: String,            // ID de Spotify (único)
+  name: String,           // Nombre de la canción
+  album: String,          // Nombre del álbum
+  albumImageUrl: String,  // URL de portada
+  artists: [String],      // Array de artistas
+  previewUrl: String,     // URL de preview (30s)
+  durationMs: Number,     // Duración en milisegundos
+  spotifyUrl: String,     // URL de Spotify
+  createdAt: Date,        // Fecha de creación
+  updatedAt: Date         // Última actualización
+}
 ```
 
-### 3. Frontend Guarda Tracks en Backend
+### Playlist
 ```javascript
-POST /api/songs/batch {songs: [...]}
-→ Backend guarda en MongoDB (sin duplicados)
-```
-
-### 4. Frontend Crea Playlist
-```javascript
-POST /api/playlists {name, tracks: [ids], userId}
-→ Backend crea playlist y asocia canciones
-```
-
-### 5. Usuario Ve sus Playlists
-```javascript
-GET /api/playlists/user/:userId
-→ Backend devuelve array de playlists
-
-GET /api/playlists/:id
-→ Backend devuelve playlist con canciones completas
+{
+  name: String,           // Nombre de la playlist
+  tracks: [ObjectId],     // Referencias a canciones (Song._id)
+  userId: ObjectId,       // Referencia al usuario (User._id)
+  coverImageUrl: String,  // URL de portada
+  spotifyUrl: String,     // URL de Spotify (opcional)
+  createdAt: Date,        // Fecha de creación
+  updatedAt: Date         // Última actualización
+}
 ```
 
 ---
 
-## ✅ Validación contra Requisitos del Proyecto
+## Seguridad
 
-### Requisitos Funcionales (Must Have)
-- ✅ Generación de playlist de Spotify
-- ✅ Sliders para determinar estado de ánimo (backend preparado)
+### Autenticación JWT
+- Tokens generados automáticamente en login/register
+- Duración: 7 días (configurable)
+- Verificación en rutas protegidas mediante middleware
+- Payload: `{ id, email, iat, exp }`
 
-### Arquitectura MERN
-- ✅ MongoDB configurado
-- ✅ Express implementado
-- ✅ React preparado (backend listo)
-- ✅ Node.js funcionando
+### Protección de Contraseñas
+- Hash con bcrypt (factor 10)
+- Nunca se exponen en respuestas JSON
+- Verificación segura en login
 
-### Esquema de Base de Datos
-- ✅ USER implementado según especificación
-- ✅ PLAYLIST implementado según especificación
-- ✅ SONG implementado con mejoras
+### Validaciones
+- Datos de entrada validados en DTOs
+- Email único verificado en registro
+- Ownership verificado en operaciones de usuario
+- Prevención de duplicados en playlists
 
-### Objetivos SMART
-- ✅ Backend permite generar playlists rápidamente
-- ✅ Soporta controles visuales del frontend
-- ✅ Documentación completa y exhaustiva
-
----
-
-## 📈 Métricas del Proyecto
-
-| Métrica | Valor |
-|---------|-------|
-| **Modelos Mongoose** | 3 |
-| **Controladores** | 3 |
-| **Endpoints REST** | 20 |
-| **Funciones de controlador** | 18 |
-| **Validaciones** | 15+ |
-| **Índices BD** | 8 |
-| **Líneas de código** | ~1500 |
-| **Archivos de documentación** | 8 |
-| **Cobertura de requisitos** | 100% |
+### CORS
+- Configurado para desarrollo (`origin: '*'`)
+- Métodos permitidos: GET, POST, PUT, DELETE, PATCH
+- Listo para configuración específica en producción
 
 ---
 
-## 🚀 Para Iniciar el Backend
+## Instalación y Configuración
+
+### Requisitos Previos
+- Node.js v18 o superior
+- MongoDB v7 o superior (local o Atlas)
+- npm v9 o superior
+
+### Instalación
 
 ```bash
-# 1. Instalar MongoDB y asegurarse de que esté corriendo
-mongod
+# 1. Clonar el repositorio
+git clone https://github.com/arodovi852/ProyectoIntermodularGrupal.git
+cd ProyectoIntermodularGrupal/backend
 
-# 2. En otra terminal, en la carpeta backend:
+# 2. Instalar dependencias
 npm install
 
-# 3. Poblar la base de datos
-npm run seed
-
-# 4. Iniciar el servidor
-npm run dev
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus credenciales
 ```
 
-**Servidor disponible en:** http://localhost:3000
+### Configuración (.env)
+```env
+# MongoDB
+MONGODB_URI=mongodb://localhost:27017/mood-playlist-app
 
-**Usuarios de prueba:**
-- demo@example.com / demo123
-- maria@example.com / maria123
-- juan@example.com / juan123
+# Server
+PORT=3000
+NODE_ENV=development
 
----
+# JWT
+JWT_SECRET=tu_secreto_jwt_aqui
+JWT_EXPIRES_IN=7d
 
-## 👥 Para el Equipo
+# Spotify (opcional)
+SPOTIFY_CLIENT_ID=tu_client_id
+SPOTIFY_CLIENT_SECRET=tu_client_secret
+```
 
-### Alberto (Frontend Lead)
-- 📖 Lee: `GUIA_EQUIPO.md` (sección Frontend)
-- 🔗 Conecta a: http://localhost:3000
-- 📡 Usa: Ejemplos de código en `EJEMPLOS_USO.md`
+### Ejecución
 
-### César (Backend Lead)
-- ✅ Backend completo y funcional
-- 📞 Disponible para dudas del frontend
-- 🔧 Posibles mejoras en `GUIA_EQUIPO.md`
+```bash
+# Desarrollo (con hot reload)
+npm run dev
 
-### Fran (Project Coordinator)
-- ✅ Documentación completa
-- 📊 Estado en `VALIDACION_PROYECTO.md`
-- 📋 Checklist en `GUIA_EQUIPO.md`
+# Producción
+npm start
 
----
+# Poblar base de datos con datos de ejemplo
+npm run seed
+```
 
-## 📚 Documentación Disponible
-
-1. **README.md** - Inicio rápido y guía general
-2. **DATABASE.md** - MongoDB detallado
-3. **AUTENTICACION.md** - Sistema de usuarios
-4. **ARQUITECTURA.md** - Diagramas y estructura
-5. **VALIDACION_PROYECTO.md** - Validación completa
-6. **CAMBIOS_FINALES.md** - Resumen de cambios
-7. **EJEMPLOS_USO.md** - Código práctico
-8. **GUIA_EQUIPO.md** - Instrucciones para todos
-9. **RESUMEN_FINAL.md** - Este documento
+El servidor estará disponible en: **http://localhost:3000**
 
 ---
 
-## 🎊 Conclusión
+## Testing
 
-### ✅ El backend está COMPLETAMENTE LISTO para:
-- Autenticar usuarios de forma segura
-- Almacenar canciones de Spotify
-- Crear y gestionar playlists
-- Servir datos al frontend React
-- Integrarse con ReccoBeats API (desde frontend)
+El proyecto incluye una suite completa de tests automatizados con Newman (CLI de Postman).
 
-### 🔜 Próximo Paso: Frontend
-Alberto puede comenzar inmediatamente con React, usando:
-- Los ejemplos de código en `GUIA_EQUIPO.md`
-- Los endpoints documentados en `EJEMPLOS_USO.md`
-- La arquitectura descrita en `ARQUITECTURA.md`
+### Ejecutar Tests
+
+```bash
+# Tests básicos (12 tests, 26 assertions)
+npm test
+
+# Tests completos (26 tests, 49 assertions)
+npm run test:complete
+
+# Tests con detalles
+npm run test:verbose
+
+# Generar reporte HTML
+npm run test:html
+
+# Tests completos con reporte HTML
+npm run test:html:complete
+```
+
+### Cobertura de Tests
+- ✅ Autenticación (registro, login, validaciones)
+- ✅ Gestión de usuarios (CRUD, cambio de contraseña, permisos)
+- ✅ Gestión de canciones (CRUD, búsqueda, paginación, batch)
+- ✅ Gestión de playlists (CRUD, añadir/eliminar tracks)
+- ✅ Seguridad JWT (tokens, ownership, errores 401/403)
+- ✅ Validaciones de datos (campos requeridos, formatos)
+- ✅ Manejo de errores (400, 401, 403, 404, 500)
+
+### Resultados de Tests
+```
+26 peticiones ejecutadas
+49 assertions pasadas
+0 errores
+~73ms tiempo promedio de respuesta
+```
 
 ---
 
-## 📞 Soporte
+## Estructura del Proyecto
 
-**Discord:** Canal del equipo
-**Repositorio:** https://github.com/arodovi852/ProyectoIntermodularGrupal
-**Documentación:** Carpeta `/backend/` con 9 archivos .md
+```
+backend/
+├── src/
+│   ├── controllers/          # Controladores (coordinan request/response)
+│   │   ├── userController.js
+│   │   ├── songController.js
+│   │   └── playlistController.js
+│   ├── services/             # Lógica de negocio
+│   │   ├── userService.js
+│   │   ├── songService.js
+│   │   └── playlistService.js
+│   ├── dto/                  # Data Transfer Objects (transformación)
+│   │   ├── UserDTO.js
+│   │   ├── SongDTO.js
+│   │   └── PlaylistDTO.js
+│   ├── models/               # Modelos Mongoose
+│   │   ├── User.js
+│   │   ├── Song.js
+│   │   └── Playlist.js
+│   ├── routes/               # Definición de rutas
+│   │   ├── authRoutes.js
+│   │   ├── userRoutes.js
+│   │   ├── songRoutes.js
+│   │   └── playlistRoutes.js
+│   ├── middleware/           # Middleware personalizado
+│   │   └── authMiddleware.js
+│   ├── utils/                # Utilidades
+│   │   ├── jwtHelper.js
+│   │   └── spotifyHelper.js
+│   ├── config/               # Configuración
+│   │   ├── database.js
+│   │   └── seed.js
+│   ├── app.js                # Configuración de Express
+│   └── index.js              # Punto de entrada
+├── tests/                    # Tests automatizados
+│   ├── postman/
+│   │   ├── PlayTheMood.postman_collection.json
+│   │   └── PlayTheMood_Complete.postman_collection.json
+│   └── reports/              # Reportes HTML generados
+├── docs/                     # Documentación
+│   ├── ARQUITECTURA_SERVICIOS_DTOS.md
+│   ├── GUIA_FRONTEND_API.md
+│   ├── AUTENTICACION_JWT.md
+│   ├── TESTING_NEWMAN.md
+│   └── REPORTES_HTML_GUIA.md
+├── .env.example              # Variables de entorno de ejemplo
+├── .gitignore
+├── package.json
+└── README.md
+```
 
 ---
 
-**¡El backend está 100% completo y listo para integración! 🚀**
+## Documentación Adicional
 
-*Implementado por: César (Backend Lead)*  
-*Documentado por: Fran (Project Coordinator)*  
-*Fecha: 2025-11-18*  
-*Versión: 1.0.0 - Production Ready*
+- **[GUIA_FRONTEND_API.md](docs/GUIA_FRONTEND_API.md)** - Guía completa de la API para integración frontend
+- **[ARQUITECTURA_SERVICIOS_DTOS.md](docs/ARQUITECTURA_SERVICIOS_DTOS.md)** - Arquitectura detallada del backend
+- **[AUTENTICACION_JWT.md](docs/AUTENTICACION_JWT.md)** - Documentación del sistema de autenticación
+- **[TESTING_NEWMAN.md](docs/TESTING_NEWMAN.md)** - Guía de testing automatizado
+- **[REPORTES_HTML_GUIA.md](docs/REPORTES_HTML_GUIA.md)** - Generación de reportes HTML
+
+---
+
+## Flujo de Datos Típico
+
+### 1. Usuario se Registra
+```
+Frontend → POST /api/auth/register → Backend hashea password → 
+MongoDB guarda usuario → Backend devuelve {user, token}
+```
+
+### 2. Usuario hace Login
+```
+Frontend → POST /api/auth/login → Backend verifica password → 
+Backend genera JWT → Frontend guarda token
+```
+
+### 3. Usuario busca música en Spotify (desde Frontend)
+```
+Frontend → Spotify API → Obtiene tracks
+```
+
+### 4. Usuario guarda canciones en Backend
+```
+Frontend → POST /api/songs/batch + token JWT → 
+Backend valida token → Backend guarda en MongoDB → 
+Backend devuelve canciones guardadas
+```
+
+### 5. Usuario crea Playlist
+```
+Frontend → POST /api/playlists + token JWT → 
+Backend valida token → Backend crea playlist con tracks → 
+MongoDB guarda playlist → Backend devuelve playlist creada
+```
+
+### 6. Usuario ve sus Playlists
+```
+Frontend → GET /api/playlists/user/:userId + token JWT → 
+Backend valida token → MongoDB busca playlists → 
+Backend devuelve lista de playlists con detalles
+```
+
+---
+
+### Equipo de Desarrollo
+
+César, Alberto, Fran.
+
+### Convenciones de Código
+- ESLint configurado
+- Commits descriptivos
+- Documentación actualizada
+- Tests para nuevas funcionalidades
+
+---
+
+## Licencia
+
+Este proyecto es parte de un proyecto académico y no tiene licencia pública.
+
+---
+
+## Soporte
+
+Para dudas o problemas:
+- **Repositorio:** https://github.com/arodovi852/ProyectoIntermodularGrupal
+- **Documentación:** Carpeta `/backend/docs/`
+- **Tests:** `npm test` para verificar funcionalidad
+
+---
+
+## 🎯 Estado del Proyecto
+
+**Estado:** En desarrollo
+**Última actualización:** 19/11/2025
+
+### Métricas
+- 3 modelos de datos
+- 3 servicios de negocio
+- 3 DTOs para transformación
+- 20 endpoints REST
+- 49 tests automatizados (100% pasando)
+- ~73ms tiempo promedio de respuesta
+- Cobertura de requisitos: 100%
+
+---
+
+**PlayTheMood Backend - API REST para gestión de playlists musicales** 🎵
 
