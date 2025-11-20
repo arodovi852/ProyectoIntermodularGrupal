@@ -15,39 +15,46 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = (email, password) => {
-
         return fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         })
-            .then(response => response.json())
-            .then(data => {
-                localStorage.setItem('token', data.token);
-                setUser({ token: data.token, ...data.user });
-                return true;
-            }).catch(error => {
-                console.error('Error during login:', error);
+            .then(async response => {
+                if (response.status !== 200) {
+                    return false;
+                }
+
+                const data = await response.json();
+                if (data) {
+                    localStorage.setItem('token', data.token);
+                    setUser({ token: data.token, ...data.user });
+                    return true;
+                }
+
                 return false;
-            });
+            }).catch(() => false)
     };
 
-    const register = (username, email, password) => {
+
+    const register = (name, email, password) => {
 
         return fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({username, email, password})
-        })
-            .then(response => response.json())
-            .then(data => {
-                localStorage.setItem('token', data.token);
-                setUser({token: data.token, ...data.user});
-                return true;
-            }).catch(error => {
-                console.error('Error during registration:', error);
+            body: JSON.stringify({name, email, password})
+        }).then(async response => {
+                if (response.status !== 201) {
+                    return false
+                }
+                const data = await response.json()
+                if (data) {
+                    localStorage.setItem('token', data.token);
+                    setUser({token: data.token, ...data.user});
+                    return true;
+                }
                 return false;
-            });
+            }).catch(() => false)
     };
 
     const logout = () => {

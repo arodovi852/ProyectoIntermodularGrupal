@@ -7,7 +7,6 @@ import styles from "./Login.module.css";
 import React from 'react'
 
 const Login = () => {
-    console.log(localStorage.getItem('token'));
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
