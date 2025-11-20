@@ -1,0 +1,47 @@
+/* Footer Styles */
+.footer {
+    background-color: black;
+    font-weight: bold;
+    padding: 0 10rem 5rem 10rem;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 2rem;
+}
+
+.separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.links {
+    text-decoration: none;
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .footer {
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}

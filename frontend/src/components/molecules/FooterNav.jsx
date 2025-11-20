@@ -1,5 +1,5 @@
 import { Link } from '../atoms/Link'
-import styles from './FooterNav.module.css'
+import styles from '../../styles/FooterNav.module.css'
 
 export const FooterNav = () => {
     const links = [

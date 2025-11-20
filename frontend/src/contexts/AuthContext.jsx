@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
 
     const login = (email, password) => {
 
-        return fetch('http://braodcastts.com/api/v1/login', {
+        return fetch('http://broadcastts.com/api/v1/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
 
     const register = (username, email, password) => {
 
-        return fetch('http://braodcastts.com/api/v1/register', {
+        return fetch('http://broadcastts.com/api/v1/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password })

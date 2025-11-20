@@ -1,5 +1,5 @@
 import { SocialIcon } from '../atoms/SocialIcon'
-import styles from './SocialLinks.module.css'
+import styles from '../../styles/SocialLinks.module.css'
 
 export const SocialLinks = () => {
     const socials = [
