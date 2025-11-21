@@ -91,7 +91,7 @@ PlayTheMood Backend es una API RESTful que proporciona servicios de autenticaci�
 - **Protección de rutas** mediante middleware JWT
 - Contraseñas hasheadas con bcrypt (salt rounds: 10)
 
-### 🎵 Gestión de Canciones
+### Gestión de Canciones
 - **Almacenamiento de tracks** de Spotify en MongoDB
 - **Guardado batch** de múltiples canciones (optimizado)
 - **Búsqueda avanzada** por nombre, artista o álbum
@@ -375,10 +375,8 @@ backend/
 ## Documentación Adicional
 
 - **[GUIA_FRONTEND_API.md](docs/GUIA_FRONTEND_API.md)** - Guía completa de la API para integración frontend
-- **[ARQUITECTURA_SERVICIOS_DTOS.md](docs/ARQUITECTURA_SERVICIOS_DTOS.md)** - Arquitectura detallada del backend
-- **[AUTENTICACION_JWT.md](docs/AUTENTICACION_JWT.md)** - Documentación del sistema de autenticación
-- **[TESTING_NEWMAN.md](docs/TESTING_NEWMAN.md)** - Guía de testing automatizado
-- **[REPORTES_HTML_GUIA.md](docs/REPORTES_HTML_GUIA.md)** - Generación de reportes HTML
+- **[AUTENTICACION_JWT.md](docs/autentificacion/AUTENTICACION_JWT.md)** - Documentación del sistema de autenticación
+- **[REPORTES_HTML_GUIA.md](docs/testing/REPORTES_HTML_GUIA.md)** - Generación de reportes HTML
 
 ---
 
@@ -451,7 +449,7 @@ Para dudas o problemas:
 
 ---
 
-## 🎯 Estado del Proyecto
+## Estado del Proyecto
 
 **Estado:** En desarrollo
 **Última actualización:** 19/11/2025
