@@ -1,19 +1,19 @@
 /* Hero Styles */
 .hero {
-    min-height: 100vh;
+    box-sizing: border-box;
     background: #000;
-    display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 6rem 3rem 10rem 10rem;
+    width: 100%;
+    min-height: 100vh;
+    padding: 6rem 6vw 10rem 6vw;
+    display: flex;
     position: relative;
     overflow: hidden;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
     .hero {
-        padding: 4rem 1.5rem 8rem 1.5rem;
+        padding: 0rem 4vw 8rem 4vw;
     }
 }

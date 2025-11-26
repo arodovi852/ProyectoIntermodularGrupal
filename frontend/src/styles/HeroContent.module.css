@@ -1,29 +1,29 @@
 /* HeroContent Styles */
 .heroContent {
-    position: relative;
     z-index: 1;
     max-width: 1400px;
+    position: relative;
 }
 
 .title {
+    color: #fff;
+    letter-spacing: 3px;
+    margin-bottom: 1.5rem;
     font-size: 6rem;
     font-weight: 900;
-    color: #fff;
-    margin-bottom: 1.5rem;
     line-height: 1.2;
-    letter-spacing: 3px;
 }
 
 .description {
-    font-size: 3rem;
     color: #fff;
     margin-bottom: 2rem;
+    font-size: 3rem;
     line-height: 1.4;
 }
 
 .highlight {
+    color: #efefef;
     font-weight: 700;
-    color: rgb(239, 239, 239);
 }
 
 .ctaContainer {
@@ -48,3 +48,12 @@
     }
 }
 
+@media (max-width: 400px) {
+    .title {
+        font-size: 3rem;
+    }
+
+    .description {
+        font-size: 1.5rem;
+    }
+}

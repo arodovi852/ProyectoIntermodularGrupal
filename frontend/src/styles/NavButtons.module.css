@@ -1,11 +1,17 @@
 /* NavButtons Styles */
 .navButtons {
     display: flex;
-    gap: 1rem;
     align-items: center;
+    gap: 1rem;
+}
+
+.navButtons ul {
+    display: flex;
+    gap: 1rem;
 }
 
 .links {
     text-decoration: none;
     color: white;
 }
+

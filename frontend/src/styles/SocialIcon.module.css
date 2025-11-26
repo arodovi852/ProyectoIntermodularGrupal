@@ -1,4 +1,3 @@
-/* SocialIcon Styles */
 .socialIcon {
     color: #fff;
     text-decoration: none;
@@ -8,7 +7,8 @@
 }
 
 .socialIcon:hover {
-    opacity: 0.7;
+    opacity: 0.9;
+    transform: translateY(-2px);
 }
 
 .socialIcon svg {
@@ -16,13 +16,7 @@
     height: 25px;
 }
 
-.socialIcon:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-}
-
-.socialIcon:visited,
-.socialIcon:hover,
-.socialIcon:active {
+.socialIcon:visited, .socialIcon:hover, .socialIcon:active {
     color: #fff;
 }
+
