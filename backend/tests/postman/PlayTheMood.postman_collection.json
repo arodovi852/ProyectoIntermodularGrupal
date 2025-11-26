@@ -273,7 +273,16 @@
                   "    pm.expect(jsonData.success).to.be.true;",
                   "    pm.expect(jsonData.data).to.have.property('id');",
                   "    pm.expect(jsonData.data.name).to.be.a('string');",
+                  "    pm.expect(jsonData.data).to.have.property('config');",
                   "    pm.environment.set('playlistId', jsonData.data.id);",
+                  "});",
+                  "",
+                  "pm.test('Config incluido en respuesta', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data.config).to.have.property('size');",
+                  "    pm.expect(jsonData.data.config).to.have.property('seeds');",
+                  "    pm.expect(jsonData.data.config.size).to.eql(25);",
+                  "    pm.expect(jsonData.data.config.seeds).to.be.an('array');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -294,7 +303,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Newman Test Playlist\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\n    \"{{songId1}}\",\n    \"{{songId2}}\"\n  ]\n}"
+              "raw": "{\n  \"name\": \"Newman Test Playlist\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\n    \"{{songId1}}\",\n    \"{{songId2}}\"\n  ],\n  \"config\": {\n    \"size\": 25,\n    \"seeds\": [\"{{songId1}}\", \"{{songId2}}\"],\n    \"negativeSeeds\": [],\n    \"acousticness\": 0.5,\n    \"danceability\": 0.7,\n    \"energy\": 0.8,\n    \"valence\": 0.6,\n    \"tempo\": 120\n  }\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/playlists",
@@ -357,6 +366,13 @@
                   "    pm.expect(jsonData.data).to.have.property('songs');",
                   "    pm.expect(jsonData.data).to.have.property('totalDuration');",
                   "    pm.expect(jsonData.data.songs).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Config incluido en detalles', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('config');",
+                  "    pm.expect(jsonData.data.config).to.have.property('size');",
+                  "    pm.expect(jsonData.data.config).to.have.property('seeds');",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -418,6 +434,100 @@
               "raw": "{{baseUrl}}/playlists/{{playlistId}}/tracks",
               "host": ["{{baseUrl}}"],
               "path": ["playlists", "{{playlistId}}", "tracks"]
+            }
+          }
+        },
+        {
+          "name": "Update Playlist Config",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Config actualizado correctamente', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.have.property('config');",
+                  "});",
+                  "",
+                  "pm.test('Config contiene nuevos valores', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data.config.size).to.eql(30);",
+                  "    pm.expect(jsonData.data.config.energy).to.eql(0.9);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Test Playlist\",\n  \"config\": {\n    \"size\": 30,\n    \"seeds\": [\"{{songId1}}\"],\n    \"energy\": 0.9,\n    \"valence\": 0.8\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/playlists/{{playlistId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists", "{{playlistId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Playlist Without Config (Error)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 Bad Request', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve error de config requerido', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.false;",
+                  "    pm.expect(jsonData.error).to.include('configuración');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Playlist Sin Config\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/playlists",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists"]
             }
           }
         }

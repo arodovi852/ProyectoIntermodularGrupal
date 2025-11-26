@@ -304,7 +304,8 @@ class PlaylistService {
         userId,
         tracks: [...originalPlaylist.tracks],
         cover_image_url: originalPlaylist.cover_image_url,
-        spotify_url: null // No copiar URL de Spotify
+        spotify_url: null, // No copiar URL de Spotify
+        config: originalPlaylist.config ? { ...originalPlaylist.config.toObject() } : null
       };
 
       const newPlaylist = await this.createPlaylist(newPlaylistData);

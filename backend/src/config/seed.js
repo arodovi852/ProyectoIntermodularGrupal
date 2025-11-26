@@ -11,19 +11,19 @@ const { User, Playlist, Song } = require('../models');
 // Datos de ejemplo para usuarios
 const usersData = [
   {
-    name: 'Usuario Demo',
-    email: 'demo@example.com',
-    password: 'demo123' // En producción, esto debería estar hasheado
+    name: 'Cesar123',
+    email: 'cesar@example.com',
+    password: 'cesar123' // En producción, esto debería estar hasheado
   },
   {
-    name: 'María García',
-    email: 'maria@example.com',
-    password: 'maria123'
+    name: 'Fran123',
+    email: 'fran@example.com',
+    password: 'fran123'
   },
   {
-    name: 'Juan Pérez',
-    email: 'juan@example.com',
-    password: 'juan123'
+    name: 'Alberto123',
+    email: 'alberto@example.com',
+    password: 'alberto123'
   }
 ];
 
@@ -153,28 +153,102 @@ async function seedDatabase() {
         tracks: [songs[1]._id, songs[2]._id, songs[4]._id, songs[0]._id],
         userId: users[0]._id,
         cover_image_url: songs[1].album_image_url,
-        spotify_url: null
+        spotify_url: null,
+        config: {
+          size: 20,
+          seeds: [songs[1]._id.toString(), songs[2]._id.toString()],
+          negativeSeeds: [],
+          danceability: 0.75,
+          energy: 0.85,
+          valence: 0.80,
+          tempo: 125
+        }
       },
       {
         name: 'Momentos Reflexivos',
         tracks: [songs[3]._id, songs[6]._id, songs[7]._id],
         userId: users[0]._id,
         cover_image_url: songs[3].album_image_url,
-        spotify_url: null
+        spotify_url: null,
+        config: {
+          size: 15,
+          seeds: [songs[3]._id.toString(), songs[6]._id.toString()],
+          negativeSeeds: [],
+          acousticness: 0.65,
+          energy: 0.35,
+          valence: 0.30,
+          speechiness: 0.05,
+          tempo: 90
+        }
       },
       {
         name: 'Mix Alternativo',
         tracks: [songs[5]._id, songs[0]._id, songs[4]._id],
         userId: users[1]._id,
         cover_image_url: songs[5].album_image_url,
-        spotify_url: null
+        spotify_url: null,
+        config: {
+          size: 18,
+          seeds: [songs[5]._id.toString(), songs[0]._id.toString()],
+          negativeSeeds: [],
+          energy: 0.70,
+          danceability: 0.60,
+          valence: 0.50,
+          instrumentalness: 0.10,
+          tempo: 110
+        }
       },
       {
         name: 'Favoritos 2024',
         tracks: [songs[2]._id, songs[1]._id, songs[5]._id, songs[7]._id],
         userId: users[2]._id,
         cover_image_url: songs[2].album_image_url,
-        spotify_url: null
+        spotify_url: null,
+        config: {
+          size: 25,
+          seeds: [songs[2]._id.toString(), songs[1]._id.toString(), songs[5]._id.toString()],
+          negativeSeeds: [],
+          danceability: 0.70,
+          energy: 0.75,
+          valence: 0.65,
+          acousticness: 0.20,
+          tempo: 120
+        }
+      },
+      {
+        name: 'Workout Intenso',
+        tracks: [songs[4]._id, songs[0]._id, songs[1]._id],
+        userId: users[0]._id,
+        cover_image_url: songs[4].album_image_url,
+        spotify_url: null,
+        config: {
+          size: 30,
+          seeds: [songs[4]._id.toString(), songs[0]._id.toString()],
+          negativeSeeds: [songs[3]._id.toString()],
+          energy: 0.90,
+          danceability: 0.65,
+          valence: 0.70,
+          loudness: -5,
+          tempo: 140
+        }
+      },
+      {
+        name: 'Chill Vibes',
+        tracks: [songs[7]._id, songs[6]._id],
+        userId: users[1]._id,
+        cover_image_url: songs[7].album_image_url,
+        spotify_url: null,
+        config: {
+          size: 12,
+          seeds: [songs[7]._id.toString()],
+          negativeSeeds: [songs[4]._id.toString()],
+          acousticness: 0.70,
+          energy: 0.25,
+          valence: 0.40,
+          instrumentalness: 0.05,
+          speechiness: 0.10,
+          tempo: 85
+        }
       }
     ];
 
@@ -208,4 +282,3 @@ async function seedDatabase() {
 
 // Ejecutar el seeding
 seedDatabase();
-

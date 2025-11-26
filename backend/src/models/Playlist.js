@@ -50,6 +50,100 @@ const playlistSchema = new mongoose.Schema({
       },
       message: 'Debe ser una URL válida'
     }
+  },
+  config: {
+    size: {
+      type: Number,
+      min: [1, 'El tamaño mínimo es 1'],
+      max: [100, 'El tamaño máximo es 100'],
+      required: [true, 'El tamaño es requerido']
+    },
+    seeds: {
+      type: [String],
+      required: [true, 'Las semillas son requeridas'],
+      validate: {
+        validator: function(v) {
+          return Array.isArray(v) && v.length >= 1 && v.length <= 5;
+        },
+        message: 'Debe haber entre 1 y 5 semillas'
+      }
+    },
+    negativeSeeds: {
+      type: [String],
+      default: [],
+      validate: {
+        validator: function(v) {
+          return Array.isArray(v) && v.length <= 5;
+        },
+        message: 'Puede haber máximo 5 semillas negativas'
+      }
+    },
+    acousticness: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    danceability: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    energy: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    instrumentalness: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    key: {
+      type: Number,
+      min: [-1, 'El valor mínimo es -1'],
+      max: [11, 'El valor máximo es 11'],
+      default: null
+    },
+    liveness: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    loudness: {
+      type: Number,
+      min: [-60, 'El valor mínimo es -60'],
+      max: [2, 'El valor máximo es 2'],
+      default: null
+    },
+    mode: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    speechiness: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    },
+    tempo: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [250, 'El valor máximo es 250'],
+      default: null
+    },
+    valence: {
+      type: Number,
+      min: [0, 'El valor mínimo es 0'],
+      max: [1, 'El valor máximo es 1'],
+      default: null
+    }
   }
 }, {
   timestamps: true, // Añade createdAt y updatedAt automáticamente
