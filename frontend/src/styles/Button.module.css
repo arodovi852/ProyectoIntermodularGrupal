@@ -20,6 +20,7 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
+
 /* CTA debe sobrescribir todas las propiedades de .button */
 .cta {
     background: linear-gradient(90deg, #ed2939, #5888ed);

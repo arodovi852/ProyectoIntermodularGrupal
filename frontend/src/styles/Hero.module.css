@@ -15,5 +15,6 @@
 @media (max-width: 768px) {
     .hero {
         padding: 0rem 4vw 8rem 4vw;
+        align-items: flex-start;
     }
 }
