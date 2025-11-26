@@ -19,6 +19,10 @@
     color: white;
 }
 
+button:hover,button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color
+}
+
 /* Estilos para móvil (menú dropdown debajo del header) */
 @media (max-width: 570px) {
     /* Ocultar navButtons en desktop y mostrarlo como dropdown en móvil */
