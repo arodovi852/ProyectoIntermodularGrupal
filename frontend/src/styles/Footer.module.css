@@ -4,10 +4,6 @@
     font-weight: bold;
     padding: 0 6vw 5rem 6vw;
     color: #fff;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     z-index: 5;
     box-sizing: border-box;

@@ -6,14 +6,11 @@
     align-items: center;
     padding: 1.5rem 3rem;
     background-color: #000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     width: 100%;
     z-index: 10;
     box-sizing: border-box;
     font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    position: fixed;
 }
 
 a {
