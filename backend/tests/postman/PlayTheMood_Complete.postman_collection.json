@@ -483,6 +483,12 @@
                   "    const json = pm.response.json();",
                   "    pm.environment.set('playlistId', json.data.id);",
                   "    pm.expect(json.data.trackCount).to.eql(2);",
+                  "});",
+                  "pm.test('Config incluido', () => {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.data.config).to.have.property('size');",
+                  "    pm.expect(json.data.config).to.have.property('seeds');",
+                  "    pm.expect(json.data.config.size).to.eql(25);",
                   "});"
                 ]
               }
@@ -496,7 +502,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Test Playlist Complete\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\"{{songId1}}\", \"{{songId2}}\"]\n}"
+              "raw": "{\n  \"name\": \"Test Playlist Complete\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\"{{songId1}}\", \"{{songId2}}\"],\n  \"config\": {\n    \"size\": 25,\n    \"seeds\": [\"{{songId1}}\", \"{{songId2}}\"],\n    \"negativeSeeds\": [],\n    \"acousticness\": 0.5,\n    \"danceability\": 0.7,\n    \"energy\": 0.8,\n    \"valence\": 0.6\n  }\n}"
             },
             "url": {"raw": "{{baseUrl}}/playlists", "host": ["{{baseUrl}}"], "path": ["playlists"]}
           }
@@ -526,6 +532,35 @@
             "body": {
               "mode": "raw",
               "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"tracks\": []\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/playlists", "host": ["{{baseUrl}}"], "path": ["playlists"]}
+          }
+        },
+        {
+          "name": "Create Playlist - Sin config (debe fallar)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 Bad Request', () => pm.response.to.have.status(400));",
+                  "pm.test('Error de config requerido', () => {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.error).to.include('configuración');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Playlist Sin Config\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\"{{songId1}}\"]\n}"
             },
             "url": {"raw": "{{baseUrl}}/playlists", "host": ["{{baseUrl}}"], "path": ["playlists"]}
           }
@@ -565,6 +600,12 @@
                   "    pm.expect(json.data).to.have.property('songs');",
                   "    pm.expect(json.data.songs).to.be.an('array');",
                   "    pm.expect(json.data).to.have.property('totalDuration');",
+                  "});",
+                  "pm.test('Config incluido en detalles', () => {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.data).to.have.property('config');",
+                  "    pm.expect(json.data.config).to.have.property('size');",
+                  "    pm.expect(json.data.config).to.have.property('seeds');",
                   "});"
                 ]
               }
@@ -587,6 +628,10 @@
                   "pm.test('Nombre actualizado', () => {",
                   "    const json = pm.response.json();",
                   "    pm.expect(json.data.name).to.include('Updated');",
+                  "});",
+                  "pm.test('Config actualizado', () => {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.data.config.energy).to.eql(0.9);",
                   "});"
                 ]
               }
@@ -600,7 +645,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Updated Playlist Name\"\n}"
+              "raw": "{\n  \"name\": \"Updated Playlist Name\",\n  \"config\": {\n    \"size\": 30,\n    \"seeds\": [\"{{songId1}}\"],\n    \"energy\": 0.9,\n    \"valence\": 0.8\n  }\n}"
             },
             "url": {"raw": "{{baseUrl}}/playlists/{{playlistId}}", "host": ["{{baseUrl}}"], "path": ["playlists", "{{playlistId}}"]}
           }

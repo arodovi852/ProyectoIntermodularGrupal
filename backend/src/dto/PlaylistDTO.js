@@ -10,7 +10,7 @@ class PlaylistDTO {
    * @returns {Object} Datos validados para crear playlist
    */
   static toCreate(data) {
-    const { name, userId, tracks, cover_image_url, spotify_url } = data;
+    const { name, userId, tracks, cover_image_url, spotify_url, config } = data;
 
     if (!name) {
       throw new Error('El nombre de la playlist es requerido');
@@ -20,12 +20,49 @@ class PlaylistDTO {
       throw new Error('El ID del usuario es requerido');
     }
 
+    if (!config) {
+      throw new Error('La configuración de la playlist es requerida');
+    }
+
+    // Validar config básico
+    if (!config.size || config.size < 1 || config.size > 100) {
+      throw new Error('El tamaño debe estar entre 1 y 100');
+    }
+
+    if (!config.seeds || !Array.isArray(config.seeds) || config.seeds.length < 1 || config.seeds.length > 5) {
+      throw new Error('Debe haber entre 1 y 5 semillas');
+    }
+
+    if (config.negativeSeeds && (!Array.isArray(config.negativeSeeds) || config.negativeSeeds.length > 5)) {
+      throw new Error('Puede haber máximo 5 semillas negativas');
+    }
+
+    // Construir objeto config limpio con solo los valores presentes
+    const cleanConfig = {
+      size: config.size,
+      seeds: config.seeds,
+      negativeSeeds: config.negativeSeeds || []
+    };
+
+    // Añadir parámetros opcionales solo si están presentes
+    const optionalParams = [
+      'acousticness', 'danceability', 'energy', 'instrumentalness',
+      'key', 'liveness', 'loudness', 'mode', 'speechiness', 'tempo', 'valence'
+    ];
+
+    optionalParams.forEach(param => {
+      if (config[param] !== undefined && config[param] !== null) {
+        cleanConfig[param] = config[param];
+      }
+    });
+
     return {
       name: name.trim(),
       userId,
       tracks: Array.isArray(tracks) ? tracks : [],
       cover_image_url: cover_image_url || 'https://via.placeholder.com/640x640.png?text=Playlist',
-      spotify_url: spotify_url || null
+      spotify_url: spotify_url || null,
+      config: cleanConfig
     };
   }
 
@@ -56,6 +93,23 @@ class PlaylistDTO {
       updates.spotify_url = data.spotify_url;
     }
 
+    if (data.config !== undefined) {
+      // Validar config si se proporciona
+      if (data.config.size && (data.config.size < 1 || data.config.size > 100)) {
+        throw new Error('El tamaño debe estar entre 1 y 100');
+      }
+
+      if (data.config.seeds && (!Array.isArray(data.config.seeds) || data.config.seeds.length < 1 || data.config.seeds.length > 5)) {
+        throw new Error('Debe haber entre 1 y 5 semillas');
+      }
+
+      if (data.config.negativeSeeds && (!Array.isArray(data.config.negativeSeeds) || data.config.negativeSeeds.length > 5)) {
+        throw new Error('Puede haber máximo 5 semillas negativas');
+      }
+
+      updates.config = data.config;
+    }
+
     return updates;
   }
 
@@ -75,6 +129,7 @@ class PlaylistDTO {
       userId: playlist.userId,
       coverImageUrl: playlist.cover_image_url,
       spotifyUrl: playlist.spotify_url,
+      config: playlist.config || null,
       createdAt: playlist.created_at || playlist.createdAt,
       updatedAt: playlist.updatedAt
     };
