@@ -23,3 +23,10 @@
     align-items: center;
     z-index: 1;
 }
+
+@media (max-width: 600px) {
+    .landing :global(.footer) {
+        padding: 0 6vw 0rem 6vw;
+        font-size: 0.9rem;
+    }
+}

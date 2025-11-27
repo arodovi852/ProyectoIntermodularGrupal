@@ -31,6 +31,12 @@
     color: white;
 }
 
+@media (max-width: 600px) {
+    .footer {
+        padding: 0 6vw 2rem 2rem;
+    }
+}
+
 @media (max-width: 400px) {
     .links, .socialLinks {
         font-size: 0.9rem;

@@ -29,10 +29,3 @@ a {
         padding: 1rem 2rem;
     }
 }
-
-@media (max-width: 570px) {
-    .header {
-        padding: 1rem 1.5rem;
-        position: fixed;
-    }
-}

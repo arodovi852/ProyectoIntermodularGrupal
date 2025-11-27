@@ -52,12 +52,14 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 550px) {
     .title {
-        font-size: 3rem;
+        font-size: 2rem;
     }
-
     .description {
         font-size: 1.5rem;
+    }
+    .heroContent {
+        padding-top: 7rem;
     }
 }
