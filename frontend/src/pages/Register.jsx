@@ -18,8 +18,8 @@ function Register() {
     async function handleSubmit(e){
         e.preventDefault();
 
-        const success = await register(username, email, password);
         if (password === repeatPassword) {
+            const success = await register(username, email, password);
             if (success) {
                 navigate('/DashBoard');
             } else {
