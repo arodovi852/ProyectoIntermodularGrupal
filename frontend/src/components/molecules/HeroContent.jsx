@@ -1,5 +1,4 @@
 import { Button } from '../atoms/Button'
-import { Link } from '../atoms/Link'
 import styles from '../../styles/HeroContent.module.css'
 
 export const HeroContent = () => {

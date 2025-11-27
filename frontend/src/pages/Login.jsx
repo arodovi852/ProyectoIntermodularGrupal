@@ -27,25 +27,21 @@ const Login = () => {
 
     return (
         <main className={styles.container}>
-            <section className={styles.login}>
-                <h2>Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <article className={styles.inputGroup}>
-                        <label htmlFor={"username"} className={styles.text}>Email:</label>
-                        <input id={"username"} type="email" value={email} className={styles.input} onChange={(e) => setEmail(e.target.value)} required/>
-                    </article>
-                    <article className={styles.inputGroup}>
-                        <label htmlFor={"password"} className={styles.text}>Password:</label>
-                        <input type="password"  id={"password"} value={password} className={styles.input} onChange={(e) => setPassword(e.target.value)} required/>
-                    </article>
-                    {error && <p style={{color: 'red'}}>{error}</p>}
-                    <article className={styles.inputGroup}>
-                        <Button type="submit" className={styles.button}>Login</Button>
-                        <NavLink to={"/Register"} className={styles.text}>You dont have account, Register</NavLink>
-                        <NavLink to={"/RecoverPassword"} className={styles.text}>Did you forgot the password?, Recover it</NavLink>
-                    </article>
-                </form>
-            </section>
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit} className={styles.login}>
+                <article className={styles.inputGroup}>
+                    <label htmlFor={"username"} className={styles.text}>Email:</label>
+                    <input id={"username"} type="email" value={email} className={styles.input} onChange={(e) => setEmail(e.target.value)} required/>
+                </article>
+                <article className={styles.inputGroup}>
+                    <label htmlFor={"password"} className={styles.text}>Password:</label>
+                    <input type="password"  id={"password"} value={password} className={styles.input} onChange={(e) => setPassword(e.target.value)} required/>
+                </article>
+                {error && <p style={{color: 'red'}}>{error}</p>}
+                <Button type="submit" className={styles.button}>Login</Button>
+                <NavLink to={"/Register"} className={styles.text}>You dont have account, Register</NavLink>
+                <NavLink to={"/RecoverPassword"} className={styles.text}>Did you forgot the password?, Recover it</NavLink>
+            </form>
         </main>
     )
 }

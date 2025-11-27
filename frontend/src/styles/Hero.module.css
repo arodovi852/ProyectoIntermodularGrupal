@@ -1,19 +1,35 @@
 /* Hero Styles */
 .hero {
-    min-height: 100vh;
-    background: #000;
     display: flex;
+    box-sizing: border-box;
+    background: #000;
     flex-direction: column;
     justify-content: center;
-    padding: 6rem 3rem 10rem 10rem;
+    width: 100%;
+    min-height: 100vh;
     position: relative;
     overflow: hidden;
-    width: 100%;
-    box-sizing: border-box;
+}
+
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 12rem);
+    z-index: 1;
+    position: relative;
+}
+
+.overlay {
+    display: flex;
+}
+
+.footer {
+    padding-bottom: 0;
 }
 
 @media (max-width: 768px) {
     .hero {
-        padding: 4rem 1.5rem 8rem 1.5rem;
+        align-items: flex-start;
     }
 }

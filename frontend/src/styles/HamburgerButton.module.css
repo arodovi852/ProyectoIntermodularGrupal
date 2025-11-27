@@ -1,0 +1,34 @@
+/* Hamburger Button Styles */
+.hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: #fff;
+    transition: opacity 0.3s ease;
+}
+
+.hamburger:hover {
+    opacity: 0.7;
+}
+
+.hamburger:focus {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+
+.hamburger svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+}
+
+/* Mostrar solo en móviles */
+@media (max-width: 570px) {
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
