@@ -47,6 +47,9 @@
     .description {
         font-size: 2rem;
     }
+    .heroContent {
+        padding: 0 6vw 0 6vw;
+    }
 }
 
 @media (max-width: 400px) {
