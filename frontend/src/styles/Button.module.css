@@ -1,0 +1,48 @@
+/* Button Styles */
+.button {
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.primary {
+    background: linear-gradient(to top, #AA3039, #F95461);
+    color: #fff;
+}
+
+.secondary {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+
+/* CTA debe sobrescribir todas las propiedades de .button */
+.cta {
+    background: linear-gradient(90deg, #ed2939, #5888ed);
+    color: #fff;
+    padding: 0.8rem 0.2rem;
+    border-radius: 2px;
+    font-size: 3.5rem;
+    font-weight: 300;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta:hover {
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .cta {
+        font-size: 2.2rem;
+        padding: 0.6rem 0.1rem;
+    }
+}
+

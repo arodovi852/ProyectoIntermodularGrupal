@@ -1,0 +1,44 @@
+/* Footer Styles */
+.footer {
+    background-color: transparent;
+    font-weight: bold;
+    padding: 3rem 6vw 5rem 6vw;
+    color: #fff;
+    width: 100%;
+    z-index: 5;
+    box-sizing: border-box;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 2rem;
+}
+
+.separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.links {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .footer {
+        padding: 0 6vw 2rem 2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .links, .socialLinks {
+        font-size: 0.9rem;
+    }
+}

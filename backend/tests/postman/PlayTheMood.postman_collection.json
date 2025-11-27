@@ -1,0 +1,657 @@
+{
+  "info": {
+    "name": "PlayTheMood API - Tests Completos",
+    "description": "Colección completa para probar todos los endpoints de PlayTheMood con JWT",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Autenticación",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Generar email único para este test",
+                  "const timestamp = Date.now();",
+                  "pm.environment.set('testEmail', `newman.test${timestamp}@example.com`);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Registro exitoso', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.have.property('user');",
+                  "    pm.expect(jsonData.data).to.have.property('token');",
+                  "});",
+                  "",
+                  "pm.test('Token es válido', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data.token).to.be.a('string');",
+                  "    pm.expect(jsonData.data.token.length).to.be.above(10);",
+                  "    pm.environment.set('token', jsonData.data.token);",
+                  "    pm.environment.set('userId', jsonData.data.user.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Newman Test User\",\n  \"email\": \"{{testEmail}}\",\n  \"password\": \"{{testPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Login exitoso', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.message).to.eql('Login exitoso');",
+                  "});",
+                  "",
+                  "pm.test('Devuelve token y user', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('token');",
+                  "    pm.expect(jsonData.data).to.have.property('user');",
+                  "    pm.environment.set('token', jsonData.data.token);",
+                  "    pm.environment.set('userId', jsonData.data.user.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{testEmail}}\",\n  \"password\": \"{{testPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Canciones",
+      "item": [
+        {
+          "name": "Save Multiple Songs (Batch)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Canciones guardadas correctamente', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.saved).to.be.above(0);",
+                  "    pm.expect(jsonData.data).to.be.an('array');",
+                  "    ",
+                  "    // Guardar IDs de canciones para tests posteriores",
+                  "    if (jsonData.data.length > 0) {",
+                  "        pm.environment.set('songId1', jsonData.data[0].id);",
+                  "    }",
+                  "    if (jsonData.data.length > 1) {",
+                  "        pm.environment.set('songId2', jsonData.data[1].id);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"songs\": [\n    {\n      \"_id\": \"4cOdK2wGLETKBW3PvgPWqT\",\n      \"name\": \"Someone Like You\",\n      \"album\": \"21\",\n      \"album_image_url\": \"https://i.scdn.co/image/ab67616d0000b273f7a7657e86ebf5b8be31d067\",\n      \"artists\": [\"Adele\"],\n      \"preview_url\": \"https://p.scdn.co/mp3-preview/test1\",\n      \"duration_ms\": 285000,\n      \"spotify_url\": \"https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT\"\n    },\n    {\n      \"_id\": \"3n3Ppam7vgaVa1iaRUc9Lp\",\n      \"name\": \"Mr. Brightside\",\n      \"album\": \"Hot Fuss\",\n      \"album_image_url\": \"https://i.scdn.co/image/ab67616d0000b2734ae1c4c5c45aabe565499163\",\n      \"artists\": [\"The Killers\"],\n      \"preview_url\": \"https://p.scdn.co/mp3-preview/test2\",\n      \"duration_ms\": 223000,\n      \"spotify_url\": \"https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp\"\n    },\n    {\n      \"_id\": \"7qiZfU4dY1lWllzX7mPBI\",\n      \"name\": \"Shape of You\",\n      \"album\": \"÷ (Divide)\",\n      \"album_image_url\": \"https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96\",\n      \"artists\": [\"Ed Sheeran\"],\n      \"preview_url\": \"https://p.scdn.co/mp3-preview/test3\",\n      \"duration_ms\": 233713,\n      \"spotify_url\": \"https://open.spotify.com/track/7qiZfU4dY1lWllzX7mPBI\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/songs/batch",
+              "host": ["{{baseUrl}}"],
+              "path": ["songs", "batch"]
+            }
+          }
+        },
+        {
+          "name": "Get All Songs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve lista de canciones', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/songs?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["songs"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Songs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Búsqueda funciona correctamente', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/songs?search=adele&limit=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["songs"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "adele"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Playlists",
+      "item": [
+        {
+          "name": "Create Playlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 201 Created', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Playlist creada correctamente', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.have.property('id');",
+                  "    pm.expect(jsonData.data.name).to.be.a('string');",
+                  "    pm.expect(jsonData.data).to.have.property('config');",
+                  "    pm.environment.set('playlistId', jsonData.data.id);",
+                  "});",
+                  "",
+                  "pm.test('Config incluido en respuesta', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data.config).to.have.property('size');",
+                  "    pm.expect(jsonData.data.config).to.have.property('seeds');",
+                  "    pm.expect(jsonData.data.config.size).to.eql(25);",
+                  "    pm.expect(jsonData.data.config.seeds).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Newman Test Playlist\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\n    \"{{songId1}}\",\n    \"{{songId2}}\"\n  ],\n  \"config\": {\n    \"size\": 25,\n    \"seeds\": [\"{{songId1}}\", \"{{songId2}}\"],\n    \"negativeSeeds\": [],\n    \"acousticness\": 0.5,\n    \"danceability\": 0.7,\n    \"energy\": 0.8,\n    \"valence\": 0.6,\n    \"tempo\": 120\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/playlists",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists"]
+            }
+          }
+        },
+        {
+          "name": "Get User Playlists",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve playlists del usuario', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.be.an('array');",
+                  "    pm.expect(jsonData.count).to.be.above(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/playlists/user/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists", "user", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Playlist Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve detalles con canciones', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.have.property('songs');",
+                  "    pm.expect(jsonData.data).to.have.property('totalDuration');",
+                  "    pm.expect(jsonData.data.songs).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Config incluido en detalles', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data).to.have.property('config');",
+                  "    pm.expect(jsonData.data.config).to.have.property('size');",
+                  "    pm.expect(jsonData.data.config).to.have.property('seeds');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/playlists/{{playlistId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists", "{{playlistId}}"]
+            }
+          }
+        },
+        {
+          "name": "Add Tracks to Playlist",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Tracks añadidos correctamente', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tracks\": [\n    \"7qiZfU4dY1lWllzX7mPBI\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/playlists/{{playlistId}}/tracks",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists", "{{playlistId}}", "tracks"]
+            }
+          }
+        },
+        {
+          "name": "Update Playlist Config",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Config actualizado correctamente', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "    pm.expect(jsonData.data).to.have.property('config');",
+                  "});",
+                  "",
+                  "pm.test('Config contiene nuevos valores', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.data.config.size).to.eql(30);",
+                  "    pm.expect(jsonData.data.config.energy).to.eql(0.9);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Test Playlist\",\n  \"config\": {\n    \"size\": 30,\n    \"seeds\": [\"{{songId1}}\"],\n    \"energy\": 0.9,\n    \"valence\": 0.8\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/playlists/{{playlistId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists", "{{playlistId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Playlist Without Config (Error)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 400 Bad Request', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve error de config requerido', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.false;",
+                  "    pm.expect(jsonData.error).to.include('configuración');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Playlist Sin Config\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/playlists",
+              "host": ["{{baseUrl}}"],
+              "path": ["playlists"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Test de Errores",
+      "item": [
+        {
+          "name": "Login con contraseña incorrecta",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401 Unauthorized', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve error de credenciales', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.false;",
+                  "    pm.expect(jsonData.error).to.include('Credenciales');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{testEmail}}\",\n  \"password\": \"wrongpassword\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Acceso sin token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401 Unauthorized', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve error de token no proporcionado', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.false;",
+                  "    pm.expect(jsonData.error).to.include('Token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Token inválido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status 401 Unauthorized', function () {",
+                  "    pm.response.to.have.status(401);",
+                  "});",
+                  "",
+                  "pm.test('Devuelve error de token inválido', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.false;",
+                  "    pm.expect(jsonData.error).to.include('Token');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid_token_here"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ]
+}
+
