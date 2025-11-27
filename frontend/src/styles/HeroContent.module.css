@@ -3,6 +3,7 @@
     z-index: 1;
     max-width: 1400px;
     position: relative;
+    padding: 6rem 6vw 0 6vw;
 }
 
 .title {

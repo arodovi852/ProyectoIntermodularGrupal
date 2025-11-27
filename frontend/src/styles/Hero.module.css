@@ -1,20 +1,35 @@
 /* Hero Styles */
 .hero {
+    display: flex;
     box-sizing: border-box;
     background: #000;
     flex-direction: column;
     justify-content: center;
     width: 100%;
     min-height: 100vh;
-    padding: 6rem 6vw 10rem 6vw;
-    display: flex;
     position: relative;
     overflow: hidden;
 }
 
+.contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 12rem);
+    z-index: 1;
+    position: relative;
+}
+
+.overlay {
+    display: flex;
+}
+
+.footer {
+    padding-bottom: 0;
+}
+
 @media (max-width: 768px) {
     .hero {
-        padding: 0rem 4vw 8rem 4vw;
         align-items: flex-start;
     }
 }
