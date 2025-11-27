@@ -1,9 +1,10 @@
 name: Dev -> Docker CI
 
 on:
+  push:
+    branches: [dev]
   pull_request:
-    branches:
-      - dev
+    branches: [dev]
 
 jobs:
   merge:
@@ -40,7 +41,7 @@ jobs:
       - name: Build and push images
         run: |
           docker-compose build
-          docker tag frontend usuario/frontend:latest
-          docker tag backend usuario/backend:latest
-          docker push usuario/frontend:latest
-          docker push usuario/backend:latest
+          docker tag playthemood-frontend falbmun0906/frontend:latest
+          docker tag playthemood-backend falbmun0906/backend:latest
+          docker push falbmun0906/playthemood-frontend:latest
+          docker push falbmun0906/playthemood-backend:latest
