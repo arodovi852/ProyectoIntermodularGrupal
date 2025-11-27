@@ -6,7 +6,7 @@ import axios from 'axios';
 const isDevelopment = import.meta.env.MODE === 'development';
 const API_BASE_URL = isDevelopment
     ? (import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001')
-    : ''; // En producción/Docker, usa rutas relativas para que nginx haga el proxy
+    : import.meta.env.VITE_BACKEND_URL; // <--- usa la URL completa en producción
 
 const api = axios.create({
     baseURL: API_BASE_URL,

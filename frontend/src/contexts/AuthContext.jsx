@@ -14,8 +14,10 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const login = (email, password) => {
-        return fetch('http://localhost:3000/api/auth/login', {
+        return fetch(`${BACKEND_URL}/api/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -39,7 +41,7 @@ export function AuthProvider({ children }) {
 
     const register = (name, email, password) => {
 
-        return fetch('http://localhost:3000/api/auth/register', {
+        return fetch(`${BACKEND_URL}/api/auth/register`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({name, email, password})

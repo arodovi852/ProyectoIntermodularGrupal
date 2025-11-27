@@ -1,27 +1,13 @@
-
 services:
-  backend:
-    build: ./backend
-    container_name: play_backend
-    restart: always
-    environment:
-      - NODE_ENV=production
-    ports:
-      - "3001:3001"
-    networks:
-      - app-network
-
   frontend:
     build: ./frontend
-    container_name: play_frontend
-    restart: always
+    image: playthemood-frontend:latest
+    ports:
+      - "5000:80"
     depends_on:
       - backend
+  backend:
+    build: ./backend
+    image: playthemood-backend:latest
     ports:
-      - "80:80"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - "5000:5000"
