@@ -16,7 +16,7 @@ const api = axios.create({
     },
 });
 
-// Interceptor para logging (útil en desarrollo)
+// Interceptor para loging (útil en desarrollo)
 api.interceptors.request.use(
     (config) => {
         console.log(`📡 API Request: ${config.method.toUpperCase()} ${config.url}`);
