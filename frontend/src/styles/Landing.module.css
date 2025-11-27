@@ -21,14 +21,5 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 6rem 6vw 10rem 6vw;
     z-index: 1;
-}
-
-@media (max-width: 768px) {
-    .main {
-        flex-direction: column;
-        padding: 4rem 4vw 8rem 4vw;
-    }
 }
