@@ -4,6 +4,7 @@
   /* Custom Colors */
   --primary-blue: #5888ed;
   --primary-red: #ed2939;
+    --primary-white: #fff;
 
   /* Typography */
   font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -25,7 +26,7 @@ a {
 }
 
 a:hover {
-  color: var(--primary-blue);
+  color: var(--primary-white);
 }
 
 body {
