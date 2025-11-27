@@ -20,7 +20,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git fetch origin dev
-          git merge origin/dev --strategy=ours
+          git merge origin/dev --strategy=ours --allow-unrelated-histories
           git push origin docker
 
   docker_build:
