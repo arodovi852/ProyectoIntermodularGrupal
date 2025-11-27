@@ -32,30 +32,74 @@ function Register() {
 
     return (
         <main className={styles.container}>
-            <h2>Create an account</h2>
             <form onSubmit={handleSubmit} className={styles.register}>
+                <h2>Create an account</h2>
+
                 <article className={styles.inputGroup}>
-                    <label htmlFor={"username"}>Username:</label>
-                    <input id={"username"} type="text" value={username} className={styles.input} onChange={(e) => setUsername(e.target.value)} required />
+                    <label htmlFor="username" className={styles.label}>Username:</label>
+                    <input
+                        id="username"
+                        type="text"
+                        value={username}
+                        className={styles.input}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
                 </article>
+
                 <article className={styles.inputGroup}>
-                    <label htmlFor={"email"}>Email:</label>
-                    <input id={"email"} type="email" value={email} className={styles.input} onChange={(e) => setEmail(e.target.value)} required />
+                    <label htmlFor="email" className={styles.label}>Email:</label>
+                    <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        className={styles.input}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
                 </article>
+
                 <article className={styles.inputGroup}>
-                    <label htmlFor={"password"}>Password:</label>
-                    <input id={"password"} type="password" value={password} className={styles.input} onChange={(e) => setPassword(e.target.value)} required />
+                    <label htmlFor="password" className={styles.label}>Password:</label>
+                    <input
+                        id="password"
+                        type="password"
+                        value={password}
+                        className={styles.input}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
                 </article>
+
                 <article className={styles.inputGroup}>
-                    <label htmlFor={"repeatPassword"}>Repeat Password:</label>
-                    <input id={"repeatPassword"} type="password" value={repeatPassword} className={styles.input} onChange={(e) => setRepeatPassword(e.target.value)} required />
+                    <label htmlFor="repeatPassword" className={styles.label}>Repeat password:</label>
+                    <input
+                        id="repeatPassword"
+                        type="password"
+                        value={repeatPassword}
+                        className={styles.input}
+                        onChange={(e) => setRepeatPassword(e.target.value)}
+                        required
+                    />
                 </article>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <Button type="submit" className={styles.button}>Register</Button>
-                <NavLink to={"/Login"} className={styles.text}>You already have account, Login</NavLink>
+
+                {error && <p className={styles.error}>{error}</p>}
+
+                <footer className={styles.actions}>
+                    <Button type="submit" className={styles.button}>Register</Button>
+
+                    <div className={styles.textGroup}>
+                        <p className={styles.text}>
+                            Already have an account?{' '}
+                            <NavLink to="/Login" className={styles.link}>
+                                Log in
+                            </NavLink>
+                        </p>
+                    </div>
+                </footer>
             </form>
         </main>
-    )
+    );
 }
 
 export default Register

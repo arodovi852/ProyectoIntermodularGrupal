@@ -2,14 +2,14 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .content {
     flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: 0; /* Importante para que flex funcione correctamente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
 }
 
 /* Hacer el footer más compacto en páginas de autenticación */

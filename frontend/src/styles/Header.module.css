@@ -9,6 +9,7 @@
     width: 100%;
     box-sizing: border-box;
     font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    z-index: 5;
 }
 
 a {
