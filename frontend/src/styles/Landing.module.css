@@ -7,12 +7,12 @@
 }
 
 .landing {
-    min-height: 100vh;
+    height: calc(100vh - 110px);
     display: flex;
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    background: #000;
+    background: #131313;
 }
 
 .main {
@@ -22,11 +22,12 @@
     display: flex;
     align-items: center;
     z-index: 1;
+    overflow: hidden;
 }
 
 @media (max-width: 600px) {
     .landing :global(.footer) {
-        padding: 0 6vw 0rem 6vw;
+        padding: 0 6vw 0 6vw;
         font-size: 0.9rem;
     }
 }

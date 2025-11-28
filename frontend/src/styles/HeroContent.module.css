@@ -3,7 +3,7 @@
     z-index: 1;
     max-width: 1400px;
     position: relative;
-    padding: 6rem 6vw 0 6vw;
+    padding: 4rem 6vw 0 6vw;
 }
 
 .title {
@@ -61,5 +61,11 @@
     }
     .heroContent {
         padding-top: 7rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .heroContent {
+        padding-bottom: 100px;
     }
 }
