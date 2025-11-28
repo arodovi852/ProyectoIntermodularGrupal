@@ -483,15 +483,12 @@
                   "    const json = pm.response.json();",
                   "    pm.environment.set('playlistId', json.data.id);",
                   "    pm.expect(json.data.trackCount).to.eql(2);",
-<<<<<<< HEAD
-=======
                   "});",
                   "pm.test('Config incluido', () => {",
                   "    const json = pm.response.json();",
                   "    pm.expect(json.data.config).to.have.property('size');",
                   "    pm.expect(json.data.config).to.have.property('seeds');",
                   "    pm.expect(json.data.config.size).to.eql(25);",
->>>>>>> dev
                   "});"
                 ]
               }
@@ -505,11 +502,7 @@
             ],
             "body": {
               "mode": "raw",
-<<<<<<< HEAD
-              "raw": "{\n  \"name\": \"Test Playlist Complete\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\"{{songId1}}\", \"{{songId2}}\"]\n}"
-=======
               "raw": "{\n  \"name\": \"Test Playlist Complete\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\"{{songId1}}\", \"{{songId2}}\"],\n  \"config\": {\n    \"size\": 25,\n    \"seeds\": [\"{{songId1}}\", \"{{songId2}}\"],\n    \"negativeSeeds\": [],\n    \"acousticness\": 0.5,\n    \"danceability\": 0.7,\n    \"energy\": 0.8,\n    \"valence\": 0.6\n  }\n}"
->>>>>>> dev
             },
             "url": {"raw": "{{baseUrl}}/playlists", "host": ["{{baseUrl}}"], "path": ["playlists"]}
           }
@@ -544,8 +537,6 @@
           }
         },
         {
-<<<<<<< HEAD
-=======
           "name": "Create Playlist - Sin config (debe fallar)",
           "event": [
             {
@@ -575,7 +566,6 @@
           }
         },
         {
->>>>>>> dev
           "name": "Get User Playlists",
           "event": [
             {
@@ -610,15 +600,12 @@
                   "    pm.expect(json.data).to.have.property('songs');",
                   "    pm.expect(json.data.songs).to.be.an('array');",
                   "    pm.expect(json.data).to.have.property('totalDuration');",
-<<<<<<< HEAD
-=======
                   "});",
                   "pm.test('Config incluido en detalles', () => {",
                   "    const json = pm.response.json();",
                   "    pm.expect(json.data).to.have.property('config');",
                   "    pm.expect(json.data.config).to.have.property('size');",
                   "    pm.expect(json.data.config).to.have.property('seeds');",
->>>>>>> dev
                   "});"
                 ]
               }
@@ -641,13 +628,10 @@
                   "pm.test('Nombre actualizado', () => {",
                   "    const json = pm.response.json();",
                   "    pm.expect(json.data.name).to.include('Updated');",
-<<<<<<< HEAD
-=======
                   "});",
                   "pm.test('Config actualizado', () => {",
                   "    const json = pm.response.json();",
                   "    pm.expect(json.data.config.energy).to.eql(0.9);",
->>>>>>> dev
                   "});"
                 ]
               }
@@ -661,11 +645,7 @@
             ],
             "body": {
               "mode": "raw",
-<<<<<<< HEAD
-              "raw": "{\n  \"name\": \"Updated Playlist Name\"\n}"
-=======
               "raw": "{\n  \"name\": \"Updated Playlist Name\",\n  \"config\": {\n    \"size\": 30,\n    \"seeds\": [\"{{songId1}}\"],\n    \"energy\": 0.9,\n    \"valence\": 0.8\n  }\n}"
->>>>>>> dev
             },
             "url": {"raw": "{{baseUrl}}/playlists/{{playlistId}}", "host": ["{{baseUrl}}"], "path": ["playlists", "{{playlistId}}"]}
           }

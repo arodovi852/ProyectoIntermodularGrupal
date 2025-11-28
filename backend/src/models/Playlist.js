@@ -50,8 +50,6 @@ const playlistSchema = new mongoose.Schema({
       },
       message: 'Debe ser una URL válida'
     }
-<<<<<<< HEAD
-=======
   },
   config: {
     size: {
@@ -146,7 +144,6 @@ const playlistSchema = new mongoose.Schema({
       max: [1, 'El valor máximo es 1'],
       default: null
     }
->>>>>>> dev
   }
 }, {
   timestamps: true, // Añade createdAt y updatedAt automáticamente

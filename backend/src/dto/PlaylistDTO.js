@@ -10,11 +10,7 @@ class PlaylistDTO {
    * @returns {Object} Datos validados para crear playlist
    */
   static toCreate(data) {
-<<<<<<< HEAD
-    const { name, userId, tracks, cover_image_url, spotify_url } = data;
-=======
     const { name, userId, tracks, cover_image_url, spotify_url, config } = data;
->>>>>>> dev
 
     if (!name) {
       throw new Error('El nombre de la playlist es requerido');
@@ -24,8 +20,6 @@ class PlaylistDTO {
       throw new Error('El ID del usuario es requerido');
     }
 
-<<<<<<< HEAD
-=======
     if (!config) {
       throw new Error('La configuración de la playlist es requerida');
     }
@@ -62,18 +56,13 @@ class PlaylistDTO {
       }
     });
 
->>>>>>> dev
     return {
       name: name.trim(),
       userId,
       tracks: Array.isArray(tracks) ? tracks : [],
       cover_image_url: cover_image_url || 'https://via.placeholder.com/640x640.png?text=Playlist',
-<<<<<<< HEAD
-      spotify_url: spotify_url || null
-=======
       spotify_url: spotify_url || null,
       config: cleanConfig
->>>>>>> dev
     };
   }
 
@@ -104,8 +93,6 @@ class PlaylistDTO {
       updates.spotify_url = data.spotify_url;
     }
 
-<<<<<<< HEAD
-=======
     if (data.config !== undefined) {
       // Validar config si se proporciona
       if (data.config.size && (data.config.size < 1 || data.config.size > 100)) {
@@ -123,7 +110,6 @@ class PlaylistDTO {
       updates.config = data.config;
     }
 
->>>>>>> dev
     return updates;
   }
 
@@ -143,10 +129,7 @@ class PlaylistDTO {
       userId: playlist.userId,
       coverImageUrl: playlist.cover_image_url,
       spotifyUrl: playlist.spotify_url,
-<<<<<<< HEAD
-=======
       config: playlist.config || null,
->>>>>>> dev
       createdAt: playlist.created_at || playlist.createdAt,
       updatedAt: playlist.updatedAt
     };

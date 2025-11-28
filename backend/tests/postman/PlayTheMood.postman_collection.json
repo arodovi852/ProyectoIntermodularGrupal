@@ -273,9 +273,6 @@
                   "    pm.expect(jsonData.success).to.be.true;",
                   "    pm.expect(jsonData.data).to.have.property('id');",
                   "    pm.expect(jsonData.data.name).to.be.a('string');",
-<<<<<<< HEAD
-                  "    pm.environment.set('playlistId', jsonData.data.id);",
-=======
                   "    pm.expect(jsonData.data).to.have.property('config');",
                   "    pm.environment.set('playlistId', jsonData.data.id);",
                   "});",
@@ -286,7 +283,6 @@
                   "    pm.expect(jsonData.data.config).to.have.property('seeds');",
                   "    pm.expect(jsonData.data.config.size).to.eql(25);",
                   "    pm.expect(jsonData.data.config.seeds).to.be.an('array');",
->>>>>>> dev
                   "});"
                 ],
                 "type": "text/javascript"
@@ -307,11 +303,7 @@
             ],
             "body": {
               "mode": "raw",
-<<<<<<< HEAD
-              "raw": "{\n  \"name\": \"Newman Test Playlist\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\n    \"{{songId1}}\",\n    \"{{songId2}}\"\n  ]\n}"
-=======
               "raw": "{\n  \"name\": \"Newman Test Playlist\",\n  \"userId\": \"{{userId}}\",\n  \"tracks\": [\n    \"{{songId1}}\",\n    \"{{songId2}}\"\n  ],\n  \"config\": {\n    \"size\": 25,\n    \"seeds\": [\"{{songId1}}\", \"{{songId2}}\"],\n    \"negativeSeeds\": [],\n    \"acousticness\": 0.5,\n    \"danceability\": 0.7,\n    \"energy\": 0.8,\n    \"valence\": 0.6,\n    \"tempo\": 120\n  }\n}"
->>>>>>> dev
             },
             "url": {
               "raw": "{{baseUrl}}/playlists",
@@ -374,8 +366,6 @@
                   "    pm.expect(jsonData.data).to.have.property('songs');",
                   "    pm.expect(jsonData.data).to.have.property('totalDuration');",
                   "    pm.expect(jsonData.data.songs).to.be.an('array');",
-<<<<<<< HEAD
-=======
                   "});",
                   "",
                   "pm.test('Config incluido en detalles', function () {",
@@ -383,7 +373,6 @@
                   "    pm.expect(jsonData.data).to.have.property('config');",
                   "    pm.expect(jsonData.data.config).to.have.property('size');",
                   "    pm.expect(jsonData.data.config).to.have.property('seeds');",
->>>>>>> dev
                   "});"
                 ],
                 "type": "text/javascript"
@@ -447,8 +436,6 @@
               "path": ["playlists", "{{playlistId}}", "tracks"]
             }
           }
-<<<<<<< HEAD
-=======
         },
         {
           "name": "Update Playlist Config",
@@ -543,7 +530,6 @@
               "path": ["playlists"]
             }
           }
->>>>>>> dev
         }
       ]
     },

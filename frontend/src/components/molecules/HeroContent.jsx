@@ -1,10 +1,5 @@
 import { Button } from '../atoms/Button'
-<<<<<<< HEAD
-import styles from './HeroContent.module.css'
-import { useNavigate } from 'react-router-dom'
-=======
 import styles from '../../styles/HeroContent.module.css'
->>>>>>> dev
 
 export const HeroContent = () => {
     const navigate = useNavigate()
