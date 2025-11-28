@@ -1,15 +1,19 @@
-import React, {Fragment} from 'react'
-import { Hero } from '../components/Hero/Hero'
-import styles from './Landing.module.css'
+import React from 'react'
+import { HeroBackground } from '../components/molecules/HeroBackground'
+import { HeroContent } from '../components/molecules/HeroContent'
+import { Footer } from '../components/Footer/Footer'
+import styles from '../styles/Landing.module.css'
 import ConnectionStatus from "../components/ConnectionStatus/ConnectionStatus.jsx";
 
 const Landing = () => {
     return (
         <div className={styles.landing}>
+            <HeroBackground />
             <ConnectionStatus />
             <main className={styles.main}>
-                <Hero />
+                <HeroContent />
             </main>
+            <Footer />
         </div>
     )
 }

@@ -1,14 +1,21 @@
+import { useState } from 'react'
 import { Logo } from '../atoms/Logo'
 import { NavButtons } from '../molecules/NavButtons'
-import styles from './Header.module.css'
-import {UseAuth} from "../../hooks/UseAuth.jsx";
-import {Link, NavLink, useNavigate} from "react-router-dom";
+import { HamburgerButton } from '../atoms/HamburgerButton'
+import styles from '../../styles/Header.module.css'
 
 export const Header = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
         <header className={styles.header}>
             <Logo />
-            <NavButtons />
+            <HamburgerButton isOpen={isMenuOpen} onClick={toggleMenu} />
+            <NavButtons isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </header>
     )
 }

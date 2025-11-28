@@ -1,6 +1,10 @@
 import { Button } from '../atoms/Button'
+<<<<<<< HEAD
 import styles from './HeroContent.module.css'
 import { useNavigate } from 'react-router-dom'
+=======
+import styles from '../../styles/HeroContent.module.css'
+>>>>>>> dev
 
 export const HeroContent = () => {
     const navigate = useNavigate()
@@ -12,8 +16,8 @@ export const HeroContent = () => {
             </h1>
 
             <p className={styles.description}>
-                Transforma tus emociones en música: tu playlist, hecha
-                <span className={styles.highlight}> a medida</span> para este instante.
+                Turn your emotions into music: your playlist, made
+                <span className={styles.highlight}> just for you</span> for this moment.
             </p>
 
             <div className={styles.ctaContainer}>

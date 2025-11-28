@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UseAuth } from '../hooks/UseAuth.jsx';
 import {NavLink} from "react-router-dom";
-import styles from "./Login.module.css";
-
+import styles from "../styles/Login.module.css";
+import {Button} from "../components/atoms/Button";
 import React from 'react'
 
 const Login = () => {
@@ -26,21 +26,37 @@ const Login = () => {
     }
 
     return (
-        <main className={styles.login}>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <article>
-                    <label htmlFor={"username"}>Email:</label>
-                    <input id={"username"} type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+        <main className={styles.container}>
+            <form onSubmit={handleSubmit} className={styles.login}>
+                <h2>Login</h2>
+                <article className={styles.inputGroup}>
+                    <label htmlFor={"username"} className={styles.text}>Email:</label>
+                    <input id={"username"} type="email" value={email} className={styles.input} onChange={(e) => setEmail(e.target.value)} required/>
                 </article>
-                <article>
-                    <label htmlFor={"password"}>Password:</label>
-                    <input type="password"  id={"password"} value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                <article className={styles.inputGroup}>
+                    <label htmlFor={"password"} className={styles.text}>Password:</label>
+                    <input type="password"  id={"password"} value={password} className={styles.input} onChange={(e) => setPassword(e.target.value)} required/>
                 </article>
                 {error && <p style={{color: 'red'}}>{error}</p>}
-                <button type="submit">Login</button>
-                <NavLink to={"/Register"}>You dont have account, Register</NavLink>
-                <NavLink to={"/RecoverPassword"}>Did you forgot the password?, Recover it</NavLink>
+                <footer className={styles.actions}>
+                    <Button type="submit" className={styles.button}>Login</Button>
+
+                    <div className={styles.textGroup}>
+                        <p className={styles.text}>
+                            Don't have an account?{' '}
+                            <NavLink to="/Register" className={styles.link}>
+                                Sign up
+                            </NavLink>
+                        </p>
+
+                        <p className={styles.text}>
+                            Forgot your password?{' '}
+                            <NavLink to="/RecoverPassword" className={styles.link}>
+                                Reset it
+                            </NavLink>
+                        </p>
+                    </div>
+                </footer>
             </form>
         </main>
     )

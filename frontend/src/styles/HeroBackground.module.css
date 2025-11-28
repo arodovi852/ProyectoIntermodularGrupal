@@ -1,0 +1,11 @@
+.videoBackground {
+    position: absolute;
+    top: 50%;
+    left: 43%;
+    width: 100vh;
+    height: 100vw;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.7;
+    transform: translate(-50%, -50%) rotate(90deg) scale(1.2);
+}

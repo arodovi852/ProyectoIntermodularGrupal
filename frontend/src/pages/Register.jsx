@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import {UseAuth} from "../hooks/UseAuth.jsx";
+import styles from '../styles/Register.module.css'
+import {Button} from "../components/atoms/index.js";
+
 
 function Register() {
     const [username, setUsername] = useState('');
@@ -28,31 +31,75 @@ function Register() {
     }
 
     return (
-        <main>
-            <h2>Create an account</h2>
-            <form onSubmit={handleSubmit}>
-                <article>
-                    <label htmlFor={"username"}>Username:</label>
-                    <input id={"username"} type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <main className={styles.container}>
+            <form onSubmit={handleSubmit} className={styles.register}>
+                <h2>Create an account</h2>
+
+                <article className={styles.inputGroup}>
+                    <label htmlFor="username" className={styles.label}>Username:</label>
+                    <input
+                        id="username"
+                        type="text"
+                        value={username}
+                        className={styles.input}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
                 </article>
-                <article>
-                    <label htmlFor={"email"}>Email:</label>
-                    <input id={"email"} type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+
+                <article className={styles.inputGroup}>
+                    <label htmlFor="email" className={styles.label}>Email:</label>
+                    <input
+                        id="email"
+                        type="email"
+                        value={email}
+                        className={styles.input}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
                 </article>
-                <article>
-                    <label htmlFor={"password"}>Password:</label>
-                    <input id={"password"} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+
+                <article className={styles.inputGroup}>
+                    <label htmlFor="password" className={styles.label}>Password:</label>
+                    <input
+                        id="password"
+                        type="password"
+                        value={password}
+                        className={styles.input}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
                 </article>
-                <article>
-                    <label htmlFor={"repeatPassword"}>Repeat Password:</label>
-                    <input id={"repeatPassword"} type="password" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} required />
+
+                <article className={styles.inputGroup}>
+                    <label htmlFor="repeatPassword" className={styles.label}>Repeat password:</label>
+                    <input
+                        id="repeatPassword"
+                        type="password"
+                        value={repeatPassword}
+                        className={styles.input}
+                        onChange={(e) => setRepeatPassword(e.target.value)}
+                        required
+                    />
                 </article>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                <button type="submit">Register</button>
-                <NavLink to={"/Login"}>You already have account, Login</NavLink>
+
+                {error && <p className={styles.error}>{error}</p>}
+
+                <footer className={styles.actions}>
+                    <Button type="submit" className={styles.button}>Register</Button>
+
+                    <div className={styles.textGroup}>
+                        <p className={styles.text}>
+                            Already have an account?{' '}
+                            <NavLink to="/Login" className={styles.link}>
+                                Log in
+                            </NavLink>
+                        </p>
+                    </div>
+                </footer>
             </form>
         </main>
-    )
+    );
 }
 
 export default Register

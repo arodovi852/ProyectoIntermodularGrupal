@@ -29,6 +29,11 @@ const getUserPlaylists = async (req, res) => {
 
 /**
  * Crear una nueva playlist
+<<<<<<< HEAD
+=======
+ * Espera en req.body: { name, userId, tracks, cover_image_url, spotify_url, config }
+ * config debe incluir: size, seeds, y opcionalmente negativeSeeds y parámetros de audio
+>>>>>>> dev
  */
 const createPlaylist = async (req, res) => {
   try {
@@ -70,6 +75,10 @@ const getPlaylistDetails = async (req, res) => {
 
 /**
  * Actualizar una playlist
+<<<<<<< HEAD
+=======
+ * Puede actualizar: name, tracks, cover_image_url, spotify_url, config
+>>>>>>> dev
  */
 const updatePlaylist = async (req, res) => {
   try {

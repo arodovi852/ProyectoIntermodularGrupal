@@ -1,4 +1,4 @@
-import styles from './Link.module.css'
+import styles from '../../styles/Link.module.css'
 
 export const Link = ({ href, children, style }) => {
     return (

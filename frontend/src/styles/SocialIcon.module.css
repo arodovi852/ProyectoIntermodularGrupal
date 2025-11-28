@@ -1,24 +1,22 @@
-/* Link Styles */
-.link {
+.socialIcon {
     color: #fff;
     text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
     transition: opacity 0.3s cubic-bezier(0.5, 0, 0.5, 1), transform 0.1s cubic-bezier(0.5, 0, 0.5, 1);
 }
 
-.link:hover {
+.socialIcon:hover {
     opacity: 0.9;
     transform: translateY(-2px);
 }
 
-.link {
-    color: #fff;
-    text-decoration: none;
+.socialIcon svg {
+    width: 25px;
+    height: 25px;
 }
 
-.link:visited,
-.link:hover,
-.link:active {
+.socialIcon:visited, .socialIcon:hover, .socialIcon:active {
     color: #fff;
 }
+
