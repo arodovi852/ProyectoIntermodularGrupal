@@ -1,9 +1,21 @@
 import React from 'react'
 import styles from './Sliders.module.css'
 
-const Slider = ({ label, min=0, max=100, step=1, value, onChange }) => (
+const SliderItem = ({ 
+    label, 
+    description, 
+    min=0, 
+    max=100, 
+    step=1, 
+    value, 
+    onChange,
+    unit=''
+}) => (
     <div className={styles.sliderItem}>
-        <label className={styles.label}>{label}</label>
+        <div className={styles.labelContainer}>
+            <label className={styles.label}>{label}</label>
+            <p className={styles.description}>{description}</p>
+        </div>
         <div className={styles.sliderContainer}>
             <input
                 type="range"
@@ -11,36 +23,131 @@ const Slider = ({ label, min=0, max=100, step=1, value, onChange }) => (
                 max={max}
                 step={step}
                 value={value}
-                onChange={(e)=> onChange(Number(e.target.value))}
+                onChange={(e) => onChange(Number(e.target.value))}
                 className={styles.sliderInput}
             />
-            <span className={styles.value}>{value}</span>
+            <span className={styles.value}>{value}{unit}</span>
         </div>
     </div>
 )
 
 const Sliders = ({
-    danceability, setDanceability,
     acousticness, setAcousticness,
+    danceability, setDanceability,
     energy, setEnergy,
     instrumentalness, setInstrumentalness,
-    loudness, setLoudness,
+    liveness, setLiveness,
     mode, setMode,
-    tempo, setTempo,
+    loudness, setLoudness,
     valence, setValence,
-    speechiness, setSpeechiness
+    speechiness, setSpeechiness,
+    tempo, setTempo,
+    playlistSize, setPlaylistSize
 }) => {
     return (
         <div className={styles.sliders}>
-            <Slider label="Bailabilidad" min={0} max={100} value={danceability} onChange={setDanceability} />
-            <Slider label="Acusticidad" min={0} max={100} value={acousticness} onChange={setAcousticness} />
-            <Slider label="Energía" min={0} max={100} value={energy} onChange={setEnergy} />
-            <Slider label="Instrumentalidad" min={0} max={100} value={instrumentalness} onChange={setInstrumentalness} />
-            <Slider label="Ruido" min={-60} max={0} value={loudness} onChange={setLoudness} />
-            <Slider label="Modo" min={0} max={1} value={mode} onChange={setMode} />
-            <Slider label="Tempo" min={40} max={200} value={tempo} onChange={setTempo} />
-            <Slider label="Valencia" min={0} max={100} value={valence} onChange={setValence} />
-            <Slider label="Verbosabilidad" min={0} max={100} value={speechiness} onChange={setSpeechiness} />
+            <SliderItem 
+                label="Nivel acústico" 
+                description="¿Prefieres sonidos naturales (acústicos) o electrónicos?"
+                min={0} 
+                max={100} 
+                value={acousticness} 
+                onChange={setAcousticness} 
+            />
+            
+            <SliderItem 
+                label="Ganas de bailar" 
+                description="¿Cuánto te invita la música a moverte y bailar?"
+                min={0} 
+                max={100} 
+                value={danceability} 
+                onChange={setDanceability} 
+            />
+            
+            <SliderItem 
+                label="Intensidad" 
+                description="Nivel de energía, desde tranquilo hasta intenso."
+                min={0} 
+                max={100} 
+                value={energy} 
+                onChange={setEnergy} 
+            />
+            
+            <SliderItem 
+                label="Solo música (sin voz)" 
+                description="¿Quieres canciones instrumentales o con voz?"
+                min={0} 
+                max={100} 
+                value={instrumentalness} 
+                onChange={setInstrumentalness} 
+            />
+            
+            <SliderItem 
+                label="Sensación de directo" 
+                description="¿Prefieres grabaciones de estudio o con ambiente de concierto en vivo?"
+                min={0} 
+                max={100} 
+                value={liveness} 
+                onChange={setLiveness} 
+            />
+            
+            <SliderItem 
+                label="Volumen" 
+                description="¿Quieres música potente o suave? (ajusta el volumen promedio)"
+                min={-60} 
+                max={0} 
+                value={loudness} 
+                onChange={setLoudness} 
+                unit=" dB"
+            />
+            
+            <SliderItem 
+                label="Modo: Alegre/Triste" 
+                description="¿Buscas canciones mayormente alegres (mayor) o tristes (menor)?"
+                min={0} 
+                max={1} 
+                step={0.1}
+                value={mode} 
+                onChange={setMode} 
+            />
+            
+            <SliderItem 
+                label="Presencia de voz hablada" 
+                description="¿Quieres música pura o con partes habladas/rap?"
+                min={0} 
+                max={100} 
+                value={speechiness} 
+                onChange={setSpeechiness} 
+            />
+            
+            <SliderItem 
+                label="Velocidad (BPM)" 
+                description="¿Prefieres música rápida o lenta?"
+                min={40} 
+                max={200} 
+                value={tempo} 
+                onChange={setTempo} 
+                unit=" BPM"
+            />
+            
+            <SliderItem 
+                label="Estado de ánimo" 
+                description="¿Qué emoción buscas? Alegre/feliz o melancólica/triste."
+                min={0} 
+                max={100} 
+                value={valence} 
+                onChange={setValence} 
+            />
+            
+            <SliderItem 
+                label="Cantidad de canciones" 
+                description="¿Cuántas canciones quieres en tu playlist?"
+                min={5} 
+                max={100} 
+                value={playlistSize} 
+                onChange={setPlaylistSize} 
+                unit=" canciones"
+            />
         </div>
     )
 }

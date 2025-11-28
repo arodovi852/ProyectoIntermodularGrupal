@@ -60,34 +60,40 @@ router.get('/search', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const {
-            danceability,
             acousticness,
+            danceability,
             energy,
             instrumentalness,
+            liveness,
             loudness,
             mode,
-            tempo,
             valence,
             speechiness,
+            tempo,
+            limit = 20,
             likedSongs,
             dislikedSongs
         } = req.body;
 
-        // Map frontend parameter names to ReccoBeats API parameter names
+        // Map frontend parameter values (0-100 scale mostly) to ReccoBeats API expectations
+        // ReccoBeats expects values in the 0-1 range for most parameters
         const params = {
-            target_danceability: danceability ? danceability / 100 : 0.5,
             target_acousticness: acousticness ? acousticness / 100 : 0.5,
+            target_danceability: danceability ? danceability / 100 : 0.5,
             target_energy: energy ? energy / 100 : 0.5,
             target_instrumentalness: instrumentalness ? instrumentalness / 100 : 0.5,
-            target_loudness: loudness || -5,
-            target_mode: mode || 0,
-            target_tempo: tempo || 120,
+            target_liveness: liveness ? liveness / 100 : 0.5,
+            target_loudness: loudness || -5,  // in dB, range -60 to 0
+            target_mode: mode || 0,  // 0 = minor, 1 = major
             target_valence: valence ? valence / 100 : 0.5,
             target_speechiness: speechiness ? speechiness / 100 : 0.5,
+            target_tempo: tempo || 120,  // in BPM
+            limit: Math.min(limit, 100)  // max 100 songs
         };
 
-        // Add seed tracks if liked/disliked songs are provided
+        // Add seed tracks if liked songs are provided
         if (likedSongs && likedSongs.length > 0) {
+            // Use liked songs as positive seeds
             params.seed_tracks = likedSongs.slice(0, 5).join(',');
         }
 

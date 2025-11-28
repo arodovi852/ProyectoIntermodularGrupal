@@ -6,16 +6,18 @@ import SongList from '../components/SongList/SongList'
 import api from '../services/api'
 
 const Generate = () => {
-    // 8 sliders for recommendation parameters
-    const [danceability, setDanceability] = useState(50)
+    // 10 sliders for recommendation parameters
     const [acousticness, setAcousticness] = useState(50)
+    const [danceability, setDanceability] = useState(50)
     const [energy, setEnergy] = useState(50)
     const [instrumentalness, setInstrumentalness] = useState(50)
-    const [loudness, setLoudness] = useState(50)
+    const [liveness, setLiveness] = useState(50)
     const [mode, setMode] = useState(50)
-    const [tempo, setTempo] = useState(120)
+    const [loudness, setLoudness] = useState(50)
     const [valence, setValence] = useState(50)
     const [speechiness, setSpeechiness] = useState(50)
+    const [tempo, setTempo] = useState(120)
+    const [playlistSize, setPlaylistSize] = useState(20)
 
     const [loading, setLoading] = useState(false)
     const [query, setQuery] = useState('')
@@ -71,15 +73,17 @@ const Generate = () => {
         setLoading(true)
         try {
             const res = await api.post('/api/recommendations', {
-                danceability,
                 acousticness,
+                danceability,
                 energy,
                 instrumentalness,
-                loudness,
+                liveness,
                 mode,
-                tempo,
+                loudness,
                 valence,
                 speechiness,
+                tempo,
+                limit: playlistSize,
                 likedSongs: likedSongs.map(s => s.id),
                 dislikedSongs: dislikedSongs.map(s => s.id),
             })
@@ -98,24 +102,28 @@ const Generate = () => {
             <section className={styles.sliderSection}>
                 <h2 className={styles.sectionTitle}>1. ¿Cómo te sientes hoy?</h2>
                 <Sliders
-                    danceability={danceability}
-                    setDanceability={setDanceability}
                     acousticness={acousticness}
                     setAcousticness={setAcousticness}
+                    danceability={danceability}
+                    setDanceability={setDanceability}
                     energy={energy}
                     setEnergy={setEnergy}
                     instrumentalness={instrumentalness}
                     setInstrumentalness={setInstrumentalness}
-                    loudness={loudness}
-                    setLoudness={setLoudness}
+                    liveness={liveness}
+                    setLiveness={setLiveness}
                     mode={mode}
                     setMode={setMode}
-                    tempo={tempo}
-                    setTempo={setTempo}
+                    loudness={loudness}
+                    setLoudness={setLoudness}
                     valence={valence}
                     setValence={setValence}
                     speechiness={speechiness}
                     setSpeechiness={setSpeechiness}
+                    tempo={tempo}
+                    setTempo={setTempo}
+                    playlistSize={playlistSize}
+                    setPlaylistSize={setPlaylistSize}
                 />
             </section>
 
