@@ -1,7 +1,6 @@
 .info {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
 }
 
 .playlist {
@@ -9,16 +8,7 @@
     flex-direction: row;
 }
 
-.h3 {
-    padding-bottom: 1rem;
-}
-
-.p {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
 .image{
-    width: 20rem;
-    height: 20rem;
+    width: 10rem;
+    height: 10rem;
 }
