@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// Log para depuración
+console.log('VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
+
 // Configuración base del API
 // En desarrollo local: apunta directamente al backend (http://localhost:3001)
 // En Docker/producción: usa rutas relativas para que nginx haga el proxy
