@@ -19,24 +19,44 @@ const Generate = () => {
     const [tempo, setTempo] = useState(120)
     const [playlistSize, setPlaylistSize] = useState(20)
 
-    const [loading, setLoading] = useState(false)
+    const [searchLoading, setSearchLoading] = useState(false)
+    const [generationLoading, setGenerationLoading] = useState(false)
     const [query, setQuery] = useState('')
     const [likedSongs, setLikedSongs] = useState([])
     const [dislikedSongs, setDislikedSongs] = useState([])
     const [searchResults, setSearchResults] = useState([])
 
-    const handleSearch = async (e) => {
-        e?.preventDefault()
-        if (!query.trim()) return
-        setLoading(true)
+    const handleSearch = async (songOrEvent) => {
+        // Handle both direct search and selected song from autocomplete
+        let searchQuery = query
+        let selectedSong = null
+
+        if (songOrEvent && typeof songOrEvent === 'object' && songOrEvent.name) {
+            // If a song object is passed from autocomplete
+            selectedSong = songOrEvent
+            searchQuery = songOrEvent.name
+        } else if (songOrEvent?.preventDefault) {
+            // If it's an event (form submit)
+            songOrEvent.preventDefault()
+        }
+
+        if (!searchQuery.trim()) return
+
+        setSearchLoading(true)
         const fallback = [
-            { id: 'mock-1', name: `${query} (demo)`, artist: 'Demo Artist', image: 'https://via.placeholder.com/150' },
-            { id: 'mock-2', name: `${query} - Otra (demo)`, artist: 'Demo Artist 2', image: 'https://via.placeholder.com/150' }
+            { id: 'mock-1', name: `${searchQuery} (demo)`, artist: 'Demo Artist', image: 'https://via.placeholder.com/150' },
+            { id: 'mock-2', name: `${searchQuery} - Otra (demo)`, artist: 'Demo Artist 2', image: 'https://via.placeholder.com/150' }
         ]
         try {
-            // Call backend search endpoint
-            const res = await api.get('/api/search', {
-                params: { q: query }
+            // If a song was selected from autocomplete, just add it
+            if (selectedSong) {
+                setSearchResults([selectedSong])
+                return
+            }
+
+            // Otherwise, call backend search endpoint
+            const res = await api.get('/api/recco/search', {
+                params: { q: searchQuery }
             })
             const results = (res.data && res.data.length) ? res.data : fallback
             setSearchResults(results)
@@ -45,7 +65,7 @@ const Generate = () => {
             // fallback mock results for testing when backend/search is not available
             setSearchResults(fallback)
         } finally {
-            setLoading(false)
+            setSearchLoading(false)
         }
     }
 
@@ -70,7 +90,7 @@ const Generate = () => {
     }
 
     const handleGeneratePlaylist = async () => {
-        setLoading(true)
+        setGenerationLoading(true)
         try {
             const res = await api.post('/api/recommendations', {
                 acousticness,
@@ -92,7 +112,7 @@ const Generate = () => {
         } catch (err) {
             console.error('Generation error:', err)
         } finally {
-            setLoading(false)
+            setGenerationLoading(false)
         }
     }
 
@@ -122,9 +142,21 @@ const Generate = () => {
                     setSpeechiness={setSpeechiness}
                     tempo={tempo}
                     setTempo={setTempo}
-                    playlistSize={playlistSize}
-                    setPlaylistSize={setPlaylistSize}
                 />
+                
+                {/* Playlist Size Input */}
+                <div className={styles.playlistSizeSection}>
+                    <label className={styles.playlistLabel}>Cantidad de canciones</label>
+                    <p className={styles.playlistDescription}>¿Cuántas canciones quieres en tu playlist?</p>
+                    <input
+                        type="number"
+                        min="5"
+                        max="100"
+                        value={playlistSize}
+                        onChange={(e) => setPlaylistSize(Math.min(100, Math.max(5, Number(e.target.value))))}
+                        className={styles.playlistInput}
+                    />
+                </div>
             </section>
 
             {/* Section 2: Songs */}
@@ -179,9 +211,9 @@ const Generate = () => {
                 <button
                     className={styles.generateBtn}
                     onClick={handleGeneratePlaylist}
-                    disabled={loading}
+                    disabled={generationLoading}
                 >
-                    {loading ? 'Generando...' : 'Generar playlist'}
+                    {generationLoading ? 'Generando...' : 'Generar playlist'}
                 </button>
             </div>
         </main>

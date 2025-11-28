@@ -2,14 +2,17 @@ import {Outlet} from "react-router";
 import React, {Fragment} from "react";
 import {Footer} from "../components/Footer/Footer.jsx";
 import {Header} from "../components/Header/Header.jsx";
+import './LayoutRoot.css';
 
 function LayoutRoot() {
     return (
-        <Fragment>
+        <div className="layout-root">
             <Header/>
-            <Outlet/>
+            <main className="layout-content">
+                <Outlet/>
+            </main>
             <Footer/>
-        </Fragment>
+        </div>
     )
 }
 
