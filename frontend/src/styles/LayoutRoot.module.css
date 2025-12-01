@@ -1,6 +1,7 @@
 .layoutRoot {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 /* Aplicar altura fija solo en páginas de autenticación */
