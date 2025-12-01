@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router'
 import { Button } from '../atoms/Button'
 import styles from '../../styles/HeroContent.module.css'
 

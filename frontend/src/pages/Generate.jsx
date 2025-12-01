@@ -25,6 +25,7 @@ const Generate = () => {
     const [likedSongs, setLikedSongs] = useState([])
     const [dislikedSongs, setDislikedSongs] = useState([])
     const [searchResults, setSearchResults] = useState([])
+    const [generatedPlaylist, setGeneratedPlaylist] = useState(null)
 
     const handleSearch = async (songOrEvent) => {
         // Handle both direct search and selected song from autocomplete
@@ -43,10 +44,6 @@ const Generate = () => {
         if (!searchQuery.trim()) return
 
         setSearchLoading(true)
-        const fallback = [
-            { id: 'mock-1', name: `${searchQuery} (demo)`, artist: 'Demo Artist', image: 'https://via.placeholder.com/150' },
-            { id: 'mock-2', name: `${searchQuery} - Otra (demo)`, artist: 'Demo Artist 2', image: 'https://via.placeholder.com/150' }
-        ]
         try {
             // If a song was selected from autocomplete, just add it
             if (selectedSong) {
@@ -58,12 +55,10 @@ const Generate = () => {
             const res = await api.get('/api/recco/search', {
                 params: { q: searchQuery }
             })
-            const results = (res.data && res.data.length) ? res.data : fallback
-            setSearchResults(results)
+            setSearchResults(res.data || [])
         } catch (err) {
             console.error('Search error:', err)
-            // fallback mock results for testing when backend/search is not available
-            setSearchResults(fallback)
+            setSearchResults([])
         } finally {
             setSearchLoading(false)
         }
@@ -91,8 +86,9 @@ const Generate = () => {
 
     const handleGeneratePlaylist = async () => {
         setGenerationLoading(true)
+        setGeneratedPlaylist(null)
         try {
-            const res = await api.post('/api/recommendations', {
+            const res = await api.post('/api/recco', {
                 acousticness,
                 danceability,
                 energy,
@@ -107,10 +103,12 @@ const Generate = () => {
                 likedSongs: likedSongs.map(s => s.id),
                 dislikedSongs: dislikedSongs.map(s => s.id),
             })
-            // Handle success - navigate to playlist or show results
+            // Save the generated playlist data
+            setGeneratedPlaylist(res.data)
             console.log('Playlist generated:', res.data)
         } catch (err) {
             console.error('Generation error:', err)
+            setGeneratedPlaylist({ error: err.message || 'Failed to generate playlist' })
         } finally {
             setGenerationLoading(false)
         }
@@ -216,6 +214,24 @@ const Generate = () => {
                     {generationLoading ? 'Generando...' : 'Generar playlist'}
                 </button>
             </div>
+
+            {/* Generated Playlist Results */}
+            {generatedPlaylist && (
+                <section className={styles.playlistResults}>
+                    <h2 className={styles.sectionTitle}>Playlist Generada</h2>
+                    {generatedPlaylist.error ? (
+                        <div className={styles.errorBox}>
+                            <p>❌ Error: {generatedPlaylist.error}</p>
+                        </div>
+                    ) : (
+                        <div className={styles.resultsBox}>
+                            <pre className={styles.jsonDisplay}>
+                                {JSON.stringify(generatedPlaylist, null, 2)}
+                            </pre>
+                        </div>
+                    )}
+                </section>
+            )}
         </main>
     )
 }

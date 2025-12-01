@@ -7,9 +7,9 @@
 .content {
     flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     min-height: 0;
+    overflow-y: auto;
 }
 
 /* Hacer el footer más compacto en páginas de autenticación */
