@@ -7,7 +7,7 @@
 .playlistNameSection {
     display: flex;
     gap: 2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 
 .playlistImage {
@@ -15,7 +15,7 @@
     width: 400px;
     height: 100%;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 20px;
 }
 
 .playlistImage img {
@@ -180,7 +180,7 @@
 .songsContainer.grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 /* Vista Carousel */
@@ -197,7 +197,6 @@
 }
 
 .songsContainer.carousel::-webkit-scrollbar-track {
-    background: #1a1a1a;
     border-radius: 4px;
 }
 
@@ -210,27 +209,15 @@
     background: #777;
 }
 
-.songsContainer.carousel .songCard {
-    flex: 0 0 200px;
-}
-
 /* Tarjetas de canciones (placeholder) */
 .songCard {
-    background: #1a1a1a;
     border-radius: 8px;
-    padding: 1rem;
     min-height: 250px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
-}
-
-.songCard:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    background: #222;
 }
 
 .songPlaceholder {

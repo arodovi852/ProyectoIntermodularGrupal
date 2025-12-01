@@ -1,0 +1,55 @@
+.card {
+    width: 350px;              /* Tamaño consistente de TODAS las cards */
+    background: #f3f3f3;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Mantiene un área PERFECTA para la imagen */
+.imageWrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;       /* Mantiene 1:1 siempre */
+    overflow: hidden;
+    background: #ddd;          /* Por si la imagen tarda en cargar */
+}
+
+/* Ajusta todas las imágenes sin deformarlas */
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* Recorta, no deforma */
+    object-position: center;   /* Centra la parte importante */
+}
+
+.textWrapper {
+    padding: 0.75rem 1rem 1rem;
+    background: #f3f3f3;
+}
+
+.title {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.25rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;       /* Que no rompa diseño */
+}
+
+.artist {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 0.9rem;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from '../styles/Playlist.module.css';
+import SongCard from '../components/SongCard/SongCard.jsx';
 
 const Playlist = () => {
     const { id } = useParams(); // ruta: /playlists/:id
@@ -27,7 +28,7 @@ const Playlist = () => {
                 }
 
                 const res = await fetch(
-                    `${import.meta.env.VITE_BACKEND_URL}/api/playlists/6928720a402d5ee7ebe963b3`,
+                    `${import.meta.env.VITE_BACKEND_URL}/api/playlists/692d910cdfe6210f1f54c25a`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -121,16 +122,11 @@ const Playlist = () => {
                 <div className={`${styles.songsContainer} ${styles[viewMode]}`}>
                     {songs.map((song) => (
                         <div key={song.id} className={styles.songCard}>
-                            <img
-                                src={song.albumImageUrl}
-                                alt={song.name}
-                                className={styles.songCover}
+                            <SongCard
+                                coverImage={song.albumImageUrl}
+                                title={song.name}
+                                artist={song.artists.join(', ')}
                             />
-                            <div className={styles.songInfo}>
-                                <h4>{song.name}</h4>
-                                <p>{song.artists.join(', ')}</p>
-                                <span>{song.duration}</span>
-                            </div>
                         </div>
                     ))}
                 </div>
