@@ -28,7 +28,9 @@ const Playlist = () => {
                 }
 
                 const res = await fetch(
-                    `${import.meta.env.VITE_BACKEND_URL}/api/playlists/692d910cdfe6210f1f54c25a`,
+                    `${import.meta.env.VITE_BACKEND_URL}/api/playlists/692d910cdfe6210f1f54c259`,
+                    /*Playlist de Fran: 692d910cdfe6210f1f54c259
+                    * Playlist de César: 692d910cdfe6210f1f54c25a*/
                     {
                         headers: {
                             'Content-Type': 'application/json',
