@@ -1,0 +1,305 @@
+.playlistPage {
+    width: 100%;
+    padding: 2rem;
+}
+
+/* Sección 1: Playlist Name */
+.playlistNameSection {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.playlistImage {
+    flex-shrink: 0;
+    width: 400px;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.playlistImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.playlistInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Título con degradado de fondo */
+.playlistTitle {
+    width: 100%;
+    max-width: 1200px;
+    background: linear-gradient(135deg, #5D86FF 14.42%, #302B2D 40.86%, #9A3B3E 58.65%, #F9494D 77.89%);
+    border-radius: 3.26px;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    min-height: 80px;
+}
+
+.playlistTitle h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    outline: none;
+    width: 100%;
+    line-height: 1.2;
+}
+
+.playlistTitle h1:focus {
+    outline: 2px solid rgba(16, 16, 16, 0.3);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* Mood Values */
+.moodValues h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.slidersGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.sliderItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sliderItem label {
+    font-size: 0.9rem;
+    color: #ccc;
+    font-weight: 500;
+}
+
+.sliderItem input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: #333;
+    border-radius: 5px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.sliderItem input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.sliderItem input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+.sliderItem input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.sliderItem input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.1);
+}
+
+/* Sección 2: List of Songs */
+.songsSection {
+    margin-top: 4rem;
+}
+
+.songsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.songsHeader h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.viewToggle {
+    display: flex;
+    gap: 0.5rem;
+    background: #1a1a1a;
+    padding: 0.25rem;
+    border-radius: 8px;
+}
+
+.viewToggle button {
+    padding: 0.5rem 1.5rem;
+    background: transparent;
+    color: #999;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.viewToggle button:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.viewToggle button.active {
+    background: #333;
+    color: #fff;
+}
+
+.songsContainer {
+    width: 100%;
+}
+
+/* Vista Grid */
+.songsContainer.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Vista Carousel */
+.songsContainer.carousel {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 1rem;
+}
+
+.songsContainer.carousel::-webkit-scrollbar {
+    height: 8px;
+}
+
+.songsContainer.carousel::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 4px;
+}
+
+.songsContainer.carousel::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.songsContainer.carousel::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+.songsContainer.carousel .songCard {
+    flex: 0 0 200px;
+}
+
+/* Tarjetas de canciones (placeholder) */
+.songCard {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.songCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background: #222;
+}
+
+.songPlaceholder {
+    color: #666;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .playlistNameSection {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .playlistImage {
+        width: 100%;
+        height: 400px;
+    }
+
+    .playlistTitle h1 {
+        font-size: 2rem;
+    }
+
+    .slidersGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .playlistPage {
+        padding: 1rem;
+    }
+
+    .playlistTitle {
+        padding: 0.75rem 1.5rem;
+        min-height: 60px;
+    }
+
+    .playlistTitle h1 {
+        font-size: 1.5rem;
+    }
+
+    .slidersGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .songsHeader {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .songsHeader h2 {
+        font-size: 1.5rem;
+    }
+
+    .songsContainer.grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .viewToggle {
+        width: 100%;
+    }
+
+    .viewToggle button {
+        flex: 1;
+    }
+}
+

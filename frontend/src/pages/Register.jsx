@@ -21,7 +21,7 @@ function Register() {
         const success = await register(username, email, password);
         if (password === repeatPassword) {
             if (success) {
-                navigate('/DashBoard');
+                navigate('/dashboard');
             } else {
                 setError('Email o contraseña incorrectos');
             }
@@ -91,7 +91,7 @@ function Register() {
                     <div className={styles.textGroup}>
                         <p className={styles.text}>
                             Already have an account?{' '}
-                            <NavLink to="/Login" className={styles.link}>
+                            <NavLink to="/login" className={styles.link}>
                                 Log in
                             </NavLink>
                         </p>
