@@ -35,8 +35,13 @@ export function AuthProvider({ children }) {
     }
 
     async function storeData(response) {
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 201) {
             const element = await response.json()
+            console.log('=== DEBUG STOREDATA ===');
+            console.log('Response completa:', element);
+            console.log('Token a guardar:', element.data?.token);
+            console.log('========================');
+
             if (element.success) {
                 localStorage.setItem('id', element.data.user.id);
                 localStorage.setItem('token', element.data.token);

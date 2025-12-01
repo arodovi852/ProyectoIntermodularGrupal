@@ -14,6 +14,18 @@ const Playlist = () => {
             try {
                 const token = localStorage.getItem('token');
 
+                // Debug: verificar el token
+                console.log('=== DEBUG TOKEN ===');
+                console.log('Token:', token);
+                console.log('Token tipo:', typeof token);
+                console.log('Token es null/undefined:', token === null || token === undefined);
+                console.log('Token es string "undefined":', token === 'undefined');
+                console.log('===================');
+
+                if (!token || token === 'undefined' || token === 'null') {
+                    throw new Error('No hay sesión activa. Por favor, inicia sesión nuevamente.');
+                }
+
                 const res = await fetch(
                     `${import.meta.env.VITE_BACKEND_URL}/api/playlists/6928720a402d5ee7ebe963b3`,
                     {
@@ -25,12 +37,17 @@ const Playlist = () => {
                 );
 
                 const json = await res.json();
+
+                console.log('Respuesta del servidor:', json);
+                console.log('Status:', res.status);
+
                 if (!res.ok || !json.success) {
                     throw new Error(json.error || 'No se pudo cargar la playlist');
                 }
 
                 setPlaylist(json.data); // PlaylistDTO.toDetailedResponse
             } catch (err) {
+                console.error('Error completo:', err);
                 setError(err.message);
             } finally {
                 setLoading(false);
