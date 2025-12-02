@@ -153,3 +153,61 @@
 .suggestionsContainer::-webkit-scrollbar-thumb:hover {
     background: #999;
 }
+
+.actionButtons {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.likeBtn,
+.dislikeBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.likeBtn {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.likeBtn:hover:not(:disabled) {
+    background: #fca5a5;
+    transform: scale(1.1);
+}
+
+.likeBtn.active {
+    background: #dc2626;
+    color: #fff;
+}
+
+.dislikeBtn {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.dislikeBtn:hover:not(:disabled) {
+    background: #e0e0e0;
+    transform: scale(1.1);
+}
+
+.dislikeBtn.active {
+    background: #666;
+    color: #fff;
+}
+
+.likeBtn:disabled,
+.dislikeBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}

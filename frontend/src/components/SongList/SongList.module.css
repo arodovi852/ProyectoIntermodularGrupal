@@ -1,9 +1,21 @@
 .songListContainer{
   margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
 }
 
 .songGroup{
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .songListContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 .groupTitle{

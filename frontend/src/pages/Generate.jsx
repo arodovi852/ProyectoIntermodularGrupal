@@ -166,6 +166,9 @@ const Generate = () => {
                     value={query}
                     onChange={(v) => setQuery(v)}
                     onSearch={handleSearch}
+                    onAddSong={handleAddSong}
+                    likedSongs={likedSongs}
+                    dislikedSongs={dislikedSongs}
                     placeholder="Buscar canción, artista o álbum"
                 />
 
