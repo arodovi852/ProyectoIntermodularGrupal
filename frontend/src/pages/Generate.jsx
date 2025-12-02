@@ -3,6 +3,7 @@ import styles from './Generate.module.css'
 import SearchBar from '../components/SearchBar/SearchBar'
 import Sliders from '../components/Sliders/Sliders'
 import SongList from '../components/SongList/SongList'
+import TrackCard from '../components/TrackCard/TrackCard'
 import api from '../services/api'
 
 const Generate = () => {
@@ -218,16 +219,22 @@ const Generate = () => {
             {/* Generated Playlist Results */}
             {generatedPlaylist && (
                 <section className={styles.playlistResults}>
-                    <h2 className={styles.sectionTitle}>Playlist Generada</h2>
+                    <h2 className={styles.sectionTitle}>
+                        Playlist Generada ({generatedPlaylist.tracks?.length || 0} canciones)
+                    </h2>
                     {generatedPlaylist.error ? (
                         <div className={styles.errorBox}>
                             <p>❌ Error: {generatedPlaylist.error}</p>
                         </div>
+                    ) : generatedPlaylist.tracks && generatedPlaylist.tracks.length > 0 ? (
+                        <div className={styles.tracksGrid}>
+                            {generatedPlaylist.tracks.map((track) => (
+                                <TrackCard key={track.id} track={track} />
+                            ))}
+                        </div>
                     ) : (
-                        <div className={styles.resultsBox}>
-                            <pre className={styles.jsonDisplay}>
-                                {JSON.stringify(generatedPlaylist, null, 2)}
-                            </pre>
+                        <div className={styles.errorBox}>
+                            <p>No se generaron canciones. Intenta ajustar los parámetros.</p>
                         </div>
                     )}
                 </section>

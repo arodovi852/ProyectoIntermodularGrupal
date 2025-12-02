@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
+const { spotifyRequest } = require('../src/utils/spotifyAuth');
 
-// GET endpoint for search functionality - queries ReccoBeats API
+// GET endpoint for search functionality - queries Spotify API
 router.get('/search', async (req, res) => {
     try {
         const { q } = req.query;
@@ -10,53 +10,38 @@ router.get('/search', async (req, res) => {
             return res.json([]);
         }
         
-        // Call ReccoBeats API to search for songs
-        try {
-            const response = await axios.get('https://api.reccobeats.com/search', {
-                params: { q }
-            });
-            
-            // Extract and format song data from ReccoBeats response
-            const songs = (response.data.tracks || response.data || []).slice(0, 20).map((track) => ({
-                id: track.id || track.uri || track.track_id,
-                name: track.name || track.title,
-                artist: track.artist || track.artists?.[0]?.name || 'Unknown Artist',
-                album: track.album || track.album_name || 'Unknown Album',
-                image: track.image || track.album_image_url || track.images?.[0]?.url || 'https://via.placeholder.com/150',
-                uri: track.uri,
-                preview_url: track.preview_url || null,
-                duration_ms: track.duration_ms
-            }));
-            
-            res.json(songs);
-        } catch (apiErr) {
-            console.error('ReccoBeats search error:', apiErr.message);
-            // Fallback to mock results if API fails
-            const mockResults = [
-                { 
-                    id: 'mock-1', 
-                    name: `${q} - Demo Track 1`, 
-                    artist: 'Demo Artist', 
-                    album: 'Demo Album',
-                    image: 'https://via.placeholder.com/150' 
-                },
-                { 
-                    id: 'mock-2', 
-                    name: `${q} - Demo Track 2`, 
-                    artist: 'Demo Artist 2', 
-                    album: 'Demo Album 2',
-                    image: 'https://via.placeholder.com/150' 
-                },
-            ];
-            res.json(mockResults);
-        }
+        // Call Spotify Search API
+        const response = await spotifyRequest('https://api.spotify.com/v1/search', {
+            params: {
+                q: q,
+                type: 'track',
+                limit: 5  // Return only 5 results as requested
+            }
+        });
+        
+        // Extract and format track data from Spotify response
+        const tracks = response.data.tracks.items.map((track) => ({
+            id: track.id,
+            name: track.name,
+            artist: track.artists.map(a => a.name).join(', '),
+            album: track.album.name,
+            image: track.album.images[0]?.url || 'https://via.placeholder.com/150',
+            uri: track.uri,
+            preview_url: track.preview_url,
+            duration_ms: track.duration_ms
+        }));
+        
+        res.json(tracks);
     } catch (err) {
-        console.error('Search error', err.message);
-        res.status(500).json({ error: 'Search failed' });
+        console.error('Spotify search error:', err.response?.data || err.message);
+        res.status(500).json({ 
+            error: 'Search failed', 
+            details: err.response?.data?.error?.message || err.message 
+        });
     }
 });
 
-// POST endpoint for playlist generation with all parameters
+// POST endpoint for playlist generation using Spotify Recommendations API
 router.post('/', async (req, res) => {
     try {
         const {
@@ -75,54 +60,91 @@ router.post('/', async (req, res) => {
             dislikedSongs
         } = req.body;
 
-        // Map frontend parameter values (0-100 scale mostly) to ReccoBeats API expectations
-        // ReccoBeats expects values in the 0-1 range for most parameters
+        // Map frontend parameter values to Spotify API expectations (0-1 range)
         const params = {
-            target_acousticness: acousticness ? acousticness / 100 : 0.5,
-            target_danceability: danceability ? danceability / 100 : 0.5,
-            target_energy: energy ? energy / 100 : 0.5,
-            target_instrumentalness: instrumentalness ? instrumentalness / 100 : 0.5,
-            target_liveness: liveness ? liveness / 100 : 0.5,
-            target_loudness: loudness || -5,  // in dB, range -60 to 0
-            target_mode: mode || 0,  // 0 = minor, 1 = major
-            target_valence: valence ? valence / 100 : 0.5,
-            target_speechiness: speechiness ? speechiness / 100 : 0.5,
-            target_tempo: tempo || 120,  // in BPM
-            limit: Math.min(limit, 100)  // max 100 songs
+            target_acousticness: acousticness ? acousticness / 100 : undefined,
+            target_danceability: danceability ? danceability / 100 : undefined,
+            target_energy: energy ? energy / 100 : undefined,
+            target_instrumentalness: instrumentalness ? instrumentalness / 100 : undefined,
+            target_liveness: liveness ? liveness / 100 : undefined,
+            target_loudness: loudness ? (loudness - 50) * 1.2 : undefined,  // Map 0-100 to ~-60 to 0 dB
+            target_mode: mode ? (mode / 100 > 0.5 ? 1 : 0) : undefined,  // 0 = minor, 1 = major
+            target_valence: valence ? valence / 100 : undefined,
+            target_speechiness: speechiness ? speechiness / 100 : undefined,
+            target_tempo: tempo || undefined,  // BPM as-is
+            limit: Math.min(limit, 100)  // Max 100 songs
         };
 
-        // Add seed tracks if liked songs are provided
+        // Spotify requires at least one seed (track, artist, or genre)
+        // Use liked songs as seed tracks (max 5)
         if (likedSongs && likedSongs.length > 0) {
-            // Use liked songs as positive seeds
             params.seed_tracks = likedSongs.slice(0, 5).join(',');
+        } else {
+            // If no liked songs, use popular genres as seeds
+            params.seed_genres = 'pop,rock,indie';
         }
 
-        console.log('Calling ReccoBeats API with params:', params);
+        // Remove undefined parameters
+        Object.keys(params).forEach(key => params[key] === undefined && delete params[key]);
 
-        // Call the ReccoBeats API
-        const response = await axios.get('https://api.reccobeats.com/recommendations', { params });
-        res.json(response.data);
+        console.log('Calling Spotify Recommendations API with params:', params);
+
+        // Call Spotify Recommendations API
+        const response = await spotifyRequest('https://api.spotify.com/v1/recommendations', {
+            params: params
+        });
+
+        // Format the response tracks
+        const tracks = response.data.tracks.map((track) => ({
+            id: track.id,
+            name: track.name,
+            artist: track.artists.map(a => a.name).join(', '),
+            album: track.album.name,
+            image: track.album.images[0]?.url || 'https://via.placeholder.com/150',
+            uri: track.uri,
+            preview_url: track.preview_url,
+            duration_ms: track.duration_ms
+        }));
+
+        res.json({ tracks, total: tracks.length });
     } catch (err) {
-        console.error('Recco generation error', err.message || err);
-        res.status(500).json({ error: 'Failed to generate playlist', details: err.message });
+        console.error('Spotify recommendations error:', err.response?.data || err.message);
+        res.status(500).json({ 
+            error: 'Failed to generate playlist', 
+            details: err.response?.data?.error?.message || err.message 
+        });
     }
 });
 
-// Legacy GET endpoint for backwards compatibility
-router.get('/', async (req, res) => {
+// GET endpoint to fetch individual track details by ID
+router.get('/track/:id', async (req, res) => {
     try {
-        const { energia, valencia, tempo, query } = req.query;
-        const params = {};
-        if (energia) params.target_energy = energia / 100;
-        if (valencia) params.target_valence = valencia / 100;
-        if (tempo) params.target_tempo = tempo;
-        if (query) params.q = query;
-
-        const response = await axios.get('https://api.reccobeats.com/recommendations', { params });
-        res.json(response.data);
+        const { id } = req.params;
+        
+        // Call Spotify Get Track API
+        const response = await spotifyRequest(`https://api.spotify.com/v1/tracks/${id}`);
+        
+        const track = response.data;
+        
+        // Format track data
+        const formattedTrack = {
+            id: track.id,
+            name: track.name,
+            artist: track.artists.map(a => a.name).join(', '),
+            album: track.album.name,
+            image: track.album.images[0]?.url || 'https://via.placeholder.com/150',
+            uri: track.uri,
+            preview_url: track.preview_url,
+            duration_ms: track.duration_ms
+        };
+        
+        res.json(formattedTrack);
     } catch (err) {
-        console.error('Recco proxy error', err.message || err);
-        res.status(500).json({ error: 'Failed to fetch recommendations', details: err.message });
+        console.error('Spotify get track error:', err.response?.data || err.message);
+        res.status(500).json({ 
+            error: 'Failed to fetch track', 
+            details: err.response?.data?.error?.message || err.message 
+        });
     }
 });
 

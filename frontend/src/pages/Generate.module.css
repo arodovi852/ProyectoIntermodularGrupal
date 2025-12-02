@@ -173,26 +173,17 @@
   margin: 2rem 0 3rem;
 }
 
-.resultsBox{
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 1.5rem;
-  max-height: 600px;
-  overflow-y: auto;
+.tracksGrid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
-.jsonDisplay{
-  margin: 0;
-  padding: 1rem;
-  background: #1e293b;
-  color: #e2e8f0;
-  border-radius: 6px;
-  font-family: 'Monaco', 'Courier New', monospace;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  overflow-x: auto;
-  white-space: pre;
+@media (max-width: 768px) {
+  .tracksGrid{
+    grid-template-columns: 1fr;
+  }
 }
 
 .errorBox{
