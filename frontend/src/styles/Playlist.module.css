@@ -3,17 +3,19 @@
     padding: 2rem;
 }
 
+h2, h3 {
+    color: var(--primary-white);
+}
+
 /* Sección 1: Playlist Name */
 .playlistNameSection {
     display: flex;
     gap: 2rem;
-    margin-bottom: 2rem;
 }
 
 .playlistImage {
     flex-shrink: 0;
     width: 400px;
-    height: 100%;
     overflow: hidden;
     border-radius: 20px;
 }
@@ -34,23 +36,41 @@
 /* Título con degradado de fondo */
 .playlistTitle {
     width: 100%;
-    max-width: 1200px;
-    background: linear-gradient(135deg, #5D86FF 14.42%, #302B2D 40.86%, #9A3B3E 58.65%, #F9494D 77.89%);
     border-radius: 3.26px;
-    padding: 1rem 2rem;
     display: flex;
     align-items: center;
     min-height: 80px;
+
+    /* Nuevo: permitir posicionar una barra de color detrás del título */
+    position: relative;
+    --title-bar-height: 20px; /* altura por defecto de la barra de color; se puede sobrescribir */
+}
+
+/* Barra de color detrás del título; su tamaño se controla con --title-bar-height */
+.playlistTitle::before {
+    content: "";
+    position: absolute;
+    left: 0.2rem; /* coincide con el padding horizontal del contenedor */
+    right: 0rem;
+    top: 56%;
+    transform: translateY(-50%);
+    height: var(--title-bar-height, 56px);
+    background: linear-gradient(135deg, #4f68aa 14.42%, #302B2D 50.86%, #6c2a2a 77.89%);
+    z-index: 0;
 }
 
 .playlistTitle h1 {
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: bolder;
     color: white;
     margin: 0;
     outline: none;
     width: 100%;
     line-height: 1.2;
+
+    /* Asegurar que el título quede por delante de la barra */
+    position: relative;
+    z-index: 1;
 }
 
 .playlistTitle h1:focus {
@@ -125,9 +145,15 @@
     transform: scale(1.1);
 }
 
+.sliderItem span {
+    font-size: 0.9rem;
+    color: #aaa;
+    text-align: right;
+}
+
 /* Sección 2: List of Songs */
 .songsSection {
-    margin-top: 4rem;
+    margin-top: 1rem;
 }
 
 .songsHeader {
@@ -137,7 +163,7 @@
     margin-bottom: 2rem;
 }
 
-.songsHeader h2 {
+.songsHeader h3 {
     font-size: 2rem;
     font-weight: 600;
 }
@@ -153,7 +179,7 @@
 .viewToggle button {
     padding: 0.5rem 1.5rem;
     background: transparent;
-    color: #999;
+    color: var(--primary-white);
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -218,6 +244,9 @@
     justify-content: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
+    h3 {
+        color: black;
+    }
 }
 
 .songPlaceholder {
@@ -253,12 +282,11 @@
     }
 
     .playlistTitle {
-        padding: 0.75rem 1.5rem;
         min-height: 60px;
     }
 
     .playlistTitle h1 {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 
     .slidersGrid {
@@ -289,4 +317,3 @@
         flex: 1;
     }
 }
-
