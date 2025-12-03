@@ -15,7 +15,7 @@ import RecoverPassword from "../pages/RecoverPassword.jsx";
 import DashBoard from "../pages/DashBoard.jsx";
 import PrivateLayoutRoot from "../layouts/PrivateLayoutRoot.jsx";
 import Landing from "../pages/Landing.jsx";
-import Generate from "../pages/Generate.jsx";
+import Playlist from "../pages/Playlist.jsx";
 
 const router = createBrowserRouter([
     {
@@ -23,23 +23,25 @@ const router = createBrowserRouter([
         Component: LayoutRoot,
         children: [
             { index: true, Component: Landing },
-            { path: "/Login", Component: Login},
-            { path: "/Register", Component: Register },
-            { path: "/RecoverPassword", Component: RecoverPassword },
-            { path: "/About", Component: About },
-            { path: "/Contact", Component: Contact },
-            { path: "/News", Component: News },
-            { path: "/Terms", Component: Terms },
-            { path: "Privacy", Component: Terms },
-            { path: "/API", Component: API },
-            { path: "/Roadmap", Component: Roadmap },
-            { path: "/Generate", Component: Generate },
+            { path: "/login", Component: Login},
+            { path: "/register", Component: Register },
+            { path: "/recoverpassword", Component: RecoverPassword },
+            { path: "/about", Component: About },
+            { path: "/contact", Component: Contact },
+            { path: "/news", Component: News },
+            { path: "/terms", Component: Terms },
+            { path: "privacy", Component: Terms },
+            { path: "/api", Component: API },
+            { path: "/roadmap", Component: Roadmap },
             { Component: PrivateLayoutRoot,
                 children: [
-                    { path: "/DashBoard", Component: DashBoard },
-                    { path: "/Profile", Component: Profile },
-                    { path: "/EditProfile", Component: EditProfile },
-                    {path: "/Configuration", Component: Configuration },],},
+                    { path: "/dashboard", Component: DashBoard },
+                    { path: "/profile", Component: Profile },
+                    { path: "/editprofile", Component: EditProfile },
+                    { path: "/configuration", Component: Configuration },
+                    { path: "/playlist", Component: Playlist },
+                ],
+            },
         ],
     },
     ]);

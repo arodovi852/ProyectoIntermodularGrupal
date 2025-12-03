@@ -108,7 +108,67 @@ const songsData = [
     preview_url: 'https://p.scdn.co/mp3-preview/...',
     duration_ms: 200186,
     spotify_url: 'https://open.spotify.com/track/0u2P5u6lvoDfwTYjAADbn4'
-  }
+  },
+    {
+        _id: '1a2b3c4d5e6f7g8h9i0jkL',
+        name: 'NUEVAYol',
+        album: 'nadie sabe lo que va a pasar mañana',
+        album_image_url: 'https://cdn-images.dzcdn.net/images/cover/d98eaccfbb945bdf68241d6de7fe6a49/500x500.jpg',
+        artists: ['Bad Bunny'],
+        preview_url: null,
+        duration_ms: 210000,
+        spotify_url: 'https://open.spotify.com/track/1a2b3c4d5e6f7g8h9i0jkL'
+    },
+    {
+        _id: '7XkPpQw9LmN2Rt4BfH8sCd3',
+        name: 'Papercut',
+        album: 'Hybrid Theory',
+        album_image_url: 'https://cdn-images.dzcdn.net/images/cover/033a271b5ec10842c287827c39244fb5/1900x1900-000000-80-0-0.jpg',
+        artists: ['Linkin Park'],
+        preview_url: null,
+        duration_ms: 185000,
+        spotify_url: 'https://open.spotify.com/track/7XkPpQw9LmN2Rt4BfH8sCd3'
+    },
+    {
+        _id: 'A9b8C7d6E5f4G3h2I1j0KlM',
+        name: 'Porcelana',
+        album: 'Lux',
+        album_image_url: 'https://upload.wikimedia.org/wikipedia/en/a/a1/Rosal%C3%ADa_%E2%80%93_Lux_%28album_cover%29.png',
+        artists: ['Rosalía'],
+        preview_url: null,
+        duration_ms: 200000,
+        spotify_url: 'https://open.spotify.com/track/A9b8C7d6E5f4G3h2I1j0KlM'
+    },
+    {
+        _id: 'Q1w2E3r4T5y6U7i8O9p0AsD',
+        name: 'Arson',
+        album: 'Jack In The Box',
+        album_image_url: 'https://i.scdn.co/image/ab67616d0000b273ce5bba40b16f887e0461c6e2',
+        artists: ['J-Hope'],
+        preview_url: null,
+        duration_ms: 199000,
+        spotify_url: 'https://open.spotify.com/track/Q1w2E3r4T5y6U7i8O9p0AsD'
+    },
+    {
+        _id: 'Zx1Cv2Bn3Mm4Kj5Hg6Fd7Sa8',
+        name: 'The Contract',
+        album: 'Clancy',
+        album_image_url: 'https://cdn-images.dzcdn.net/images/cover/4f2819429ed92d35a649d609e39b29b5/0x1900-000000-80-0-0.jpg',
+        artists: ['Twenty One Pilots'],
+        preview_url: null,
+        duration_ms: 232000,
+        spotify_url: 'https://open.spotify.com/track/Zx1Cv2Bn3Mm4Kj5Hg6Fd7Sa8'
+    },
+    {
+        _id: 'P0o9I8u7Y6t5R4e3W2q1LmN',
+        name: 'We Never Change',
+        album: 'Parachutes',
+        album_image_url: 'https://cdn-images.dzcdn.net/images/cover/970dce98eeea6729244c0ae71707a83d/1900x1900-000000-81-0-0.jpg',
+        artists: ['Coldplay'],
+        preview_url: null,
+        duration_ms: 250000,
+        spotify_url: 'https://open.spotify.com/track/P0o9I8u7Y6t5R4e3W2q1LmN'
+    }
 ];
 
 /**
@@ -148,6 +208,32 @@ async function seedDatabase() {
     // Crear playlists de ejemplo
     console.log('\n📋 Creando playlists...');
     const playlistsData = [
+        {
+            name: 'Playlist de Fran',
+            userId: '6928720a402d5ee7ebe963a9',
+            tracks: [
+                '1a2b3c4d5e6f7g8h9i0jkL',      // NUEVAYol
+                '7XkPpQw9LmN2Rt4BfH8sCd3',     // Papercut
+                'A9b8C7d6E5f4G3h2I1j0KlM',     // Porcelana
+                'Q1w2E3r4T5y6U7i8O9p0AsD',     // Arson
+                'Zx1Cv2Bn3Mm4Kj5Hg6Fd7Sa8',    // The Contract
+                'P0o9I8u7Y6t5R4e3W2q1LmN'      // We Never Change
+            ],
+            cover_image_url: songs[9].album_image_url,
+            spotify_url: null,
+            config: {
+                size: 14,
+                seeds: [
+                    '3n3Ppam7vgaVa1iaRUc9Lp',
+                    '0VjIjW4GlUZAMYd2vXMi3b'
+                ],
+                negativeSeeds: [],
+                energy: 0.60,
+                danceability: 0.55,
+                valence: 0.50,
+                tempo: 115
+            }
+        },
       {
         name: 'Energía Positiva',
         tracks: [songs[1]._id, songs[2]._id, songs[4]._id, songs[0]._id],

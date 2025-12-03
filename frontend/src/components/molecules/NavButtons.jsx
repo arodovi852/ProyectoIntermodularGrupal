@@ -23,15 +23,16 @@ export const NavButtons = ({ isOpen = false, onClose = () => {} }) => {
             <ul>
                 {isAuthenticated ? (
                     <>
-                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/DashBoard" className={styles.links}>Dashboard</NavLink></Button>
-                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/Profile" className={styles.links}>Profile</NavLink></Button>
-                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/Configuration" className={styles.links}>Configuration</NavLink></Button>
+                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/dashboard" className={styles.links}>Dashboard</NavLink></Button>
+                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/profile" className={styles.links}>Profile</NavLink></Button>
+                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/playlist" className={styles.links}>Playlist</NavLink></Button>
+                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/configuration" className={styles.links}>Configuration</NavLink></Button>
                         <Button onClick={handleLogout} variant="secondary" className={styles.links}>Logout</Button>
                     </>
                 ) : (
                     <>
-                        <Button variant="primary" onClick={handleNavClick}><NavLink to="/Login" className={styles.links}>Login</NavLink></Button>
-                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/Register" className={styles.links}>Register</NavLink></Button>
+                        <Button variant="primary" onClick={handleNavClick}><NavLink to="/login" className={styles.links}>Login</NavLink></Button>
+                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/register" className={styles.links}>Register</NavLink></Button>
                     </>
                 )}
             </ul>

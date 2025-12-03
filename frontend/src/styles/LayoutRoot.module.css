@@ -1,15 +1,19 @@
 .layoutRoot {
-    height: 100vh;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Aplicar altura fija solo en páginas de autenticación */
+.authLayout {
+    height: 100vh;
 }
 
 .content {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    min-height: 0;
-    overflow-y: auto;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Hacer el footer más compacto en páginas de autenticación */
