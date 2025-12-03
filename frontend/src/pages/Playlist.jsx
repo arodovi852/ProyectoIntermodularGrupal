@@ -1,8 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styles from '../styles/Playlist.module.css';
+import SongCard from '../components/SongCard/SongCard.jsx';
 
 const Playlist = () => {
-    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'carousel'
+    const { id } = useParams(); // ruta: /playlists/:id
+    const [playlist, setPlaylist] = useState(null);
+    const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'carousel'
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchPlaylist = async () => {
+            try {
+                const token = localStorage.getItem('token');
+
+                // Debug: verificar el token
+                console.log('=== DEBUG TOKEN ===');
+                console.log('Token:', token);
+                console.log('Token tipo:', typeof token);
+                console.log('Token es null/undefined:', token === null || token === undefined);
+                console.log('Token es string "undefined":', token === 'undefined');
+                console.log('===================');
+
+                if (!token || token === 'undefined' || token === 'null') {
+                    throw new Error('No hay sesión activa. Por favor, inicia sesión nuevamente.');
+                }
+
+                const res = await fetch(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/playlists/692d910cdfe6210f1f54c259`,
+                    /*Playlist de Fran: 692d910cdfe6210f1f54c259
+                    * Playlist de César: 692d910cdfe6210f1f54c25a*/
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                const json = await res.json();
+
+                console.log('Respuesta del servidor:', json);
+                console.log('Status:', res.status);
+
+                if (!res.ok || !json.success) {
+                    throw new Error(json.error || 'No se pudo cargar la playlist');
+                }
+
+                setPlaylist(json.data); // PlaylistDTO.toDetailedResponse
+            } catch (err) {
+                console.error('Error completo:', err);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPlaylist();
+    }, [id]);
+
+    if (loading) return <p>Cargando playlist...</p>;
+    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if (!playlist) return <p>No se encontró la playlist.</p>;
+
+    const { config, songs = [] } = playlist;
 
     return (
         <div className={styles.playlistPage}>
@@ -10,54 +72,28 @@ const Playlist = () => {
             <section className={styles.playlistNameSection}>
                 <div className={styles.playlistImage}>
                     <img
-                        src="https://via.placeholder.com/400x400"
-                        alt="Playlist cover"
+                        src={playlist.coverImageUrl}
+                        alt={playlist.name}
                     />
                 </div>
+
                 <div className={styles.playlistInfo}>
                     <div className={styles.playlistTitle}>
-                        <h1 contentEditable suppressContentEditableWarning>Playlist name</h1>
+                        <h1>{playlist.name}</h1>
                     </div>
 
                     <div className={styles.moodValues}>
                         <h3>Mood values</h3>
                         <div className={styles.slidersGrid}>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider1">Mood 1</label>
-                                <input type="range" id="slider1" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider2">Mood 2</label>
-                                <input type="range" id="slider2" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider3">Mood 3</label>
-                                <input type="range" id="slider3" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider4">Mood 4</label>
-                                <input type="range" id="slider4" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider5">Mood 5</label>
-                                <input type="range" id="slider5" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider6">Mood 6</label>
-                                <input type="range" id="slider6" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider7">Mood 7</label>
-                                <input type="range" id="slider7" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider8">Mood 8</label>
-                                <input type="range" id="slider8" min="0" max="100" defaultValue="50" />
-                            </div>
-                            <div className={styles.sliderItem}>
-                                <label htmlFor="slider9">Mood 9</label>
-                                <input type="range" id="slider9" min="0" max="100" defaultValue="50" />
-                            </div>
+                            <SliderItem label="Acousticness" value={config?.acousticness} />
+                            <SliderItem label="Danceability" value={config?.danceability} />
+                            <SliderItem label="Energy" value={config?.energy} />
+                            <SliderItem label="Instrumentalness" value={config?.instrumentalness} />
+                            <SliderItem label="Liveness" value={config?.liveness} />
+                            <SliderItem label="Speechiness" value={config?.speechiness} />
+                            <SliderItem label="Tempo" value={config?.tempo} max={250} />
+                            <SliderItem label="Valence" value={config?.valence} />
+                            <SliderItem label="Key" value={config?.key} max={11} />
                         </div>
                     </div>
                 </div>
@@ -66,17 +102,17 @@ const Playlist = () => {
             {/* Sección 2: List of Songs */}
             <section className={styles.songsSection}>
                 <div className={styles.songsHeader}>
-                    <h2>List of songs</h2>
+                    <h2>List of songs ({playlist.trackCount})</h2>
                     <div className={styles.viewToggle}>
                         <button
-                            className={viewMode === 'grid' ? styles.active : ''}
+                            className={viewMode === 'grid' ? 'active' : ''}
                             onClick={() => setViewMode('grid')}
                             aria-label="Grid view"
                         >
                             Grid
                         </button>
                         <button
-                            className={viewMode === 'carousel' ? styles.active : ''}
+                            className={viewMode === 'carousel' ? 'active' : ''}
                             onClick={() => setViewMode('carousel')}
                             aria-label="Carousel view"
                         >
@@ -86,12 +122,13 @@ const Playlist = () => {
                 </div>
 
                 <div className={`${styles.songsContainer} ${styles[viewMode]}`}>
-                    {/* Placeholder para tarjetas de canciones */}
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-                        <div key={item} className={styles.songCard}>
-                            <div className={styles.songPlaceholder}>
-                                Song {item}
-                            </div>
+                    {songs.map((song) => (
+                        <div key={song.id} className={styles.songCard}>
+                            <SongCard
+                                coverImage={song.albumImageUrl}
+                                title={song.name}
+                                artist={song.artists.join(', ')}
+                            />
                         </div>
                     ))}
                 </div>
@@ -100,5 +137,24 @@ const Playlist = () => {
     );
 };
 
-export default Playlist;
+function SliderItem({ label, value, max = 1 }) {
+    const safeValue = value == null ? 0 : value;
+    const percent = max === 1 ? safeValue * 100 : (safeValue / max) * 100;
 
+    return (
+        <div className={styles.sliderItem}>
+            <label>{label}</label>
+            <input
+                type="range"
+                min="0"
+                max={max}
+                step={max === 1 ? 0.01 : 1}
+                value={safeValue}
+                readOnly
+            />
+            <span className={styles.sliderValue}>{Math.round(percent)}%</span>
+        </div>
+    );
+}
+
+export default Playlist;

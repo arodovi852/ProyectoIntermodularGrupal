@@ -14,48 +14,44 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
-    const login = (email, password) => {
-        return fetch('http://localhost:3000/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+    async function login(email, password) {
+        const response = await fetch('http://localhost:3000/api/auth/login', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         })
-            .then(async response => {
-                if (response.status !== 200) {
-                    return false;
-                }
+        return !!(await storeData(response));
 
-                const data = await response.json();
-                if (data) {
-                    localStorage.setItem('token', data.token);
-                    setUser({ token: data.token, ...data.user });
-                    return true;
-                }
+    }
 
-                return false;
-            }).catch(() => false)
-    };
-
-
-    const register = (name, email, password) => {
-
-        return fetch('http://localhost:3000/api/auth/register', {
+    async function register(name, email, password) {
+        const response = await fetch('http://localhost:3000/api/auth/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({name, email, password})
-        }).then(async response => {
-                if (response.status !== 201) {
-                    return false
-                }
-                const data = await response.json()
-                if (data) {
-                    localStorage.setItem('token', data.token);
-                    setUser({token: data.token, ...data.user});
-                    return true;
-                }
-                return false;
-            }).catch(() => false)
-    };
+        })
+        await storeData(response)
+        return !!(await storeData(response));
+
+    }
+
+    async function storeData(response) {
+        if (response.status === 200 || response.status === 201) {
+            const element = await response.json()
+            console.log('=== DEBUG STOREDATA ===');
+            console.log('Response completa:', element);
+            console.log('Token a guardar:', element.data?.token);
+            console.log('========================');
+
+            if (element.success) {
+                localStorage.setItem('id', element.data.user.id);
+                localStorage.setItem('token', element.data.token);
+                setUser({ token: element.data.token, ...element.data.user });
+                return true;
+            } else {
+                return false
+            }
+        }
+    }
 
     const logout = () => {
         localStorage.removeItem('token');
