@@ -3,21 +3,21 @@ import styles from '../styles/Generate.module.css'
 import SearchBar from '../components/SearchBar/SearchBar'
 import Sliders from '../components/Sliders/Sliders'
 import SongList from '../components/SongList/SongList'
-import TrackCard from '../components/TrackCard/TrackCard'
+import SongCard from '../components/SongCard/SongCard'
 import api from '../services/api'
 
 const Generate = () => {
-    // 10 sliders for recommendation parameters
-    const [acousticness, setAcousticness] = useState(50)
-    const [danceability, setDanceability] = useState(50)
-    const [energy, setEnergy] = useState(50)
-    const [instrumentalness, setInstrumentalness] = useState(50)
-    const [liveness, setLiveness] = useState(50)
-    const [mode, setMode] = useState(50)
-    const [loudness, setLoudness] = useState(50)
-    const [valence, setValence] = useState(50)
-    const [speechiness, setSpeechiness] = useState(50)
-    const [tempo, setTempo] = useState(120)
+    // Default values optimized for mainstream/pop music
+    const [acousticness, setAcousticness] = useState(30)      // Bajo = más electrónico
+    const [danceability, setDanceability] = useState(70)      // Alto = bailable
+    const [energy, setEnergy] = useState(65)                  // Medio-alto = energético
+    const [instrumentalness, setInstrumentalness] = useState(10) // Bajo = con voces
+    const [liveness, setLiveness] = useState(20)              // Bajo = estudio
+    const [mode, setMode] = useState(60)                      // Mayor = alegre
+    const [loudness, setLoudness] = useState(70)              // Alto = música potente
+    const [valence, setValence] = useState(60)                // Medio-alto = positivo
+    const [speechiness, setSpeechiness] = useState(30)        // Bajo-medio = cantado
+    const [tempo, setTempo] = useState(120)                   // Medio = versátil
     const [playlistSize, setPlaylistSize] = useState(20)
 
     const [searchLoading, setSearchLoading] = useState(false)
@@ -86,10 +86,19 @@ const Generate = () => {
     }
 
     const handleGeneratePlaylist = async () => {
+        // Validate that we have at least one seed
+        if (likedSongs.length === 0) {
+            alert('Por favor, añade al menos una canción que te guste como referencia');
+            return;
+        }
+
         setGenerationLoading(true)
         setGeneratedPlaylist(null)
         try {
-            const res = await api.post('/api/generate', {
+            // Prepare parameters for ReccoBeats API
+            const params = {
+                size: playlistSize,
+                seeds: likedSongs.map(s => s.id).join(','),
                 acousticness,
                 danceability,
                 energy,
@@ -99,19 +108,116 @@ const Generate = () => {
                 loudness,
                 valence,
                 speechiness,
-                tempo,
-                limit: playlistSize,
-                likedSongs: likedSongs.map(s => s.id),
-                dislikedSongs: dislikedSongs.map(s => s.id),
-            })
+                tempo
+            };
+
+            // Add negativeSeeds only if there are disliked songs
+            if (dislikedSongs.length > 0) {
+                params.negativeSeeds = dislikedSongs.map(s => s.id).join(',');
+            }
+
+            console.log('=== FRONTEND DEBUG ===');
+            console.log('Slider values before sending:');
+            console.log('- Loudness:', loudness, typeof loudness);
+            console.log('- Mode:', mode, typeof mode);
+            console.log('- Acousticness:', acousticness, typeof acousticness);
+            console.log('Full params object:', params);
+            console.log('===================');
+
+            const res = await api.get('/api/generate/get-recommendation', { params });
+
+            // Log the response for debugging
+            console.log('Playlist generated from ReccoBeats:', res.data);
+
             // Save the generated playlist data
             setGeneratedPlaylist(res.data)
-            console.log('Playlist generated:', res.data)
         } catch (err) {
-            console.error('Generation error:', err)
-            setGeneratedPlaylist({ error: err.message || 'Failed to generate playlist' })
+            console.error('Generation error:', err);
+            setGeneratedPlaylist({
+                error: err.response?.data?.error || err.message || 'Failed to generate playlist'
+            })
         } finally {
             setGenerationLoading(false)
+        }
+    }
+
+    // Preset configurations for different music moods/genres
+    const applyPreset = (presetName) => {
+        const presets = {
+            kpop: {
+                acousticness: 15,
+                danceability: 85,
+                energy: 85,
+                instrumentalness: 5,
+                liveness: 15,
+                mode: 80,
+                loudness: 90,
+                valence: 80,
+                speechiness: 40,
+                tempo: 130
+            },
+            chill: {
+                acousticness: 60,
+                danceability: 40,
+                energy: 30,
+                instrumentalness: 30,
+                liveness: 20,
+                mode: 40,
+                loudness: 30,
+                valence: 50,
+                speechiness: 10,
+                tempo: 90
+            },
+            party: {
+                acousticness: 10,
+                danceability: 95,
+                energy: 90,
+                instrumentalness: 10,
+                liveness: 25,
+                mode: 85,
+                loudness: 95,
+                valence: 85,
+                speechiness: 30,
+                tempo: 128
+            },
+            focus: {
+                acousticness: 50,
+                danceability: 30,
+                energy: 35,
+                instrumentalness: 80,
+                liveness: 10,
+                mode: 50,
+                loudness: 40,
+                valence: 50,
+                speechiness: 5,
+                tempo: 100
+            },
+            workout: {
+                acousticness: 10,
+                danceability: 75,
+                energy: 95,
+                instrumentalness: 20,
+                liveness: 20,
+                mode: 70,
+                loudness: 95,
+                valence: 75,
+                speechiness: 40,
+                tempo: 140
+            }
+        };
+
+        const preset = presets[presetName];
+        if (preset) {
+            setAcousticness(preset.acousticness);
+            setDanceability(preset.danceability);
+            setEnergy(preset.energy);
+            setInstrumentalness(preset.instrumentalness);
+            setLiveness(preset.liveness);
+            setMode(preset.mode);
+            setLoudness(preset.loudness);
+            setValence(preset.valence);
+            setSpeechiness(preset.speechiness);
+            setTempo(preset.tempo);
         }
     }
 
@@ -120,6 +226,49 @@ const Generate = () => {
             {/* Section 1: Sliders */}
             <section className={styles.sliderSection}>
                 <h2 className={styles.sectionTitle}>1. ¿Cómo te sientes hoy?</h2>
+
+                {/* Preset Buttons */}
+                <div className={styles.presetsContainer}>
+                    <p className={styles.presetsLabel}>Configuraciones rápidas:</p>
+                    <div className={styles.presetButtons}>
+                        <button
+                            className={styles.presetBtn}
+                            onClick={() => applyPreset('kpop')}
+                            title="K-pop: Enérgico, bailable, alegre"
+                        >
+                            🎤 K-pop
+                        </button>
+                        <button
+                            className={styles.presetBtn}
+                            onClick={() => applyPreset('party')}
+                            title="Fiesta: Muy bailable, electrónico, energético"
+                        >
+                            🎉 Fiesta
+                        </button>
+                        <button
+                            className={styles.presetBtn}
+                            onClick={() => applyPreset('chill')}
+                            title="Chill: Relajado, acústico, tranquilo"
+                        >
+                            🌙 Chill
+                        </button>
+                        <button
+                            className={styles.presetBtn}
+                            onClick={() => applyPreset('workout')}
+                            title="Workout: Intenso, rápido, motivacional"
+                        >
+                            💪 Workout
+                        </button>
+                        <button
+                            className={styles.presetBtn}
+                            onClick={() => applyPreset('focus')}
+                            title="Focus: Instrumental, tranquilo, sin distracciones"
+                        >
+                            🎯 Focus
+                        </button>
+                    </div>
+                </div>
+
                 <Sliders
                     acousticness={acousticness}
                     setAcousticness={setAcousticness}
@@ -231,9 +380,12 @@ const Generate = () => {
                             <p>Error: {generatedPlaylist.error}</p>
                         </div>
                     ) : generatedPlaylist.tracks && generatedPlaylist.tracks.length > 0 ? (
-                        <div className={styles.tracksGrid}>
+                        <div className={styles.songsGrid}>
                             {generatedPlaylist.tracks.map((track) => (
-                                <TrackCard key={track.id} track={track} />
+                                <SongCard
+                                    key={track.id}
+                                    song={track}
+                                />
                             ))}
                         </div>
                     ) : (

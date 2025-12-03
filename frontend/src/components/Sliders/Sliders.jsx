@@ -47,44 +47,44 @@ const Sliders = ({
         <div className={styles.sliders}>
             <SliderItem 
                 label="Nivel acústico" 
-                description="¿Prefieres sonidos naturales (acústicos) o electrónicos?"
-                min={0} 
+                description="Bajo (0-30) = Electrónico/Sintético | Alto (70-100) = Acústico/Natural"
+                min={0}
                 max={100} 
                 value={acousticness} 
                 onChange={setAcousticness} 
             />
             
             <SliderItem 
-                label="Ganas de bailar" 
-                description="¿Cuánto te invita la música a moverte y bailar?"
-                min={0} 
+                label="Bailable (Danceability)"
+                description="Bajo (0-30) = Difícil de bailar | Alto (70-100) = Muy bailable"
+                min={0}
                 max={100} 
                 value={danceability} 
                 onChange={setDanceability} 
             />
             
             <SliderItem 
-                label="Intensidad" 
-                description="Nivel de energía, desde tranquilo hasta intenso."
-                min={0} 
+                label="Energía"
+                description="Bajo (0-30) = Tranquilo/Relajado | Alto (70-100) = Intenso/Enérgico"
+                min={0}
                 max={100} 
                 value={energy} 
                 onChange={setEnergy} 
             />
             
             <SliderItem 
-                label="Solo música (sin voz)" 
-                description="¿Quieres canciones instrumentales o con voz?"
-                min={0} 
+                label="Instrumental"
+                description="Bajo (0-30) = Con voces | Alto (70-100) = Solo música instrumental"
+                min={0}
                 max={100} 
                 value={instrumentalness} 
                 onChange={setInstrumentalness} 
             />
             
             <SliderItem 
-                label="Sensación de directo" 
-                description="¿Prefieres grabaciones de estudio o con ambiente de concierto en vivo?"
-                min={0} 
+                label="En vivo (Liveness)"
+                description="Bajo (0-30) = Estudio | Alto (70-100) = Concierto en vivo"
+                min={0}
                 max={100} 
                 value={liveness} 
                 onChange={setLiveness} 
@@ -92,37 +92,35 @@ const Sliders = ({
             
             <SliderItem 
                 label="Volumen" 
-                description="¿Quieres música potente o suave? (ajusta el volumen promedio)"
-                min={-60} 
-                max={0} 
-                value={loudness} 
+                description="Bajo (0-30) = Música muy suave | Alto (70-100) = Música muy potente"
+                min={0}
+                max={100}
+                value={loudness}
                 onChange={setLoudness} 
-                unit=" dB"
             />
             
             <SliderItem 
-                label="Modo: Alegre/Triste" 
-                description="¿Buscas canciones mayormente alegres (mayor) o tristes (menor)?"
-                min={0} 
-                max={1} 
-                step={0.1}
-                value={mode} 
+                label="Modo musical"
+                description="Menor (0-49) = Sonidos tristes/oscuros | Mayor (50-100) = Sonidos alegres/brillantes"
+                min={0}
+                max={100}
+                value={mode}
                 onChange={setMode} 
             />
             
             <SliderItem 
-                label="Presencia de voz hablada" 
-                description="¿Quieres música pura o con partes habladas/rap?"
-                min={0} 
+                label="Voz hablada (Speechiness)"
+                description="Bajo (0-30) = Música cantada | Alto (70-100) = Rap/Spoken Word"
+                min={0}
                 max={100} 
                 value={speechiness} 
                 onChange={setSpeechiness} 
             />
             
             <SliderItem 
-                label="Velocidad (BPM)" 
-                description="¿Prefieres música rápida o lenta?"
-                min={40} 
+                label="Tempo (BPM)"
+                description="Lento (60-90 BPM) = Baladas | Rápido (140-180 BPM) = Dance/EDM"
+                min={40}
                 max={200} 
                 value={tempo} 
                 onChange={setTempo} 
@@ -130,9 +128,9 @@ const Sliders = ({
             />
             
             <SliderItem 
-                label="Estado de ánimo" 
-                description="¿Qué emoción buscas? Alegre/feliz o melancólica/triste."
-                min={0} 
+                label="Estado de ánimo (Valence)"
+                description="Bajo (0-30) = Triste/Melancólico | Alto (70-100) = Alegre/Feliz"
+                min={0}
                 max={100} 
                 value={valence} 
                 onChange={setValence} 

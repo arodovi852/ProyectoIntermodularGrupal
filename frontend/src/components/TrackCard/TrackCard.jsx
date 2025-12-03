@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './TrackCard.module.css'
+import styles from '../../styles/TrackCard.module.css'
 
 const TrackCard = ({ track }) => {
     return (

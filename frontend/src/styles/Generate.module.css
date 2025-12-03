@@ -19,6 +19,54 @@
     width: 100%;
 }
 
+/* Presets */
+.presetsContainer {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.presetsLabel {
+    font-size: 0.95rem;
+    color: #ccc;
+    margin: 0 0 1rem 0;
+    font-weight: 500;
+}
+
+.presetButtons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.presetBtn {
+    padding: 0.6rem 1.25rem;
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: var(--primary-white);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.presetBtn:hover {
+    background: linear-gradient(135deg, #3d3d3d 0%, #2a2a2a 100%);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.presetBtn:active {
+    transform: translateY(0);
+}
+
 /* Playlist Size Section - estilo coherente con mood values */
 .playlistSizeSection {
     margin-top: 2rem;
@@ -213,17 +261,17 @@
     cursor: not-allowed;
 }
 
-/* Playlist Results Section */
 .playlistResults {
-    width: 100%;
-    margin: 3rem 0;
+    margin-top: 4rem;
 }
 
-.tracksGrid {
+/* Vista Grid - idéntico a Playlist */
+.songsGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
     margin-top: 1.5rem;
+    width: 100%;
 }
 
 /* Error Box */
@@ -247,10 +295,6 @@
     .sectionTitle {
         font-size: 1.75rem;
     }
-
-    .tracksGrid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
 }
 
 @media (max-width: 768px) {
@@ -262,8 +306,8 @@
         font-size: 1.5rem;
     }
 
-    .tracksGrid {
-        grid-template-columns: 1fr;
+    .songsGrid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 1rem;
     }
 
