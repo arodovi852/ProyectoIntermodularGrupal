@@ -1,0 +1,278 @@
+/* Generate Page - Cohesivo con Playlist.module.css */
+
+.container {
+    width: 100%;
+    padding: 2rem;
+}
+
+/* Section Titles - mismo estilo que Playlist */
+.sectionTitle {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--primary-white);
+    margin-bottom: 1.5rem;
+}
+
+/* Slider Section */
+.sliderSection {
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+/* Playlist Size Section - estilo coherente con mood values */
+.playlistSizeSection {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: transparent;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.playlistLabel {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ccc;
+    margin-bottom: 0.5rem;
+}
+
+.playlistDescription {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.playlistInput {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--primary-white);
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.playlistInput::placeholder {
+    color: #666;
+}
+
+.playlistInput:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(26, 26, 26, 0.7);
+}
+
+.playlistInput:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Song Section */
+.songSection {
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+/* Search Results */
+.searchResultsWrap {
+    margin: 1.5rem 0;
+}
+
+.searchResultsWrap h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-white);
+    margin-bottom: 1rem;
+}
+
+.searchResults {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    background: rgba(26, 26, 26, 0.5);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.resultItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: #1a1a1a;
+    border-radius: 6px;
+    border: 1px solid #333;
+    color: var(--primary-white);
+    transition: all 0.2s ease;
+}
+
+.resultItem:hover {
+    background: #252525;
+    border-color: #444;
+}
+
+.resultItem span {
+    font-size: 0.95rem;
+}
+
+.resultActions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.likeBtn,
+.dislikeBtn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.likeBtn::before,
+.dislikeBtn::before {
+    content: "";
+    display: block;
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.likeBtn {
+    background: rgba(34, 197, 94, 0.15);
+}
+
+.likeBtn::before {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3'></path></svg>");
+}
+
+.likeBtn:hover:not(:disabled) {
+    background: rgba(34, 197, 94, 0.25);
+    transform: scale(1.05);
+}
+
+.dislikeBtn {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.dislikeBtn::before {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17'></path></svg>");
+}
+
+.dislikeBtn:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.25);
+    transform: scale(1.05);
+}
+
+.likeBtn:disabled,
+.dislikeBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Generate Button - Estilo CTA Landing */
+.buttonWrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.generateBtn {
+    background: linear-gradient(90deg, #ed2939, #5888ed);
+    color: #fff;
+    border: none;
+    padding: 0.875rem 2.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(237, 41, 57, 0.3);
+}
+
+.generateBtn:hover:not(:disabled) {
+    box-shadow: 0 6px 24px rgba(237, 41, 57, 0.5);
+}
+
+.generateBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Playlist Results Section */
+.playlistResults {
+    width: 100%;
+    margin: 3rem 0;
+}
+
+.tracksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Error Box */
+.errorBox {
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    color: #f87171;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.75rem;
+    }
+
+    .tracksGrid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.5rem;
+    }
+
+    .tracksGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .playlistSizeSection {
+        padding: 1rem;
+    }
+
+    .generateBtn {
+        width: 100%;
+        padding: 0.875rem 2rem;
+    }
+}

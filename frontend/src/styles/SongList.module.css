@@ -1,0 +1,173 @@
+/* SongList Component - Cohesivo con Playlist.module.css */
+
+.songListContainer {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.songGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.groupTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--primary-white);
+}
+
+.songRow {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.songCard {
+    width: 100%;
+    background: #f3f3f3;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+/* Barra lateral de color - por defecto verde (liked) */
+.songCard::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(to bottom, #22c55e, #16a34a);
+    z-index: 2;
+}
+
+/* Barra lateral roja para disliked */
+.songCard.disliked::before {
+    background: linear-gradient(to bottom, #ef4444, #dc2626);
+}
+
+.songCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Mantiene un área PERFECTA para la imagen */
+.songImage {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    background: #ddd;
+}
+
+.songInfo {
+    padding: 0.75rem 1rem 1rem;
+    background: #f3f3f3;
+    flex: 1;
+}
+
+.songName {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.25rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #1a1a1a;
+}
+
+.songArtist {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 0.9rem;
+    margin: 0 0 0.25rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #333;
+}
+
+.songAlbum {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: 0.8rem;
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-style: italic;
+    color: #666;
+}
+
+.removeBtn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    cursor: pointer;
+
+    background: rgba(248, 113, 113, 0.15);
+    color: #fca5a5;
+    backdrop-filter: blur(8px);
+    box-shadow:
+            0 4px 10px rgba(0, 0, 0, 0.15),
+            0 0 0 1px rgba(248, 113, 113, 0.4);
+
+    font-size: 0.9rem;
+    transition:
+            transform 0.18s ease,
+            box-shadow 0.18s ease,
+            background 0.18s ease,
+            color 0.18s ease,
+            opacity 0.18s ease;
+    opacity: 0;
+}
+
+.removeBtn:hover {
+    background: rgba(248, 113, 113, 0.25);
+    color: #fee2e2;
+    box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.25),
+            0 0 0 1px rgba(248, 113, 113, 0.65);
+}
+
+.removeBtn:active {
+    transform: translateY(0) scale(0.96);
+    box-shadow:
+            0 3px 8px rgba(0, 0, 0, 0.2),
+            0 0 0 1px rgba(248, 113, 113, 0.6);
+}
+
+.songCard:hover .removeBtn {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .songListContainer {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .groupTitle {
+        font-size: 1.25rem;
+    }
+}
+

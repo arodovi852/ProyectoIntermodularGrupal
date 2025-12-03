@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Sliders.module.css'
+import styles from '../../styles/Sliders.module.css'
 
 const SliderItem = ({ 
     label, 

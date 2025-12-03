@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from './Generate.module.css'
+import styles from '../styles/Generate.module.css'
 import SearchBar from '../components/SearchBar/SearchBar'
 import Sliders from '../components/Sliders/Sliders'
 import SongList from '../components/SongList/SongList'
@@ -53,7 +53,7 @@ const Generate = () => {
             }
 
             // Otherwise, call backend search endpoint
-            const res = await api.get('/api/recco/search', {
+            const res = await api.get('/api/generate/search', {
                 params: { q: searchQuery }
             })
             setSearchResults(res.data || [])
@@ -89,7 +89,7 @@ const Generate = () => {
         setGenerationLoading(true)
         setGeneratedPlaylist(null)
         try {
-            const res = await api.post('/api/recco', {
+            const res = await api.post('/api/generate', {
                 acousticness,
                 danceability,
                 energy,
@@ -146,14 +146,15 @@ const Generate = () => {
                 {/* Playlist Size Input */}
                 <div className={styles.playlistSizeSection}>
                     <label className={styles.playlistLabel}>Cantidad de canciones</label>
-                    <p className={styles.playlistDescription}>¿Cuántas canciones quieres en tu playlist?</p>
+                    <p className={styles.playlistDescription}>Ingresa un número entre 1 y 100</p>
                     <input
                         type="number"
-                        min="5"
+                        min="1"
                         max="100"
                         value={playlistSize}
-                        onChange={(e) => setPlaylistSize(Math.min(100, Math.max(5, Number(e.target.value))))}
+                        onChange={(e) => setPlaylistSize(Math.min(100, Math.max(1, Number(e.target.value))))}
                         className={styles.playlistInput}
+                        placeholder="20"
                     />
                 </div>
             </section>
@@ -184,15 +185,15 @@ const Generate = () => {
                                             className={styles.likeBtn}
                                             onClick={() => handleAddSong(song, 'liked')}
                                             disabled={likedSongs.length >= 5}
+                                            aria-label="Me gusta"
                                         >
-                                            ♥
                                         </button>
                                         <button
                                             className={styles.dislikeBtn}
                                             onClick={() => handleAddSong(song, 'disliked')}
                                             disabled={dislikedSongs.length >= 5}
+                                            aria-label="No me gusta"
                                         >
-                                            ✕
                                         </button>
                                     </div>
                                 </div>
@@ -227,7 +228,7 @@ const Generate = () => {
                     </h2>
                     {generatedPlaylist.error ? (
                         <div className={styles.errorBox}>
-                            <p>❌ Error: {generatedPlaylist.error}</p>
+                            <p>Error: {generatedPlaylist.error}</p>
                         </div>
                     ) : generatedPlaylist.tracks && generatedPlaylist.tracks.length > 0 ? (
                         <div className={styles.tracksGrid}>

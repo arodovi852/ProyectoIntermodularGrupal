@@ -1,18 +1,20 @@
+/* TrackCard Component - Cohesivo con Playlist.module.css */
+
 .card {
     display: flex;
     gap: 1rem;
     padding: 1rem;
-    background: #fff;
+    background: #1a1a1a;
     border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s;
+    border: 1px solid #333;
+    transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     transform: translateY(-2px);
-    border-color: var(--accent, #6D28D9);
+    border-color: #444;
 }
 
 .image {
@@ -35,7 +37,7 @@
     margin: 0 0 0.25rem 0;
     font-size: 1rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--primary-white);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -44,7 +46,7 @@
 .artist {
     margin: 0;
     font-size: 0.875rem;
-    color: #666;
+    color: #ccc;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -55,11 +57,11 @@
         width: 60px;
         height: 60px;
     }
-    
+
     .name {
         font-size: 0.9rem;
     }
-    
+
     .artist {
         font-size: 0.8rem;
     }

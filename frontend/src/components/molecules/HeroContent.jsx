@@ -19,7 +19,7 @@ export const HeroContent = () => {
             <div className={styles.ctaContainer}>
                 <Button
                     variant="cta"
-                    onClick={() => navigate('/Generate')}
+                    onClick={() => navigate('/generate')}
                 >
                     <span className={styles.ctaLight}>Crea tu </span>
                     <span className={styles.ctaBlack}>playlist.</span>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import styles from './SearchBar.module.css'
+import styles from '../../styles/SearchBar.module.css'
 import api from '../../services/api'
 
 const SearchBar = ({ value, onChange, onSearch, placeholder, onAddSong, likedSongs = [], dislikedSongs = [] }) => {
@@ -19,7 +19,7 @@ const SearchBar = ({ value, onChange, onSearch, placeholder, onAddSong, likedSon
 
         setIsLoadingSuggestions(true)
         try {
-            const res = await api.get('/api/recco/search', {
+            const res = await api.get('/api/generate/search', {
                 params: { q: query }
             })
             setSuggestions(res.data || [])

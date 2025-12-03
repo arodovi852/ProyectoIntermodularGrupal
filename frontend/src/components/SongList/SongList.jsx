@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './SongList.module.css'
+import styles from '../../styles/SongList.module.css'
 
 const SongList = ({ likedSongs, dislikedSongs, onRemove }) => {
     return (
@@ -8,7 +8,7 @@ const SongList = ({ likedSongs, dislikedSongs, onRemove }) => {
                 <>
                     {likedSongs.length > 0 && (
                         <div className={styles.songGroup}>
-                            <h3 className={styles.groupTitle}>❤️ Canciones que te gustan ({likedSongs.length}/5)</h3>
+                            <h3 className={styles.groupTitle}>Canciones que te gustan ({likedSongs.length} de 5)</h3>
                             <div className={styles.songRow}>
                                 {likedSongs.map((song) => (
                                     <div key={song.id} className={styles.songCard}>
@@ -40,10 +40,10 @@ const SongList = ({ likedSongs, dislikedSongs, onRemove }) => {
 
                     {dislikedSongs.length > 0 && (
                         <div className={styles.songGroup}>
-                            <h3 className={styles.groupTitle}>👎 Canciones que no te gustan ({dislikedSongs.length}/5)</h3>
+                            <h3 className={styles.groupTitle}>Canciones que no te gustan ({dislikedSongs.length} de 5)</h3>
                             <div className={styles.songRow}>
                                 {dislikedSongs.map((song) => (
-                                    <div key={song.id} className={styles.songCard}>
+                                    <div key={song.id} className={`${styles.songCard} ${styles.disliked}`}>
                                         {song.image && (
                                             <img
                                                 src={song.image}
