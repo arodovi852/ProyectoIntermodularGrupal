@@ -7,6 +7,7 @@ import styles from "../styles/LayoutRoot.module.css";
 function LayoutRoot() {
     const location = useLocation()
     const isLanding = location.pathname === '/'
+    const isAuthPage = ['/', '/login', '/register', '/recoverpassword'].includes(location.pathname)
 
     // Para Landing, no usar el layout wrapper (tiene su propio diseño)
     if (isLanding) {
@@ -20,7 +21,7 @@ function LayoutRoot() {
 
     // Para otras páginas (Login, Register, etc.), usar el layout con wrapper
     return (
-        <section className={styles.layoutRoot}>
+        <section className={`${styles.layoutRoot} ${isAuthPage ? styles.authLayout : ''}`}>
             <Header/>
             <main className={styles.content}>
                 <Outlet/>
