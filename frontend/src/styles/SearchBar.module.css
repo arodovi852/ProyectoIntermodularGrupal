@@ -62,7 +62,7 @@
     background: #1a1a1a;
     border: 1px solid #333;
     border-radius: 8px;
-    max-height: 400px;
+    max-height: calc(5 * 72px);
     overflow-y: auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
     z-index: 1000;

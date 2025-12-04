@@ -25,7 +25,6 @@ const Generate = () => {
     const [query, setQuery] = useState('')
     const [likedSongs, setLikedSongs] = useState([])
     const [dislikedSongs, setDislikedSongs] = useState([])
-    const [searchResults, setSearchResults] = useState([])
     const [generatedPlaylist, setGeneratedPlaylist] = useState(null)
 
     const handleSearch = async (songOrEvent) => {
@@ -44,25 +43,8 @@ const Generate = () => {
 
         if (!searchQuery.trim()) return
 
-        setSearchLoading(true)
-        try {
-            // If a song was selected from autocomplete, just add it
-            if (selectedSong) {
-                setSearchResults([selectedSong])
-                return
-            }
-
-            // Otherwise, call backend search endpoint
-            const res = await api.get('/api/generate/search', {
-                params: { q: searchQuery }
-            })
-            setSearchResults(res.data || [])
-        } catch (err) {
-            console.error('Search error:', err)
-            setSearchResults([])
-        } finally {
-            setSearchLoading(false)
-        }
+        // La búsqueda y sugerencias ahora se manejan completamente en el SearchBar component
+        // No necesitamos hacer nada más aquí
     }
 
     const handleAddSong = (song, type) => {
@@ -203,6 +185,90 @@ const Generate = () => {
                 valence: 75,
                 speechiness: 40,
                 tempo: 140
+            },
+            romantic: {
+                acousticness: 70,
+                danceability: 35,
+                energy: 40,
+                instrumentalness: 25,
+                liveness: 15,
+                mode: 30,
+                loudness: 50,
+                valence: 60,
+                speechiness: 20,
+                tempo: 85
+            },
+            indie: {
+                acousticness: 55,
+                danceability: 50,
+                energy: 55,
+                instrumentalness: 15,
+                liveness: 35,
+                mode: 45,
+                loudness: 60,
+                valence: 55,
+                speechiness: 25,
+                tempo: 105
+            },
+            hiphop: {
+                acousticness: 20,
+                danceability: 85,
+                energy: 75,
+                instrumentalness: 10,
+                liveness: 20,
+                mode: 55,
+                loudness: 85,
+                valence: 70,
+                speechiness: 75,
+                tempo: 110
+            },
+            electronic: {
+                acousticness: 5,
+                danceability: 90,
+                energy: 85,
+                instrumentalness: 70,
+                liveness: 10,
+                mode: 70,
+                loudness: 90,
+                valence: 75,
+                speechiness: 15,
+                tempo: 125
+            },
+            jazz: {
+                acousticness: 75,
+                danceability: 45,
+                energy: 50,
+                instrumentalness: 65,
+                liveness: 60,
+                mode: 55,
+                loudness: 55,
+                valence: 65,
+                speechiness: 10,
+                tempo: 100
+            },
+            metal: {
+                acousticness: 10,
+                danceability: 40,
+                energy: 95,
+                instrumentalness: 35,
+                liveness: 30,
+                mode: 20,
+                loudness: 95,
+                valence: 30,
+                speechiness: 35,
+                tempo: 145
+            },
+            ambient: {
+                acousticness: 60,
+                danceability: 15,
+                energy: 20,
+                instrumentalness: 90,
+                liveness: 10,
+                mode: 50,
+                loudness: 25,
+                valence: 40,
+                speechiness: 5,
+                tempo: 75
             }
         };
 
@@ -225,49 +291,33 @@ const Generate = () => {
         <main className={styles.container}>
             {/* Section 1: Sliders */}
             <section className={styles.sliderSection}>
-                <h2 className={styles.sectionTitle}>1. ¿Cómo te sientes hoy?</h2>
-
-                {/* Preset Buttons */}
-                <div className={styles.presetsContainer}>
-                    <p className={styles.presetsLabel}>Configuraciones rápidas:</p>
-                    <div className={styles.presetButtons}>
-                        <button
-                            className={styles.presetBtn}
-                            onClick={() => applyPreset('kpop')}
-                            title="K-pop: Enérgico, bailable, alegre"
-                        >
-                            🎤 K-pop
-                        </button>
-                        <button
-                            className={styles.presetBtn}
-                            onClick={() => applyPreset('party')}
-                            title="Fiesta: Muy bailable, electrónico, energético"
-                        >
-                            🎉 Fiesta
-                        </button>
-                        <button
-                            className={styles.presetBtn}
-                            onClick={() => applyPreset('chill')}
-                            title="Chill: Relajado, acústico, tranquilo"
-                        >
-                            🌙 Chill
-                        </button>
-                        <button
-                            className={styles.presetBtn}
-                            onClick={() => applyPreset('workout')}
-                            title="Workout: Intenso, rápido, motivacional"
-                        >
-                            💪 Workout
-                        </button>
-                        <button
-                            className={styles.presetBtn}
-                            onClick={() => applyPreset('focus')}
-                            title="Focus: Instrumental, tranquilo, sin distracciones"
-                        >
-                            🎯 Focus
-                        </button>
-                    </div>
-                </div>
+                <h2 className={styles.sectionTitle}>
+                    1. ¿Cómo te sientes hoy?
+                    <select
+                        className={styles.presetSelect}
+                        defaultValue=""
+                        onChange={(e) => {
+                            if (e.target.value) {
+                                applyPreset(e.target.value);
+                                e.target.value = '';
+                            }
+                        }}
+                    >
+                        <option value="">Configuraciones rápidas</option>
+                        <option value="kpop">K-pop</option>
+                        <option value="party">Fiesta</option>
+                        <option value="chill">Chill</option>
+                        <option value="workout">Workout</option>
+                        <option value="focus">Focus</option>
+                        <option value="romantic">Romántico</option>
+                        <option value="indie">Indie</option>
+                        <option value="hiphop">Hip-Hop</option>
+                        <option value="electronic">Electrónico</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="metal">Metal</option>
+                        <option value="ambient">Ambient</option>
+                    </select>
+                </h2>
 
                 <Sliders
                     acousticness={acousticness}
@@ -290,66 +340,26 @@ const Generate = () => {
                     setSpeechiness={setSpeechiness}
                     tempo={tempo}
                     setTempo={setTempo}
+                    playlistSize={playlistSize}
+                    setPlaylistSize={setPlaylistSize}
                 />
-                
-                {/* Playlist Size Input */}
-                <div className={styles.playlistSizeSection}>
-                    <label className={styles.playlistLabel}>Cantidad de canciones</label>
-                    <p className={styles.playlistDescription}>Ingresa un número entre 1 y 100</p>
-                    <input
-                        type="number"
-                        min="1"
-                        max="100"
-                        value={playlistSize}
-                        onChange={(e) => setPlaylistSize(Math.min(100, Math.max(1, Number(e.target.value))))}
-                        className={styles.playlistInput}
-                        placeholder="20"
-                    />
-                </div>
             </section>
 
             {/* Section 2: Songs */}
             <section className={styles.songSection}>
                 <h2 className={styles.sectionTitle}>2. Añade hasta 5 canciones que te gusten o no</h2>
                 
-                <SearchBar
-                    value={query}
-                    onChange={(v) => setQuery(v)}
-                    onSearch={handleSearch}
-                    onAddSong={handleAddSong}
-                    likedSongs={likedSongs}
-                    dislikedSongs={dislikedSongs}
-                    placeholder="Buscar canción, artista o álbum"
-                />
-
-                {searchResults.length > 0 && (
-                    <div className={styles.searchResultsWrap}>
-                        <h3>Resultados de búsqueda</h3>
-                        <div className={styles.searchResults}>
-                            {searchResults.map((song) => (
-                                <div key={song.id} className={styles.resultItem}>
-                                    <span>{song.name} - {song.artist}</span>
-                                    <div className={styles.resultActions}>
-                                        <button
-                                            className={styles.likeBtn}
-                                            onClick={() => handleAddSong(song, 'liked')}
-                                            disabled={likedSongs.length >= 5}
-                                            aria-label="Me gusta"
-                                        >
-                                        </button>
-                                        <button
-                                            className={styles.dislikeBtn}
-                                            onClick={() => handleAddSong(song, 'disliked')}
-                                            disabled={dislikedSongs.length >= 5}
-                                            aria-label="No me gusta"
-                                        >
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                <div className={styles.searchBarWrapper}>
+                    <SearchBar
+                        value={query}
+                        onChange={(v) => setQuery(v)}
+                        onSearch={handleSearch}
+                        onAddSong={handleAddSong}
+                        likedSongs={likedSongs}
+                        dislikedSongs={dislikedSongs}
+                        placeholder="Buscar canción, artista o álbum"
+                    />
+                </div>
 
                 <SongList
                     likedSongs={likedSongs}

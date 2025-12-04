@@ -41,7 +41,8 @@ const Sliders = ({
     loudness, setLoudness,
     valence, setValence,
     speechiness, setSpeechiness,
-    tempo, setTempo
+    tempo, setTempo,
+    playlistSize, setPlaylistSize
 }) => {
     return (
         <div className={styles.sliders}>
@@ -134,6 +135,15 @@ const Sliders = ({
                 max={100} 
                 value={valence} 
                 onChange={setValence} 
+            />
+
+            <SliderItem
+                label="Número de canciones"
+                description="Cantidad de canciones para la playlist (1-100)"
+                min={1}
+                max={100}
+                value={playlistSize}
+                onChange={setPlaylistSize}
             />
         </div>
     )
