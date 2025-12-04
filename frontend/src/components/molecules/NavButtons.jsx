@@ -23,7 +23,6 @@ export const NavButtons = ({ isOpen = false, onClose = () => {} }) => {
             <ul>
                 {isAuthenticated ? (
                     <>
-                        <Button variant="secondary" onClick={handleNavClick}><NavLink to="/dashboard" className={styles.links}>Dashboard</NavLink></Button>
                         <Button variant="secondary" onClick={handleNavClick}><NavLink to="/profile" className={styles.links}>Profile</NavLink></Button>
                         <Button variant="secondary" onClick={handleNavClick}><NavLink to="/playlist" className={styles.links}>Playlist</NavLink></Button>
                         <Button variant="secondary" onClick={handleNavClick}><NavLink to="/configuration" className={styles.links}>Configuration</NavLink></Button>

@@ -1,6 +1,7 @@
 .card {
-    width: 350px;              /* Tamaño consistente de TODAS las cards */
+    width: 100%;                /* Responsive - se adapta al grid */
     background: #f3f3f3;
+    color: var(--primary-black);
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     overflow: hidden;
@@ -36,8 +37,9 @@
 }
 
 .title {
+    color: var(--primary-black);
     font-family: 'Do Hyeon', sans-serif;
-    font-size: 2.1rem;
+    font-size: clamp(1.2rem, 3vw, 2.1rem); /* Responsive font size */
     font-weight: 800;
     letter-spacing: 0.04em;
     margin: 0 0 0.25rem;
@@ -48,7 +50,7 @@
 
 .artist {
     font-family: 'Do Hyeon', sans-serif;
-    font-size: 1.4rem;
+    font-size: clamp(0.9rem, 2vw, 1.4rem); /* Responsive font size */
     margin: 0;
     text-overflow: ellipsis;
     overflow: hidden;
