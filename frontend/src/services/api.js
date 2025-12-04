@@ -4,9 +4,7 @@ import axios from 'axios';
 // En desarrollo local: apunta directamente al backend (http://localhost:3001)
 // En Docker/producción: usa rutas relativas para que nginx haga el proxy
 const isDevelopment = import.meta.env.MODE === 'development';
-const API_BASE_URL = isDevelopment
-    ? (import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000')
-    : ''; // En producción/Docker, usa rutas relativas para que nginx haga el proxy
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || '';
 
 const api = axios.create({
     baseURL: API_BASE_URL,

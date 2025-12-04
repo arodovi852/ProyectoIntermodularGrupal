@@ -9,6 +9,13 @@ export default defineConfig({
         allowedHosts: [
             '.trycloudflare.com', // Permite todos los subdominios de trycloudflare.com
             'localhost'
-        ]
+        ],
+        proxy: {
+            '/api': {
+                target: 'https://playthemood-backend-latest.onrender.com',
+                changeOrigin: true,
+                rewrite: (path) => path
+            }
+        }
     }
 })
