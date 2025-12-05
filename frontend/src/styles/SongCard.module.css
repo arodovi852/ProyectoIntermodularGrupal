@@ -1,0 +1,58 @@
+.card {
+    width: 100%;                /* Responsive - se adapta al grid */
+    background: #f3f3f3;
+    color: var(--primary-black);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Mantiene un área PERFECTA para la imagen */
+.imageWrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;       /* Mantiene 1:1 siempre */
+    overflow: hidden;
+    background: #ddd;          /* Por si la imagen tarda en cargar */
+}
+
+/* Ajusta todas las imágenes sin deformarlas */
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;         /* Recorta, no deforma */
+    object-position: center;   /* Centra la parte importante */
+}
+
+.textWrapper {
+    padding: 0.75rem 1rem 1rem;
+    background: #f3f3f3;
+}
+
+.title {
+    color: var(--primary-black);
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2.1rem); /* Responsive font size */
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.25rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;       /* Que no rompa diseño */
+}
+
+.artist {
+    font-family: 'Do Hyeon', sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1.4rem); /* Responsive font size */
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

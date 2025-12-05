@@ -19,7 +19,7 @@ const Login = () => {
         const success = await login(email, password);
 
         if (success) {
-            navigate('/DashBoard');
+            navigate('/dashboard');
         } else {
             setError('Email o contraseña incorrectos');
         }
@@ -44,14 +44,14 @@ const Login = () => {
                     <div className={styles.textGroup}>
                         <p className={styles.text}>
                             Don't have an account?{' '}
-                            <NavLink to="/Register" className={styles.link}>
+                            <NavLink to="/register" className={styles.link}>
                                 Sign up
                             </NavLink>
                         </p>
 
                         <p className={styles.text}>
                             Forgot your password?{' '}
-                            <NavLink to="/RecoverPassword" className={styles.link}>
+                            <NavLink to="/recoverpassword" className={styles.link}>
                                 Reset it
                             </NavLink>
                         </p>

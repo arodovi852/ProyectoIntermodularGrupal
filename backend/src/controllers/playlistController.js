@@ -11,6 +11,15 @@ const playlistService = require('../services/playlistService');
 const getUserPlaylists = async (req, res) => {
   try {
     const { userId } = req.params;
+
+    // Comprobar que el token pertenezca al usuario solicitado
+    if (String(userId) !== String(req.user?.id)) {
+      return res.status(403).json({
+        success: false,
+        error: 'No autorizado para ver estas playlists'
+      });
+    }
+
     const playlists = await playlistService.getUserPlaylists(userId, req.query);
 
     res.status(200).json({
@@ -55,6 +64,16 @@ const createPlaylist = async (req, res) => {
 const getPlaylistDetails = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Verificar propietario usando el service (lanza si no existe)
+    const isOwner = await playlistService.isOwner(id, req.user?.id);
+    if (!isOwner) {
+      return res.status(403).json({
+        success: false,
+        error: 'No autorizado para ver esta playlist'
+      });
+    }
+
     const playlist = await playlistService.getPlaylistDetails(id);
 
     res.status(200).json({
@@ -77,6 +96,16 @@ const getPlaylistDetails = async (req, res) => {
 const updatePlaylist = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Verificar propietario
+    const isOwner = await playlistService.isOwner(id, req.user?.id);
+    if (!isOwner) {
+      return res.status(403).json({
+        success: false,
+        error: 'No autorizado para modificar esta playlist'
+      });
+    }
+
     const playlist = await playlistService.updatePlaylist(id, req.body);
 
     res.status(200).json({
@@ -98,6 +127,16 @@ const updatePlaylist = async (req, res) => {
 const deletePlaylist = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Verificar propietario
+    const isOwner = await playlistService.isOwner(id, req.user?.id);
+    if (!isOwner) {
+      return res.status(403).json({
+        success: false,
+        error: 'No autorizado para eliminar esta playlist'
+      });
+    }
+
     await playlistService.deletePlaylist(id);
 
     res.status(200).json({
@@ -119,6 +158,16 @@ const deletePlaylist = async (req, res) => {
 const addTracksToPlaylist = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Verificar propietario
+    const isOwner = await playlistService.isOwner(id, req.user?.id);
+    if (!isOwner) {
+      return res.status(403).json({
+        success: false,
+        error: 'No autorizado para modificar esta playlist'
+      });
+    }
+
     const playlist = await playlistService.addTracksToPlaylist(id, req.body);
 
     res.status(200).json({
@@ -142,4 +191,3 @@ module.exports = {
   deletePlaylist,
   addTracksToPlaylist
 };
-

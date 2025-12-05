@@ -14,6 +14,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutesAPI = require('./routes/userRoutes');
 const playlistRoutes = require('./routes/playlistRoutes');
 const songRoutes = require('./routes/songRoutes');
+const generateRoutes = require('../routes/generate');
 
 const app = express();
 
@@ -42,11 +43,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', message: 'Backend funcionando', timestamp: new Date().toISOString() });
+});
+
 // Rutas de la API
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutesAPI);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/songs', songRoutes);
+app.use('/api/generate', generateRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
