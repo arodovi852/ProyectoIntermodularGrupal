@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: playthemood-frontend:latest
+    ports:
+      - "8080:80"     # el frontend estará en http://localhost:8080
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: playthemood-backend:latest
+    ports:
+      - "3000:5000"   # backend accesible desde http://localhost:3000 (pero el contenedor sigue usando 5000 internamente)
