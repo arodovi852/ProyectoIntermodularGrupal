@@ -1,12 +1,39 @@
 /**
- * Utilidades para trabajar con datos de Spotify
+ * Utilidades para Trabajar con Datos de Spotify.
+ *
+ * Proporciona funciones de validación, transformación y utilidades
+ * para trabajar con objetos devueltos por la API de Spotify.
+ *
+ * Funciones principales:
+ * - Validación de estructura de tracks
+ * - Selección inteligente de imágenes de álbumes
+ * - Formateo de duraciones
+ * - Extracción de IDs desde URLs/URIs
+ * - Conversión de parámetros de "mood" a parámetros de API
+ *
+ * @module utils/spotifyHelper
  */
 
 /**
- * Valida si un objeto tiene la estructura de un track de Spotify
+ * Valida si un objeto tiene la estructura correcta de un track de Spotify.
  *
+ * Verifica la presencia y estructura de:
+ * - Campos básicos: id, name, duration_ms
+ * - Objeto album con name e images (array)
+ * - Array de artists con al menos 1 elemento
+ * - Object external_urls con URL de Spotify
+ *
+ * Útil para validar datos antes de guardarlos en BD.
+ *
+ * @function isValidSpotifyTrack
  * @param {Object} track - Objeto a validar
- * @returns {boolean} True si tiene la estructura correcta
+ * @returns {boolean} true si tiene estructura válida de track de Spotify
+ *
+ * @example
+ * const spotifyTrack = { id: '...', name: 'Song', ... };
+ * if (isValidSpotifyTrack(spotifyTrack)) {
+ *   await saveToDB(spotifyTrack);
+ * }
  */
 const isValidSpotifyTrack = (track) => {
   if (!track || typeof track !== 'object') return false;
@@ -43,11 +70,31 @@ const isValidSpotifyTrack = (track) => {
 };
 
 /**
- * Obtiene la mejor imagen de un álbum de Spotify
+ * Selecciona la mejor imagen de un álbum según el tamaño preferido.
  *
- * @param {Array} images - Array de imágenes del álbum
- * @param {string} size - Tamaño preferido: 'large', 'medium', 'small'
- * @returns {string} URL de la imagen
+ * Spotify devuelve imágenes ordenadas de mayor a menor resolución.
+ * La función intenta obtener la mejor imagen para el tamaño solicitado,
+ * con fallbacks si no está disponible.
+ *
+ * Tamaños:
+ * - 'large': Máxima resolución disponible (índice 0)
+ * - 'medium': Resolución intermedia
+ * - 'small': Mínima resolución (última)
+ *
+ * @function getBestAlbumImage
+ * @param {Array} images - Array de objetos imagen de Spotify
+ * @param {Object} images[].url - URL de la imagen
+ * @param {number} images[].height - Altura en píxeles
+ * @param {number} images[].width - Ancho en píxeles
+ * @param {string} [size='large'] - Tamaño preferido: 'large', 'medium', 'small'
+ * @returns {string} URL de la imagen (o placeholder si no hay imágenes)
+ *
+ * @example
+ * const imageUrl = getBestAlbumImage(album.images, 'large');
+ * // https://i.scdn.co/image/ab67616d0000b273...
+ *
+ * @example
+ * const smallImage = getBestAlbumImage(album.images, 'small');
  */
 const getBestAlbumImage = (images, size = 'large') => {
   if (!images || !Array.isArray(images) || images.length === 0) {
@@ -68,11 +115,22 @@ const getBestAlbumImage = (images, size = 'large') => {
 };
 
 /**
- * Formatea la duración en milisegundos a formato legible
+ * Formatea una duración en milisegundos a formato legible.
  *
+ * Formatos:
+ * - Sin horas: "3:45" (3 minutos 45 segundos)
+ * - Con horas: "1:23:45" (1 hora 23 minutos 45 segundos)
+ *
+ * @function formatDuration
  * @param {number} durationMs - Duración en milisegundos
- * @param {boolean} includeHours - Si debe incluir horas
- * @returns {string} Duración formateada
+ * @param {boolean} [includeHours=false] - Si incluir horas en formato
+ * @returns {string} Duración formateada (MM:SS o HH:MM:SS)
+ *
+ * @example
+ * formatDuration(225000); // "3:45" (3 minutos 45 segundos)
+ *
+ * @example
+ * formatDuration(5045000, true); // "1:24:05" (1 hora 24 minutos 5 segundos)
  */
 const formatDuration = (durationMs, includeHours = false) => {
   const totalSeconds = Math.floor(durationMs / 1000);
@@ -88,10 +146,29 @@ const formatDuration = (durationMs, includeHours = false) => {
 };
 
 /**
- * Extrae los IDs de Spotify de diferentes formatos de entrada
+ * Extrae IDs de Spotify desde diferentes formatos de entrada.
  *
- * @param {string|Array} input - URL, URI o array de Spotify
- * @returns {Array<string>} Array de IDs
+ * Soporta múltiples formatos:
+ * 1. URI: `spotify:track:3n3Ppam7vgaVa1iaRUc9Lp`
+ * 2. URL: `https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp`
+ * 3. ID directo: `3n3Ppam7vgaVa1iaRUc9Lp`
+ * 4. Array: Procesa múltiples y retorna array plano
+ *
+ * @function extractSpotifyIds
+ * @param {string|Array} input - URL, URI, ID directo, o array de cualquiera de estos
+ * @returns {Array<string>} Array de IDs extraídos
+ *
+ * @example
+ * extractSpotifyIds('spotify:track:3n3Ppam7vgaVa1iaRUc9Lp');
+ * // ['3n3Ppam7vgaVa1iaRUc9Lp']
+ *
+ * @example
+ * extractSpotifyIds('https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp');
+ * // ['3n3Ppam7vgaVa1iaRUc9Lp']
+ *
+ * @example
+ * extractSpotifyIds(['spotify:track:id1', 'https://open.spotify.com/track/id2']);
+ * // ['id1', 'id2']
  */
 const extractSpotifyIds = (input) => {
   if (Array.isArray(input)) {
@@ -119,10 +196,38 @@ const extractSpotifyIds = (input) => {
 };
 
 /**
- * Convierte parámetros de estado de ánimo a parámetros de Spotify
+ * Convierte parámetros de "mood" a parámetros de la API de Spotify/Recomendaciones.
  *
- * @param {Object} mood - Objeto con parámetros de estado de ánimo
- * @returns {Object} Parámetros para la API de Spotify/ReccoBeats
+ * Mapea parámetros de interfaz de usuario de "estado de ánimo" a parámetros
+ * estándar de Spotify Recommendations API.
+ *
+ * Parámetros de audio (0-1):
+ * - acousticness: Probabilidad de ser acústico
+ * - danceability: Qué bailan las personas a esta música
+ * - energy: Intensidad y actividad (0.0=calma, 1.0=enérgico)
+ * - instrumentalness: Falta de voces
+ * - valence: Positividad musical (0.0=triste, 1.0=alegre)
+ *
+ * @function moodToSpotifyParams
+ * @param {Object} mood - Parámetros de estado de ánimo
+ * @param {number} [mood.valence] - Positividad (0-1)
+ * @param {number} [mood.energy] - Energía (0-1)
+ * @param {number} [mood.danceability] - Bailabilidad (0-1)
+ * @param {number} [mood.tempo] - Tempo en BPM (0-250)
+ * @param {number} [mood.acousticness] - Acústica (0-1)
+ * @param {number} [mood.instrumentalness] - Instrumentalidad (0-1)
+ * @param {number} [mood.limit] - Límite de resultados
+ * @param {string[]} [mood.seed_tracks] - IDs de tracks semilla
+ * @param {string[]} [mood.seed_artists] - IDs de artistas semilla
+ * @param {string[]} [mood.seed_genres] - Géneros semilla
+ * @returns {Object} Parámetros mapeados para Spotify API
+ *
+ * @example
+ * const params = moodToSpotifyParams({
+ *   energy: 0.8,
+ *   valence: 0.7,
+ *   seed_artists: ['artist1', 'artist2']
+ * });
  */
 const moodToSpotifyParams = (mood) => {
   const params = {};

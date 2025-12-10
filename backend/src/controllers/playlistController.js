@@ -1,12 +1,38 @@
 /**
- * Controlador para Playlists
- * Gestiona operaciones CRUD sobre playlists
+ * Controlador para Playlists.
+ * Gestiona operaciones CRUD y acciones relacionadas sobre playlists de usuario.
+ *
+ * Cada handler:
+ * - Valida permisos usando la información de `req.user` (inyectada por el middleware de autenticación).
+ * - Delega la lógica de negocio en `playlistService`.
+ * - Devuelve respuestas JSON normalizadas con las claves `success`, `data` y `error`.
  */
+
 
 const playlistService = require('../services/playlistService');
 
 /**
- * Obtener todas las playlists de un usuario
+ * Obtener todas las playlists de un usuario autenticado.
+ *
+ * Requiere que el middleware de autenticación haya añadido `req.user`
+ * con el identificador del usuario en `req.user.id`.
+ *
+ * Parámetros de ruta:
+ * - `userId` (string): identificador del usuario cuyas playlists se quieren consultar.
+ *
+ * Parámetros de consulta opcionales:
+ * - Se pasan directamente a `playlistService.getUserPlaylists` para filtrado/paginación.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, count, data: Playlist[] }`
+ * - 403 Forbidden: si el `userId` de la ruta no coincide con `req.user.id`.
+ * - 404 Not Found / 500 Internal Server Error: en función del mensaje de error del servicio.
+ *
+ * @async
+ * @function getUserPlaylists
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getUserPlaylists = async (req, res) => {
   try {
@@ -37,9 +63,25 @@ const getUserPlaylists = async (req, res) => {
 };
 
 /**
- * Crear una nueva playlist
- * Espera en req.body: { name, userId, tracks, cover_image_url, spotify_url, config }
- * config debe incluir: size, seeds, y opcionalmente negativeSeeds y parámetros de audio
+ * Crear una nueva playlist.
+ *
+ * Espera en el cuerpo de la petición un objeto con la siguiente forma:
+ * - `name` {string} Nombre de la playlist.
+ * - `userId` {string} Identificador del usuario propietario.
+ * - `tracks` {string[]} Array de IDs de canciones.
+ * - `cover_image_url` {string} (opcional) URL de la imagen de portada.
+ * - `spotify_url` {string|null} (opcional) URL asociada en Spotify.
+ * - `config` {Object} Objeto de configuración de generación (tamaño, seeds, parámetros de audio, etc.).
+ *
+ * Respuestas:
+ * - 201 Created: `{ success: true, data: Playlist }`
+ * - 400 Bad Request / 404 Not Found: en función del mensaje de error del servicio.
+ *
+ * @async
+ * @function createPlaylist
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const createPlaylist = async (req, res) => {
   try {
@@ -59,7 +101,23 @@ const createPlaylist = async (req, res) => {
 };
 
 /**
- * Obtener detalles de una playlist con sus canciones
+ * Obtener los detalles completos de una playlist, incluyendo sus canciones.
+ *
+ * Requiere que el usuario autenticado sea propietario de la playlist.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador de la playlist.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: PlaylistConCanciones }`
+ * - 403 Forbidden: si el usuario no es propietario.
+ * - 404 Not Found / 500 Internal Server Error: en función del mensaje de error del servicio.
+ *
+ * @async
+ * @function getPlaylistDetails
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getPlaylistDetails = async (req, res) => {
   try {
@@ -90,8 +148,30 @@ const getPlaylistDetails = async (req, res) => {
 };
 
 /**
- * Actualizar una playlist
- * Puede actualizar: name, tracks, cover_image_url, spotify_url, config
+ * Actualizar una playlist existente.
+ *
+ * Permite actualizar, entre otros:
+ * - `name`
+ * - `tracks`
+ * - `cover_image_url`
+ * - `spotify_url`
+ * - `config`
+ *
+ * Solo el propietario de la playlist puede modificarla.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador de la playlist.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: PlaylistActualizada }`
+ * - 403 Forbidden: si el usuario no es propietario.
+ * - 404 Not Found / 400 Bad Request: en función del mensaje de error del servicio.
+ *
+ * @async
+ * @function updatePlaylist
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const updatePlaylist = async (req, res) => {
   try {
@@ -122,7 +202,23 @@ const updatePlaylist = async (req, res) => {
 };
 
 /**
- * Eliminar una playlist
+ * Eliminar una playlist.
+ *
+ * Solo el propietario de la playlist puede eliminarla.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador de la playlist.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: {} }`
+ * - 403 Forbidden: si el usuario no es propietario.
+ * - 404 Not Found / 500 Internal Server Error: en función del mensaje de error del servicio.
+ *
+ * @async
+ * @function deletePlaylist
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const deletePlaylist = async (req, res) => {
   try {
@@ -153,7 +249,27 @@ const deletePlaylist = async (req, res) => {
 };
 
 /**
- * Añadir canciones a una playlist
+ * Añadir canciones a una playlist existente.
+ *
+ * El cuerpo de la petición debe incluir la información necesaria para que
+ * `playlistService.addTracksToPlaylist` añada una o varias pistas (por ejemplo,
+ * un array de IDs de canciones).
+ *
+ * Solo el propietario de la playlist puede modificarla.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador de la playlist.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: PlaylistActualizada }`
+ * - 403 Forbidden: si el usuario no es propietario.
+ * - 404 Not Found / 400 Bad Request: en función del mensaje de error del servicio.
+ *
+ * @async
+ * @function addTracksToPlaylist
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const addTracksToPlaylist = async (req, res) => {
   try {
