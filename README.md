@@ -5,6 +5,39 @@
 
 ---
 
+## Índice
+
+1. [Descripción del proyecto](#1-descripción-del-proyecto)  
+2. [Stack Tecnológico](#2-stack-tecnológico)  
+   - 2.1. [Frontend](#21-frontend)  
+   - 2.2. [Backend](#22-backend)  
+   - 2.3. [DevOps & Deployment](#23-devops--deployment)  
+3. [Aplicación Desplegada](#3-aplicación-desplegada)  
+4. [Features](#4-features)  
+5. [Instalación Local](#5-instalación-local)  
+   - 5.1. [Requisitos Previos](#51-requisitos-previos)  
+   - 5.2. [Pasos de Instalación](#52-pasos-de-instalación)  
+   - 5.3. [Variables de Entorno Necesarias](#53-variables-de-entorno-necesarias)  
+6. [Equipo de Desarrollo](#6-equipo-de-desarrollo)  
+7. [Documentación](#7-documentación)  
+   - 7.1. [SCRUM - Proyecto Intermodular](#71-scrum---proyecto-intermodular)  
+   - 7.2. [Documentación técnica - Desarrollo de aplicaciones web fullstack](#72-desarrollo-técnico---desarrollo-de-aplicaciones-web-fullstack)  
+   - 7.3. [Guías Específicas](#73-guías-específicas)  
+   - 7.4. [Documentación de Componentes](#74-documentación-de-componentes)  
+8. [Testing](#8-testing)
+   - [Ejemplo de reporte completo](https://arodovi852.github.io/ProyectoIntermodularGrupal/report-complete.html)
+10. [Estructura del Proyecto](#9-estructura-del-proyecto)  
+11. [Enlaces Rápidos](#10-enlaces-rápidos)  
+12. [Guía Rápida de Desarrollo](#11-guía-rápida-de-desarrollo)  
+    - 11.1. [Flujo de Trabajo](#111-flujo-de-trabajo)  
+    - 11.2. [Convención de Commits](#112-convención-de-commits)  
+13. [Licencia](#12-licencia)  
+14. [Contacto y Soporte](#13-contacto-y-soporte)
+
+---
+
+### 1. Descripción del proyecto
+
 **PlayTheMood** es una aplicación web moderna que permite a los usuarios crear playlists de Spotify personalizadas basadas en su estado de ánimo actual. Con una interfaz intuitiva y un sistema de autenticación seguro, los usuarios pueden generar automáticamente listas de reproducción que se adapten perfectamente a cómo se sienten en cada momento.
 
 La aplicación integra la API de Spotify para acceder a un vasto catálogo musical, permitiendo a los usuarios descubrir nuevas canciones que coincidan con sus emociones sin necesidad de buscar manualmente. Es la solución perfecta para cuando sabes que quieres escuchar música pero no sabes exactamente qué canción necesitas.
@@ -15,9 +48,9 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 
 ---
 
-### Stack Tecnológico
+### 2. Stack Tecnológico
 
-**Frontend**
+#### 2.1. Frontend
 - **React 19** - Framework UI
 - **Vite** - Build tool y dev server
 - **React Router 7** - Enrutamiento
@@ -25,7 +58,7 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 - **Axios** - Cliente HTTP
 - **ESLint** - Linting
 
-**Backend**
+#### 2.2. Backend
 - **Node.js** - Runtime
 - **Express.js** - Framework web
 - **MongoDB** - Base de datos NoSQL
@@ -35,7 +68,7 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 - **Spotify API** - Integración de música
 - **Postman/Newman** - Testing de APIs
 
-**DevOps & Deployment**
+#### 2.3. DevOps & Deployment
 - **Docker** - Containerización
 - **Docker Compose** - Orquestación de servicios
 - **Nginx** - Proxy inverso
@@ -43,13 +76,13 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 
 ---
 
-### Aplicación Desplegada
+### 3. Aplicación Desplegada
 
 > [https://wwww.playthemood.dev](https://wwww.playthemood.dev)
 
 ---
 
-### Features
+### 4. Features
 
 ![Login](./assets/login.gif)
 ![Sliders](./assets/sliders.gif)
@@ -58,15 +91,15 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 
 ---
 
-## Instalación Local
+## 5. Instalación Local
 
-### Requisitos Previos
+### 5.1. Requisitos Previos
 - Node.js 16+
 - npm o yarn
 - MongoDB local o Atlas
 - Credenciales de Spotify API
 
-### Pasos de Instalación
+### 5.2. Pasos de Instalación
 
 1. **Clonar el repositorio**
    ```bash
@@ -101,7 +134,7 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
    docker-compose up --build
    ```
 
-### Variables de Entorno Necesarias
+### 5.3. Variables de Entorno Necesarias
 
 Backend (.env):
 ```
@@ -132,7 +165,7 @@ VITE_API_URL=http://localhost:3000/api
 
 ---
 
-## Equipo de Desarrollo
+## 6. Equipo de Desarrollo
 
 | Nombre            | GitHub                                       | Rol        |
 |-------------------|----------------------------------------------|------------|
@@ -142,9 +175,9 @@ VITE_API_URL=http://localhost:3000/api
 
 ---
 
-## Documentación
+## 7. Documentación
 
-### SCRUM - Proyecto Intermodular
+### 7.1. SCRUM - Proyecto Intermodular
 - [Análisis de competencia](./docs/analisis-competencia.md)
 - [Estructura organizativa](./docs/estructura-organizativa.md)
 - [Presupuesto](./docs/presupuesto.md)
@@ -152,22 +185,22 @@ VITE_API_URL=http://localhost:3000/api
 - [Legislación](./docs/legislacion.md)
 - [Recursos](./docs/recursos.md)
 
-### Desarrollo Técnico - Desarrollo de aplicaciones web fullstack
+### 7.2. Desarrollo Técnico - Desarrollo de aplicaciones web fullstack
 - [Documentación técnica](./docs/desarrollo-tecnico.md)
 
-### Guías Específicas
+### 7.3. Guías Específicas
 - [Autenticación JWT](./backend/docs/autentificacion/AUTENTICACION_JWT.md)
 - [Base de datos](./backend/docs/base-de-datos/BASE_DE_DATOS.md)
 - [Guía API Frontend](./backend/docs/GUIA_FRONTEND_API.md)
 - [Testing y reportes](./backend/docs/testing/REPORTES_HTML_GUIA.md)
 
-### Documentación de Componentes
+### 7.4. Documentación de Componentes
 - [Backend README](./backend/README.md)
 - [Frontend README](./frontend/README.md)
 
 ---
 
-## Testing
+## 8. Testing
 
 ### Ejecutar Tests
 
@@ -187,9 +220,11 @@ npm run test:html:complete
 
 Las colecciones de Postman están en: `./backend/tests/postman/`
 
+[Ejemplo de reporte completo](https://arodovi852.github.io/ProyectoIntermodularGrupal/report-complete.html)
+
 ---
 
-## 📋 Estructura del Proyecto
+## 9. Estructura del Proyecto
 
 ```
 PlayTheMood/
@@ -219,7 +254,7 @@ PlayTheMood/
 
 ---
 
-## 🔗 Enlaces Rápidos
+## 10. Enlaces Rápidos
 
 - **Docker Hub**: [Insertar enlace]
 - **Wiki del Proyecto**: [Insertar enlace]
@@ -228,16 +263,16 @@ PlayTheMood/
 
 ---
 
-## Guía Rápida de Desarrollo
+## 11. Guía Rápida de Desarrollo
 
-### Flujo de Trabajo
+### 11.1. Flujo de Trabajo
 1. Crear rama desde `develop`: `git checkout -b feature/nombre-feature`
 2. Hacer cambios y commits descriptivos
 3. Push a la rama
 4. Crear Pull Request hacia `develop`
 5. Merger cuando sea aprobado
 
-### Convención de Commits
+### 11.2. Convención de Commits
 ```
 feat: nueva funcionalidad
 fix: solución de bug
@@ -249,13 +284,13 @@ test: añadir/modificar tests
 
 ---
 
-## Licencia
+## 12. Licencia
 
 Este proyecto es académico y está disponible bajo licencia MIT.
 
 ---
 
-## Contacto y Soporte
+## 13. Contacto y Soporte
 
 Para preguntas o sugerencias sobre el proyecto:
 - Email: falbmun0906@g.educaand.es
