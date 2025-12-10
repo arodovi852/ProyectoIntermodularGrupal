@@ -1,3 +1,43 @@
+/**
+ * Componente SearchBar - Búsqueda de Canciones con Autocomplete.
+ *
+ * Barra de búsqueda avanzada que permite:
+ * - Búsqueda de canciones en tiempo real
+ * - Autocomplete mediante debounce (espera 300ms)
+ * - Visualización de sugerencias en dropdown
+ * - Añadir canciones a liked/disliked directamente desde sugerencias
+ * - Validación de canciones duplicadas
+ * - Manejo de keyboard (Enter, Escape)
+ * - Click-outside detection para cerrar sugerencias
+ *
+ * Flujo:
+ * 1. Usuario escribe en el input
+ * 2. onChange se dispara con cada carácter
+ * 3. Se inicia debounce de 300ms
+ * 4. Transcurridos 300ms sin nuevos caracteres, se busca en API
+ * 5. Se muestran sugerencias en dropdown
+ * 6. Usuario puede hacer click en sugerencia para añadirla
+ * 7. O presionar Enter para hacer búsqueda completa
+ *
+ * Optimizaciones:
+ * - Debounce: Evita múltiples requests mientras se está escribiendo
+ * - No busca con menos de 2 caracteres
+ * - Cierra sugerencias cuando se hace click fuera
+ * - Detecta canciones ya añadidas
+ *
+ * @module frontend/components/SearchBar
+ * @component
+ * @param {Object} props
+ * @param {string} props.value - Valor actual del input
+ * @param {Function} props.onChange - Callback cuando cambia el input
+ * @param {Function} props.onSearch - Callback cuando hace búsqueda
+ * @param {string} [props.placeholder] - Placeholder del input
+ * @param {Function} [props.onAddSong] - Callback para añadir canción (song, type)
+ * @param {Array} [props.likedSongs] - Canciones ya liked
+ * @param {Array} [props.dislikedSongs] - Canciones ya disliked
+ * @returns {React.ReactElement} Input con dropdown de sugerencias
+ */
+
 import React, { useState, useEffect, useRef } from 'react'
 import styles from '../../styles/SearchBar.module.css'
 import api from '../../services/api'

@@ -1,6 +1,28 @@
 import React from 'react'
 import styles from '../../styles/Sliders.module.css'
 
+/**
+ * Componente auxiliar SliderItem.
+ *
+ * Renderiza un slider individual con:
+ * - Label (nombre del parámetro)
+ * - Descripción breve
+ * - Input range interactivo
+ * - Valor actual mostrado
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.label - Nombre del parámetro
+ * @param {string} props.description - Explicación de qué hace
+ * @param {number} [props.min=0] - Valor mínimo
+ * @param {number} [props.max=100] - Valor máximo
+ * @param {number} [props.step=1] - Incremento por paso
+ * @param {number} props.value - Valor actual
+ * @param {Function} props.onChange - Callback cuando cambia
+ * @param {string} [props.unit=''] - Unidad a mostrar (ej: "BPM")
+ * @returns {React.ReactElement} Slider individual
+ * @private
+ */
 const SliderItem = ({
                         label,
                         description,
@@ -31,6 +53,15 @@ const SliderItem = ({
     </div>
 )
 
+/**
+ * Componente Sliders Principal.
+ *
+ * Renderiza todos los sliders con valores y callbacks.
+ * Esperardecisor parámetros de estado y setters para cada parámetro.
+ *
+ * @component
+ * @returns {React.ReactElement} Grid de todos los sliders
+ */
 const Sliders = ({
                      acousticness, setAcousticness,
                      danceability, setDanceability,

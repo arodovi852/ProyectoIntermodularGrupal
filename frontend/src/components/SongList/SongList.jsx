@@ -1,3 +1,38 @@
+/**
+ * Componente SongList - Visualización de Canciones Liked y Disliked.
+ *
+ * Renderiza dos listas de canciones seleccionadas por el usuario:
+ * - **Liked Songs**: Canciones que le gustan (máximo 5)
+ * - **Disliked Songs**: Canciones que no le gustan (máximo 5)
+ *
+ * Características:
+ * - Muestra imagen, nombre, artista y álbum de cada canción
+ * - Botón para eliminar canción individual
+ * - Indica contador de seleccionadas (ej: "3 de 5")
+ * - Estilos diferenciados para liked/disliked
+ * - Responsive grid layout
+ * - Click en imagen o botón elimina la canción
+ *
+ * Estructura de Song esperada:
+ * ```
+ * {
+ *   id: string,
+ *   name: string,
+ *   artist: string,
+ *   album: string,
+ *   image: string (URL)
+ * }
+ * ```
+ *
+ * @module frontend/components/SongList
+ * @component
+ * @param {Object} props
+ * @param {Array} props.likedSongs - Array de canciones que gustan
+ * @param {Array} props.dislikedSongs - Array de canciones que no gustan
+ * @param {Function} props.onRemove - Callback para eliminar (songId, type)
+ * @returns {React.ReactElement} Listas de canciones con controles
+ */
+
 import React from 'react'
 import styles from '../../styles/SongList.module.css'
 
