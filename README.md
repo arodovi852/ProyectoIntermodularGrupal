@@ -45,7 +45,7 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 
 ### Aplicación Desplegada
 
-> [playthemood.dev](playthemood.dev)
+> [https://wwww.playthemood.dev](https://wwww.playthemood.dev)
 
 ---
 
