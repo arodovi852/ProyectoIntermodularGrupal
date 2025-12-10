@@ -145,7 +145,7 @@ VITE_API_URL=http://localhost:3000/api
 ## Documentación
 
 ### SCRUM - Proyecto Intermodular
-- [Análisis de Competencia](./docs/analisis-competencia.md)
+- [Análisis de competencia](./docs/analisis-competencia.md)
 - [Estructura organizativa](./docs/estructura-organizativa.md)
 - [Presupuesto](./docs/presupuesto.md)
 - [Financiación](./docs/financiacion.md)
@@ -153,13 +153,13 @@ VITE_API_URL=http://localhost:3000/api
 - [Recursos](./docs/recursos.md)
 
 ### Desarrollo Técnico - Desarrollo de aplicaciones web fullstack
-- [Arquitectura Técnica](./docs/desarrollo-tecnico.md)
+- [Documentación técnica](./docs/desarrollo-tecnico.md)
 
 ### Guías Específicas
 - [Autenticación JWT](./backend/docs/autentificacion/AUTENTICACION_JWT.md)
-- [Base de Datos](./backend/docs/base-de-datos/BASE_DE_DATOS.md)
+- [Base de datos](./backend/docs/base-de-datos/BASE_DE_DATOS.md)
 - [Guía API Frontend](./backend/docs/GUIA_FRONTEND_API.md)
-- [Testing y Reportes](./backend/docs/testing/REPORTES_HTML_GUIA.md)
+- [Testing y reportes](./backend/docs/testing/REPORTES_HTML_GUIA.md)
 
 ### Documentación de Componentes
 - [Backend README](./backend/README.md)
