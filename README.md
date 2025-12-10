@@ -1,8 +1,7 @@
 <br>
-<div align="center">
-  <span style="font-family: Montserrat, sans-serif; font-weight:700; font-size:28px;">playthemood</span>
-  <p><strong>Crea playlists personalizadas según tu estado de ánimo</strong></p>
-</div>
+<p align="center">
+  <img width="890" height="201" alt="logo" src="https://github.com/user-attachments/assets/e759ebc3-1802-4346-a991-827ae721a77a" />
+</p>
 
 ---
 
