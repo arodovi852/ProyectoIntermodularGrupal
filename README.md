@@ -263,7 +263,7 @@ Para preguntas o sugerencias sobre el proyecto:
 - GitHub Issues: [Crear issue](https://github.com/arodovi852/ProyectoIntermodularGrupal/issues)
 
 ---
-
+<br>
 <div align="center">
   <p><strong>Proyecto Intermodular - Año Académico 2025/2026</strong></p>
   <p>Hecho con ❤️ por el equipo de desarrollo</p>
