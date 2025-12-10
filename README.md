@@ -12,6 +12,8 @@ La aplicación integra la API de Spotify para acceder a un vasto catálogo music
 
 Este es un proyecto académico realizado como parte del módulo de **Proyecto Intermodular** que combina tecnologías modernas de frontend y backend, integración de APIs externas, y gestión de bases de datos en tiempo real.
 
+![Página de inicio](./assets/main-page.gif)
+
 ---
 
 ### Stack Tecnológico
@@ -48,14 +50,12 @@ Este es un proyecto académico realizado como parte del módulo de **Proyecto In
 
 ---
 
-### Capturas de Pantalla
+### Features
 
-> Añadir capturas de pantalla de:
-> - Página de inicio
-> - Login/Registro
-> - Generador de playlists
-> - Panel de usuario
-> - Playlist generada
+![Login](./assets/login.gif)
+![Sliders](./assets/sliders.gif)
+![Búsqueda](./assets/search.gif)
+![Carrusel](./assets/carousel.gif)
 
 ---
 

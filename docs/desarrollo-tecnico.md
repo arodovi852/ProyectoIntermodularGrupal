@@ -29,6 +29,8 @@
 
 ## 1. Descripción del Proyecto
 
+![Página de inicio](../assets/main-page.gif)
+
 PlayTheMood es una aplicación web full stack desarrollada bajo la arquitectura MERN (MongoDB, Express.js, React, Node.js) que permite a los usuarios generar playlists musicales personalizadas basadas en su estado de ánimo. El sistema integra la API de Spotify para la búsqueda y recomendación de canciones, proporcionando una experiencia de usuario fluida e intuitiva mediante controles visuales parametrizables.
 
 El proyecto implementa una solución técnica que abarca desde la gestión de usuarios con autenticación hasta la persistencia de datos en una base de datos NoSQL, utilizando patrones de diseño por capas y prácticas habituales en el desarrollo de aplicaciones web. La aplicación está estructurada en dos componentes principales: un backend RESTful construido con Node.js y Express, y un frontend desarrollado en React con Vite como bundler.
@@ -180,6 +182,8 @@ Esta arquitectura por capas implementa el principio de separación de responsabi
 ### 2.2. Sistema de Autenticación y Autorización (RA1.d)
 
 El sistema implementa un mecanismo de autenticación basado en JSON Web Tokens (JWT), considerado un estándar de la industria para aplicaciones web stateless. La implementación cubre los aspectos fundamentales de seguridad en el acceso a recursos.
+
+![Login](../assets/login.gif)
 
 #### 2.2.1. Hashing de contraseñas con bcrypt
 
@@ -360,6 +364,8 @@ De forma análoga, el modelo de usuario y la organización de rutas están prepa
 
 ### 2.3. Persistencia de Datos con MongoDB (RA1.e)
 
+![Búsqueda](../assets/search.gif)
+
 La persistencia de datos se ha implementado utilizando MongoDB, una base de datos NoSQL orientada a documentos que ofrece flexibilidad en el modelado de datos y escalabilidad horizontal. La elección de MongoDB sobre bases de datos relacionales se fundamenta en varios factores técnicos: la naturaleza variable de los datos musicales procedentes de Spotify, que pueden incluir diferentes atributos según el tipo de contenido; la necesidad de almacenar estructuras anidadas como arrays de canciones en playlists sin requerir múltiples joins; y la capacidad de escalar horizontalmente mediante sharding cuando el volumen de datos crezca.
 
 El acceso a MongoDB se realiza mediante Mongoose, un ODM (Object-Document Mapper) que proporciona una capa de abstracción con validación de esquemas, middleware, y métodos de consulta. Los esquemas definidos para User, Song y Playlist incluyen validaciones a nivel de modelo destinadas a comprobar la consistencia de los datos antes de su inserción en la base de datos.
@@ -383,6 +389,8 @@ Respecto a características avanzadas como replicación y sharding, la configura
 ### 3.1. Arquitectura de Componentes Modulares y Reutilizables (RA2.a)
 
 La interfaz de usuario se ha desarrollado utilizando React 19.1, aprovechando su arquitectura basada en componentes y el paradigma de programación declarativa. La estructura del frontend sigue una organización inspirada en Atomic Design que separa los componentes en tres niveles jerárquicos: átomos, moléculas y organismos.
+
+![Carrusel](../assets/carousel.gif)
 
 #### 3.1.1. Componentes atómicos
 
@@ -768,6 +776,8 @@ La implementación actual soporta búsqueda de canciones por nombre, artista o �
 - **Offline support**: Almacenamiento local de búsquedas recientes
 
 ### 3.3. Optimización de Rendimiento y Experiencia de Usuario (RA2.e)
+
+![Sliders](../assets/sliders.gif)
 
 La optimización del rendimiento constituye un aspecto transversal que se ha abordado en múltiples niveles de la arquitectura. La estrategia combina técnicas de frontend, backend y red para garantizar una experiencia de usuario fluida.
 
