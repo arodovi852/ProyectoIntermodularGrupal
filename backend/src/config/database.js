@@ -1,9 +1,26 @@
+/**
+ * Script de seeding para poblar la base de datos con datos iniciales.
+ *
+ * Permite:
+ * - Crear usuarios de prueba con contraseñas hasheadas.
+ * - Insertar un conjunto de canciones de ejemplo simulando respuestas de Spotify.
+ * - Generar varias playlists preconfiguradas asociadas a esos usuarios y canciones.
+ *
+ * Uso:
+ *   node src/config/seed.js
+ *
+ * El script:
+ * - Conecta a MongoDB usando la URI de `MONGODB_URI` o una base local por defecto.
+ * - Limpia las colecciones `User`, `Playlist` y `Song`.
+ * - Inserta los documentos de ejemplo.
+ * - Muestra un resumen por consola y cierra la conexión.
+ *
+ * Importante: los datos generados son únicamente para entornos de desarrollo
+ * y demostración; no deben utilizarse en producción.
+ */
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-/**
- * Configuración y conexión a MongoDB usando Mongoose
- */
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/mood-playlist-app', {

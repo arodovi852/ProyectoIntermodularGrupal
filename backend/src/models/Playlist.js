@@ -1,8 +1,62 @@
+/**
+ * Modelo de Playlist (Lista de Reproducción).
+ *
+ * Representa una playlist creada por un usuario con canciones seleccionadas.
+ * Almacena metadatos de la playlist, configuración de generación de recomendaciones
+ * basada en parámetros de Spotify API, y referencias a las canciones.
+ *
+ * Campos principales:
+ * - **name**: Nombre de la playlist.
+ * - **tracks**: Array de IDs de canciones.
+ * - **userId**: Referencia al usuario propietario.
+ * - **config**: Objeto con parámetros para generación de recomendaciones:
+ *   - Semillas (tracks, artistas, géneros) de inicio.
+ *   - Parámetros de audio (energía, bailabilidad, acústica, etc.).
+ * - **cover_image_url**: URL personalizada de portada.
+ * - **spotify_url**: URL compartible en Spotify.
+ *
+ * Métodos:
+ * - `getTotalDuration()`: Calcula duración total de la playlist.
+ * - `getTrackCount()`: Retorna número de canciones.
+ * - `getCoverImage()`: Obtiene portada personalizada o de canción.
+ * - `findByUserId()`: Método estático para obtener playlists de un usuario.
+ *
+ * @module models/Playlist
+ * @requires mongoose
+ */
 const mongoose = require('mongoose');
 
 /**
- * Esquema de Playlist
- * Almacena las playlists creadas por los usuarios
+ * Esquema de Playlist para Mongoose.
+ *
+ * Define la estructura y validaciones de los documentos de playlist en MongoDB.
+ * Incluye validadores para parámetros de audio (rango 0-1 para métricas, excepto algunos).
+ * La configuración almacena parámetros de Spotify Recommendations API.
+ *
+ * @typedef {Object} Playlist
+ * @property {string} name - Nombre de la playlist (1-200 caracteres).
+ * @property {string[]} tracks - Array de IDs de canciones (Song._id).
+ * @property {string|null} spotify_url - URL compartible de Spotify.
+ * @property {ObjectId} userId - ID del usuario propietario (referencia a User).
+ * @property {Date} created_at - Fecha de creación manual.
+ * @property {string} cover_image_url - URL de imagen de portada (personalizable).
+ * @property {Object} config - Configuración de recomendaciones de Spotify.
+ * @property {number} config.size - Cantidad de tracks a generar (1-100).
+ * @property {string[]} config.seeds - Semillas de recomendación (1-5).
+ * @property {string[]} config.negativeSeeds - Semillas negativas a excluir (0-5).
+ * @property {number} config.acousticness - Acústica (0-1, null por defecto).
+ * @property {number} config.danceability - Bailabilidad (0-1, null por defecto).
+ * @property {number} config.energy - Energía (0-1, null por defecto).
+ * @property {number} config.instrumentalness - Instrumentalidad (0-1, null por defecto).
+ * @property {number} config.key - Clave musical (-1 a 11, null por defecto).
+ * @property {number} config.liveness - Energía en vivo (0-1, null por defecto).
+ * @property {number} config.loudness - Volumen (-60 a 2, null por defecto).
+ * @property {number} config.mode - Modo (0=menor, 1=mayor, null por defecto).
+ * @property {number} config.speechiness - Presencia de voz (0-1, null por defecto).
+ * @property {number} config.tempo - Tempo en BPM (0-250, null por defecto).
+ * @property {number} config.valence - Positividad (0-1, null por defecto).
+ * @property {Date} createdAt - Timestamp automático de creación.
+ * @property {Date} updatedAt - Timestamp automático de última actualización.
  */
 const playlistSchema = new mongoose.Schema({
   name: {
@@ -150,11 +204,41 @@ const playlistSchema = new mongoose.Schema({
   collection: 'playlists'
 });
 
+/**
+ * Índices de búsqueda para optimizar consultas frecuentes.
+ *
+ * Estos índices permiten búsquedas y ordenamientos eficientes por:
+ * - Usuario (para obtener playlists de un usuario).
+ * - Fecha de creación (para ordenar por más recientes).
+ * - Nombre (para búsquedas por nombre).
+ */
 // Índices para búsquedas eficientes
 playlistSchema.index({ userId: 1 });
 playlistSchema.index({ created_at: -1 });
 playlistSchema.index({ name: 1 });
 
+/**
+ * Calcula la duración total de la playlist en formato legible.
+ *
+ * Obtiene todas las canciones referenciadas en `this.tracks`, suma sus duraciones
+ * y retorna una cadena formateada en horas, minutos y segundos.
+ *
+ * Formato de salida:
+ * - Si hay horas: "2h 15m 30s"
+ * - Si hay solo minutos: "45m 30s"
+ * - Si hay solo segundos: "30s"
+ *
+ * @memberof Playlist
+ * @instance
+ * @async
+ * @method getTotalDuration
+ * @returns {Promise<string>} Duración total formateada.
+ *
+ * @example
+ * const playlist = await Playlist.findById(playlistId);
+ * const duration = await playlist.getTotalDuration();
+ * console.log(duration); // "1h 30m 45s"
+ */
 // Método para obtener la duración total de la playlist
 playlistSchema.methods.getTotalDuration = async function() {
   const Song = mongoose.model('Song');
@@ -174,11 +258,49 @@ playlistSchema.methods.getTotalDuration = async function() {
   }
 };
 
+/**
+ * Retorna el número de canciones en la playlist.
+ *
+ * Método simple que devuelve la longitud del array `tracks`.
+ * Útil para obtener estadísticas sin hacer queries adicionales.
+ *
+ * @memberof Playlist
+ * @instance
+ * @method getTrackCount
+ * @returns {number} Número de canciones en la playlist.
+ *
+ * @example
+ * const playlist = await Playlist.findById(playlistId);
+ * console.log(playlist.getTrackCount()); // 42
+ */
 // Método para obtener el número de canciones
 playlistSchema.methods.getTrackCount = function() {
   return this.tracks.length;
 };
 
+/**
+ * Obtiene la imagen de portada de la playlist.
+ *
+ * Devuelve la imagen personalizada si existe y no es la placeholder.
+ * Si no hay portada personalizada, obtiene la imagen del primer track.
+ * Si no hay canciones, devuelve la URL placeholder por defecto.
+ *
+ * Comportamiento:
+ * - Si `cover_image_url` es personalizada, la devuelve.
+ * - Si hay tracks, usa la imagen del álbum del primer track.
+ * - Si no hay tracks ni portada personalizada, usa placeholder.
+ *
+ * @memberof Playlist
+ * @instance
+ * @async
+ * @method getCoverImage
+ * @returns {Promise<string>} URL de la imagen de portada.
+ *
+ * @example
+ * const playlist = await Playlist.findById(playlistId);
+ * const coverUrl = await playlist.getCoverImage();
+ * console.log(coverUrl); // "https://i.scdn.co/image/..."
+ */
 // Método para obtener la portada (usa la primera canción o una por defecto)
 playlistSchema.methods.getCoverImage = async function() {
   if (this.cover_image_url && this.cover_image_url !== 'https://via.placeholder.com/640x640.png?text=Playlist') {
@@ -194,11 +316,36 @@ playlistSchema.methods.getCoverImage = async function() {
   return this.cover_image_url;
 };
 
+/**
+ * Método estático para obtener todas las playlists de un usuario.
+ *
+ * Realiza una búsqueda por `userId` y ordena las playlists de más reciente
+ * a más antigua basándose en `created_at`.
+ *
+ * @static
+ * @memberof Playlist
+ * @param {string|ObjectId} userId ID del usuario propietario.
+ * @returns {Promise<Object[]>} Array de documentos Playlist del usuario.
+ *
+ * @example
+ * const userPlaylists = await Playlist.findByUserId(userId);
+ * console.log(userPlaylists.length); // número de playlists del usuario
+ */
 // Método estático para obtener playlists de un usuario
 playlistSchema.statics.findByUserId = function(userId) {
   return this.find({ userId }).sort({ created_at: -1 });
 };
 
+/**
+ * Middleware pre-hook para queries find.
+ *
+ * Se ejecuta antes de cualquier operación find. Actualmente no realiza
+ * populate automático de tracks para evitar consultas pesadas.
+ * El populate se puede hacer manualmente cuando sea necesario llamando
+ * a `.populate('tracks')` en la query.
+ *
+ * @see https://mongoosejs.com/docs/middleware.html
+ */
 // Populate automático de tracks al hacer queries
 playlistSchema.pre(/^find/, function(next) {
   // No hacer populate por defecto para evitar consultas pesadas

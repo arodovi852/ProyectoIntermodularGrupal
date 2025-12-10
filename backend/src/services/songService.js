@@ -1,6 +1,21 @@
 /**
- * Servicio de Canciones
- * Contiene toda la lógica de negocio relacionada con canciones
+ * Servicio de Canciones.
+ *
+ * Contiene toda la lógica de negocio relacionada con canciones, incluyendo:
+ * - Creación y actualización de canciones individuales y en lote
+ * - Importación desde API de Spotify
+ * - Búsqueda y obtención de canciones
+ * - Listado paginado con filtros
+ * - Búsquedas específicas por nombre, artista, álbum
+ *
+ * Las canciones se identifican por el ID de Spotify como clave primaria
+ * para evitar duplicados. Este servicio utiliza upsert para crear o actualizar
+ * canciones de forma segura.
+ *
+ * @module services/songService
+ * @requires ../models
+ * @requires ../dto/SongDTO
+ * @singleton
  */
 
 const { Song } = require('../models');
@@ -8,9 +23,38 @@ const SongDTO = require('../dto/SongDTO');
 
 class SongService {
   /**
-   * Crear o actualizar una canción
+   * Crea o actualiza una canción individual en la base de datos.
+   *
+   * Utiliza upsert para evitar duplicados (basado en ID de Spotify).
+   * Si la canción existe, la actualiza; si no, la crea.
+   *
+   * Proceso:
+   * 1. Valida datos mediante SongDTO.toCreate()
+   * 2. Realiza upsert usando updateOne con _id como clave
+   * 3. Obtiene la canción del resultado
+   * 4. Retorna canción formateada con indicador de si es nueva
+   *
+   * @async
+   * @method createOrUpdateSong
    * @param {Object} songData - Datos de la canción
-   * @returns {Object} Canción creada/actualizada
+   * @param {string} songData._id - ID de Spotify (clave primaria)
+   * @param {string} songData.name - Nombre de la canción
+   * @param {string} songData.album - Nombre del álbum
+   * @param {string} songData.album_image_url - URL de portada (HTTPS)
+   * @param {string[]} songData.artists - Array de nombres de artistas
+   * @param {string|null} songData.preview_url - URL de preview (opcional)
+   * @param {number} songData.duration_ms - Duración en milisegundos
+   * @param {string} songData.spotify_url - URL en Spotify
+   * @returns {Promise<Object>} Objeto con canción formateada e indicador isNew
+   * @throws {Error} Si datos son inválidos
+   *
+   * @example
+   * const result = await songService.createOrUpdateSong({
+   *   _id: 'spotify123',
+   *   name: 'Song Name',
+   *   album: 'Album Name',
+   *   // ... resto de campos
+   * });
    */
   async createOrUpdateSong(songData) {
     try {
@@ -37,9 +81,33 @@ class SongService {
   }
 
   /**
-   * Crear o actualizar múltiples canciones (batch)
-   * @param {Array} songsData - Array de datos de canciones
-   * @returns {Object} Resultado con canciones guardadas y errores
+   * Crea o actualiza múltiples canciones en operación por lotes.
+   *
+   * Procesa cada canción individualmente, permitiendo crear varias de forma
+   * eficiente mientras reporta errores de las que fallan.
+   *
+   * Proceso:
+   * 1. Valida que sea array
+   * 2. Itera sobre cada canción
+   * 3. Valida y upsert para cada una
+   * 4. Retorna resumen con canciones guardadas y errores
+   *
+   * @async
+   * @method createOrUpdateSongsBatch
+   * @param {Object[]} songsData - Array de datos de canciones
+   * @returns {Promise<Object>} Objeto con resultados del batch
+   * @returns {Object[]} return.saved Array de canciones guardadas exitosamente
+   * @returns {number} return.savedCount Cantidad de canciones guardadas
+   * @returns {Object[]} return.errors Array de errores encontrados
+   * @returns {number} return.errorCount Cantidad de errores
+   * @throws {Error} Si songsData no es array
+   *
+   * @example
+   * const result = await songService.createOrUpdateSongsBatch([
+   *   { _id: '1', name: 'Song 1', ... },
+   *   { _id: '2', name: 'Song 2', ... }
+   * ]);
+   * // { saved: [...], savedCount: 2, errors: [], errorCount: 0 }
    */
   async createOrUpdateSongsBatch(songsData) {
     try {
@@ -82,9 +150,21 @@ class SongService {
   }
 
   /**
-   * Guardar canciones desde Spotify API
-   * @param {Array} spotifyTracks - Array de tracks de Spotify
-   * @returns {Object} Resultado con canciones guardadas
+   * Guarda canciones importadas desde la API de Spotify.
+   *
+   * Realiza dos pasos:
+   * 1. Transforma tracks de Spotify usando SongDTO.fromSpotifyAPIBatch()
+   * 2. Guarda las canciones válidas en la BD y reporta errores
+   *
+   * Útil para importar resultados de búsqueda o recomendaciones de Spotify.
+   *
+   * @async
+   * @method saveFromSpotifyAPI
+   * @param {Object[]} spotifyTracks - Array de tracks desde API de Spotify
+   * @returns {Promise<Object>} Resultado con canciones guardadas, errores y transformErrors
+   *
+   * @example
+   * const result = await songService.saveFromSpotifyAPI(spotifySearchResults);
    */
   async saveFromSpotifyAPI(spotifyTracks) {
     try {
@@ -104,9 +184,16 @@ class SongService {
   }
 
   /**
-   * Obtener canción por ID
-   * @param {String} songId - ID de Spotify de la canción
-   * @returns {Object} Canción encontrada
+   * Obtiene los detalles completos de una canción por su ID de Spotify.
+   *
+   * @async
+   * @method getSongById
+   * @param {string} songId - ID de Spotify de la canción
+   * @returns {Promise<Object>} Canción con información detallada y metadatos
+   * @throws {Error} Si canción no encontrada
+   *
+   * @example
+   * const song = await songService.getSongById('3n3Ppam7vgaVa1iaRUc9Lp');
    */
   async getSongById(songId) {
     try {
@@ -123,9 +210,16 @@ class SongService {
   }
 
   /**
-   * Obtener múltiples canciones por IDs
-   * @param {Array} songIds - Array de IDs
-   * @returns {Array} Array de canciones
+   * Obtiene múltiples canciones usando sus IDs de Spotify.
+   *
+   * @async
+   * @method getSongsByIds
+   * @param {string[]} songIds - Array de IDs de Spotify
+   * @returns {Promise<Object[]>} Array de canciones encontradas
+   * @throws {Error} Si songIds no es array
+   *
+   * @example
+   * const songs = await songService.getSongsByIds(['id1', 'id2', 'id3']);
    */
   async getSongsByIds(songIds) {
     try {
@@ -142,9 +236,23 @@ class SongService {
   }
 
   /**
-   * Obtener todas las canciones con paginación
-   * @param {Object} options - Opciones de paginación y filtros
-   * @returns {Object} Lista de canciones con metadatos
+   * Obtiene todas las canciones con paginación y filtros opcionales.
+   *
+   * Soporta búsqueda multifield y paginación.
+   *
+   * @async
+   * @method getAllSongs
+   * @param {Object} [options={}] - Opciones de paginación y filtros
+   * @param {number} [options.page=1] - Número de página
+   * @param {number} [options.limit=50] - Canciones por página
+   * @param {string} [options.search] - Búsqueda general (nombre, artista, álbum)
+   * @param {string} [options.name] - Búsqueda en nombre
+   * @param {string} [options.artist] - Búsqueda en artista
+   * @param {string} [options.album] - Búsqueda en álbum
+   * @returns {Promise<Object>} Objeto con canciones paginadas y metadatos
+   *
+   * @example
+   * const result = await songService.getAllSongs({ page: 1, limit: 20 });
    */
   async getAllSongs(options = {}) {
     try {
@@ -182,9 +290,20 @@ class SongService {
   }
 
   /**
-   * Buscar canciones
-   * @param {Object} filters - Filtros de búsqueda
-   * @returns {Array} Array de canciones
+   * Busca canciones con múltiples criterios de filtrado.
+   *
+   * @async
+   * @method searchSongs
+   * @param {Object} [filters={}] - Filtros de búsqueda
+   * @param {string} [filters.search] - Búsqueda general
+   * @param {string} [filters.name] - Búsqueda en nombre
+   * @param {string} [filters.artist] - Búsqueda en artista
+   * @param {string} [filters.album] - Búsqueda en álbum
+   * @param {number} [filters.limit=50] - Límite de resultados
+   * @returns {Promise<Object[]>} Array de canciones que coinciden
+   *
+   * @example
+   * const songs = await songService.searchSongs({ artist: 'Queen' });
    */
   async searchSongs(filters = {}) {
     try {
@@ -202,10 +321,16 @@ class SongService {
   }
 
   /**
-   * Buscar canciones por nombre
-   * @param {String} name - Nombre a buscar
-   * @param {Number} limit - Límite de resultados
-   * @returns {Array} Array de canciones
+   * Busca canciones específicamente por nombre.
+   *
+   * @async
+   * @method searchByName
+   * @param {string} name - Nombre de canción a buscar
+   * @param {number} [limit=20] - Número máximo de resultados
+   * @returns {Promise<Object[]>} Array de canciones que coinciden
+   *
+   * @example
+   * const songs = await songService.searchByName('bohemian');
    */
   async searchByName(name, limit = 20) {
     try {
@@ -220,10 +345,16 @@ class SongService {
   }
 
   /**
-   * Buscar canciones por artista
-   * @param {String} artist - Artista a buscar
-   * @param {Number} limit - Límite de resultados
-   * @returns {Array} Array de canciones
+   * Busca canciones específicamente por nombre de artista.
+   *
+   * @async
+   * @method searchByArtist
+   * @param {string} artist - Nombre de artista a buscar
+   * @param {number} [limit=20] - Número máximo de resultados
+   * @returns {Promise<Object[]>} Array de canciones que coinciden
+   *
+   * @example
+   * const songs = await songService.searchByArtist('Queen');
    */
   async searchByArtist(artist, limit = 20) {
     try {
@@ -238,10 +369,16 @@ class SongService {
   }
 
   /**
-   * Buscar canciones por álbum
-   * @param {String} album - Álbum a buscar
-   * @param {Number} limit - Límite de resultados
-   * @returns {Array} Array de canciones
+   * Busca canciones específicamente por nombre de álbum.
+   *
+   * @async
+   * @method searchByAlbum
+   * @param {string} album - Nombre de álbum a buscar
+   * @param {number} [limit=20] - Número máximo de resultados
+   * @returns {Promise<Object[]>} Array de canciones que coinciden
+   *
+   * @example
+   * const songs = await songService.searchByAlbum('A Night at the Opera');
    */
   async searchByAlbum(album, limit = 20) {
     try {

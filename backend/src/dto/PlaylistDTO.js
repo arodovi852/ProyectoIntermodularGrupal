@@ -1,13 +1,41 @@
 /**
- * Data Transfer Object para Playlist
- * Transforma datos entre capas de la aplicación
+ * Data Transfer Object para Playlist.
+ *
+ * Centraliza la validación y transformación de datos relacionados con playlists
+ * entre las distintas capas de la aplicación (controladores, servicios y modelos).
+ *
+ * Responsabilidades principales:
+ * - Validar y sanear los datos de entrada al crear o actualizar playlists.
+ * - Formatear documentos de Mongoose a respuestas JSON consistentes.
+ * - Construir estructuras específicas para respuestas detalladas, exportaciones
+ *   y consultas filtradas por usuario.
+ *
+ * @class PlaylistDTO
  */
 
 class PlaylistDTO {
-  /**
-   * Convierte datos de entrada (request) para crear playlist
-   * @param {Object} data - Datos del request
-   * @returns {Object} Datos validados para crear playlist
+    /**
+   * Convierte datos de entrada (request) en un objeto válido para crear una playlist.
+   *
+   * Valida campos obligatorios (`name`, `userId`, `config`) y comprueba
+   * reglas básicas de negocio sobre la configuración de generación:
+   * - `config.size` entre 1 y 100.
+   * - `config.seeds` entre 1 y 5 elementos.
+   * - `config.negativeSeeds` máximo 5 elementos.
+   *
+   * También construye un objeto `config` limpio solo con los parámetros presentes
+   * y normaliza valores por defecto para `tracks`, `cover_image_url` y `spotify_url`.
+   *
+   * @static
+   * @param {Object} data Datos de la petición para crear la playlist.
+   * @param {string} data.name Nombre de la playlist.
+   * @param {string} data.userId ID del usuario propietario.
+   * @param {string[]=} data.tracks IDs de canciones iniciales.
+   * @param {string=} data.cover_image_url URL de la imagen de portada.
+   * @param {string|null=} data.spotify_url URL asociada en Spotify.
+   * @param {Object} data.config Configuración de generación de la playlist.
+   * @returns {Object} Objeto listo para ser utilizado por la capa de persistencia.
+   * @throws {Error} Si falta algún campo obligatorio o la configuración no es válida.
    */
   static toCreate(data) {
     const { name, userId, tracks, cover_image_url, spotify_url, config } = data;
@@ -67,9 +95,20 @@ class PlaylistDTO {
   }
 
   /**
-   * Convierte datos de entrada para actualización
-   * @param {Object} data - Datos del request
-   * @returns {Object} Datos validados para actualizar
+   * Convierte datos de entrada en un objeto de actualización parcial de playlist.
+   *
+   * Solo incluye en el resultado los campos presentes en `data`. Si se recibe
+   * una propiedad `config`, valida de nuevo las reglas básicas (tamaño y semillas).
+   *
+   * @static
+   * @param {Object} data Datos de la petición para actualizar la playlist.
+   * @param {string=} data.name Nombre de la playlist.
+   * @param {string[]=} data.tracks Nuevos IDs de canciones.
+   * @param {string=} data.cover_image_url Nueva URL de portada.
+   * @param {string|null=} data.spotify_url Nueva URL de Spotify.
+   * @param {Object=} data.config Configuración actualizada de la playlist.
+   * @returns {Object} Objeto con solo los campos a actualizar.
+   * @throws {Error} Si `tracks` no es un array o la configuración no es válida.
    */
   static toUpdate(data) {
     const updates = {};
@@ -114,9 +153,23 @@ class PlaylistDTO {
   }
 
   /**
-   * Convierte modelo Playlist a respuesta básica
-   * @param {Object} playlist - Documento de Playlist (Mongoose)
-   * @returns {Object} Playlist formateado para respuesta
+   * Convierte un documento de Playlist (Mongoose) en una respuesta básica.
+   *
+   * Transforma el formato interno de base de datos al formato JSON normalizado
+   * que se envía al cliente. Incluye:
+   * - Cambio de nombres de propiedades (snake_case a camelCase).
+   * - Conversión de `_id` a `id`.
+   * - Conteo de tracks.
+   * - Configuración asociada a la playlist.
+   * - Timestamps de creación y actualización.
+   *
+   * @static
+   * @param {Object|null} playlist Documento de Playlist (Mongoose) o `null`.
+   * @returns {Object|null} Objeto plano listo para enviar al cliente, o `null` si no hay playlist.
+   *
+   * @example
+   * const response = PlaylistDTO.toResponse(playlistDocument);
+   * // { id: '..', name: 'My Playlist', trackCount: 5, ... }
    */
   static toResponse(playlist) {
     if (!playlist) return null;
@@ -136,9 +189,14 @@ class PlaylistDTO {
   }
 
   /**
-   * Convierte múltiples playlists a respuesta
-   * @param {Array} playlists - Array de documentos Playlist
-   * @returns {Array} Array de playlists formateados
+   * Convierte un array de documentos Playlist en un array de respuestas básicas.
+   *
+   * Utiliza {@link toResponse} para procesar cada playlist del array.
+   * Si el parámetro no es un array válido, devuelve un array vacío.
+   *
+   * @static
+   * @param {Object[]} playlists Array de documentos Playlist (Mongoose).
+   * @returns {Object[]} Array de playlists formateadas, o array vacío si la entrada es inválida.
    */
   static toResponseBatch(playlists) {
     if (!Array.isArray(playlists)) return [];
@@ -146,11 +204,24 @@ class PlaylistDTO {
   }
 
   /**
-   * Convierte playlist con canciones completas (respuesta detallada)
-   * @param {Object} playlist - Documento de Playlist
-   * @param {Array} songs - Array de documentos Song
-   * @param {String} totalDuration - Duración total formateada
-   * @returns {Object} Playlist con información completa
+   * Convierte una playlist y sus canciones asociadas en una respuesta detallada.
+   *
+   * Extiende la respuesta básica con:
+   * - Lista completa de canciones con todos sus metadatos formateados.
+   * - Duración total de la playlist (calculada externamente).
+   * - Metadatos adicionales como disponibilidad de URL de Spotify y si usa portada personalizada.
+   *
+   * Útil para vistas detalladas que muestran todas las canciones y estadísticas.
+   *
+   * @static
+   * @param {Object|null} playlist Documento de Playlist (Mongoose).
+   * @param {Object[]} [songs=[]] Array de documentos Song relacionados.
+   * @param {string|null} [totalDuration=null] Duración total formateada (por ejemplo "1h 23m").
+   * @returns {Object|null} Objeto con información completa de la playlist y canciones, o `null` si no existe.
+   *
+   * @example
+   * const detailed = PlaylistDTO.toDetailedResponse(playlist, songs, '45m 30s');
+   * // { ...basic properties, songs: [...], totalDuration: '45m 30s', metadata: {...} }
    */
   static toDetailedResponse(playlist, songs = [], totalDuration = null) {
     if (!playlist) return null;
@@ -180,9 +251,22 @@ class PlaylistDTO {
   }
 
   /**
-   * Valida datos para añadir tracks
-   * @param {Object} data - Datos con tracks a añadir
-   * @returns {Array} Array de track IDs validados
+   * Valida datos para añadir pistas a una playlist y devuelve solo los IDs válidos.
+   *
+   * Realiza validaciones de seguridad:
+   * - Comprueba que `tracks` sea un array no vacío.
+   * - Filtra valores inválidos (null, undefined, no strings).
+   * - Lanza error si después de filtrar no hay IDs válidos.
+   *
+   * @static
+   * @param {Object} data Datos de la petición con los tracks a añadir.
+   * @param {string[]} data.tracks Array de IDs de tracks.
+   * @returns {string[]} Array de IDs de tracks válidos y filtrados.
+   * @throws {Error} Si no se recibe un array válido, está vacío, o no contiene IDs válidos.
+   *
+   * @example
+   * const validIds = PlaylistDTO.toAddTracks({ tracks: ['1', '2', null, '3'] });
+   * // ['1', '2', '3']
    */
   static toAddTracks(data) {
     const { tracks } = data;
@@ -206,10 +290,23 @@ class PlaylistDTO {
   }
 
   /**
-   * Convierte playlist a formato de exportación
-   * @param {Object} playlist - Documento de Playlist
-   * @param {Array} songs - Array de documentos Song
-   * @returns {Object} Playlist en formato de exportación
+   * Convierte una playlist y sus canciones al formato de exportación.
+   *
+   * Prepara los datos en un formato legible y estructurado para exportar
+   * (por ejemplo a JSON, CSV o para compartir). Incluye:
+   * - Nombre e información descriptiva de la playlist.
+   * - Número total de pistas.
+   * - Lista de canciones con nombre, artistas, álbum, duración y URL de Spotify.
+   * - Timestamp de creación.
+   *
+   * @static
+   * @param {Object|null} playlist Documento de Playlist (Mongoose).
+   * @param {Object[]} [songs=[]] Array de documentos Song relacionados.
+   * @returns {Object|null} Objeto en formato de exportación, o `null` si no existe playlist.
+   *
+   * @example
+   * const exported = PlaylistDTO.toExport(playlist, songs);
+   * // { name: 'My Playlist', description: '...', tracks: [...] }
    */
   static toExport(playlist, songs = []) {
     if (!playlist) return null;
@@ -230,10 +327,20 @@ class PlaylistDTO {
   }
 
   /**
-   * Prepara query de búsqueda por usuario
-   * @param {String} userId - ID del usuario
-   * @param {Object} filters - Filtros adicionales
-   * @returns {Object} Query de MongoDB
+   * Prepara una query de MongoDB para búsqueda de playlists filtradas por usuario.
+   *
+   * Construye un objeto de query que filtra por propietario (userId) y opcionalmente
+   * por nombre con búsqueda regex (case-insensitive).
+   *
+   * @static
+   * @param {string} userId ID del usuario propietario de las playlists.
+   * @param {Object} [filters={}] Filtros adicionales opcionales.
+   * @param {string} [filters.search] Término de búsqueda en el nombre de la playlist.
+   * @returns {Object} Query de MongoDB lista para usar con `.find()`.
+   *
+   * @example
+   * const query = PlaylistDTO.toUserQuery(userId, { search: 'summer' });
+   * const playlists = await Playlist.find(query);
    */
   static toUserQuery(userId, filters = {}) {
     const query = { userId };
@@ -246,10 +353,33 @@ class PlaylistDTO {
   }
 
   /**
-   * Convierte respuesta con estadísticas
-   * @param {Object} playlist - Documento de Playlist
-   * @param {Object} stats - Estadísticas adicionales
-   * @returns {Object} Playlist con estadísticas
+   * Combina la respuesta básica de playlist con estadísticas calculadas.
+   *
+   * Extiende la respuesta básica con un objeto `stats` que incluye:
+   * - Número total de tracks.
+   * - Duración total formateada de la playlist.
+   * - Duración media por track formateada.
+   * - Número de artistas únicos en la playlist.
+   * - Número de álbumes únicos en la playlist.
+   *
+   * Útil para dashboards y vistas que muestren análisis de la playlist.
+   *
+   * @static
+   * @param {Object|null} playlist Documento de Playlist (Mongoose).
+   * @param {Object} [stats={}] Estadísticas adicionales calculadas.
+   * @param {string} [stats.totalDuration] Duración total formateada (por ejemplo "45m 30s").
+   * @param {string} [stats.averageDuration] Duración media formateada.
+   * @param {number} [stats.uniqueArtists] Número de artistas únicos.
+   * @param {number} [stats.uniqueAlbums] Número de álbumes únicos.
+   * @returns {Object|null} Playlist con estadísticas o `null` si no existe.
+   *
+   * @example
+   * const withStats = PlaylistDTO.toResponseWithStats(playlist, {
+   *   totalDuration: '2h 15m',
+   *   averageDuration: '3m 45s',
+   *   uniqueArtists: 42,
+   *   uniqueAlbums: 35
+   * });
    */
   static toResponseWithStats(playlist, stats = {}) {
     if (!playlist) return null;

@@ -1,13 +1,35 @@
 /**
- * Controlador para Usuarios
- * Gestiona autenticación, registro y operaciones de usuario
+ * Controlador para Usuarios.
+ * Gestiona autenticación, registro y operaciones sobre el perfil de usuario.
+ *
+ * Cada handler:
+ * - Recibe la petición HTTP desde las rutas.
+ * - Delega la lógica de negocio en `userService`.
+ * - Devuelve respuestas JSON normalizadas con las claves `success`, `data`, `message` y `error`.
  */
 
 const userService = require('../services/userService');
 const { generateToken } = require('../utils/jwtHelper');
 
 /**
- * Registrar un nuevo usuario
+ * Registrar un nuevo usuario.
+ *
+ * El cuerpo de la petición debe incluir, como mínimo, los datos requeridos
+ * por `userService.register` (por ejemplo: `name`, `email`, `password`).
+ *
+ * Tras crear el usuario:
+ * - Se genera un token JWT con su identificador y correo electrónico.
+ * - Se devuelve el usuario ya normalizado por el servicio junto con el token.
+ *
+ * Respuestas:
+ * - 201 Created: `{ success: true, data: { user, token } }`
+ * - 400 Bad Request: si el usuario ya existe o los datos no son válidos.
+ *
+ * @async
+ * @function register
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const register = async (req, res) => {
   try {
@@ -33,7 +55,25 @@ const register = async (req, res) => {
 };
 
 /**
- * Login de usuario
+ * Login de usuario.
+ *
+ * El cuerpo de la petición debe incluir las credenciales esperadas por
+ * `userService.login` (normalmente `email` y `password`).
+ *
+ * Si el login es correcto:
+ * - Se genera un token JWT con el identificador y el email del usuario.
+ * - Se devuelve el usuario y el token en la respuesta.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, message, data: { user, token } }`
+ * - 401 Unauthorized: si las credenciales son inválidas.
+ * - 500 Internal Server Error: si se produce un error inesperado.
+ *
+ * @async
+ * @function login
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const login = async (req, res) => {
   try {
@@ -60,7 +100,25 @@ const login = async (req, res) => {
 };
 
 /**
- * Obtener perfil de usuario
+ * Obtener el perfil de un usuario por su identificador.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador del usuario.
+ *
+ * Normalmente se utiliza junto con un middleware de autenticación que
+ * garantiza que el usuario solo puede acceder a su propio perfil,
+ * aunque esa restricción se implementa en las rutas o en el servicio.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: user }`
+ * - 404 Not Found: si el usuario no existe.
+ * - 500 Internal Server Error: si se produce un error inesperado.
+ *
+ * @async
+ * @function getUserProfile
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getUserProfile = async (req, res) => {
   try {
@@ -81,7 +139,24 @@ const getUserProfile = async (req, res) => {
 };
 
 /**
- * Actualizar perfil de usuario
+ * Actualizar el perfil de un usuario.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador del usuario a actualizar.
+ *
+ * El cuerpo de la petición contiene los campos del perfil que se quieren modificar
+ * (por ejemplo, `name`, `email`, etc.), según lo que permita `userService.updateUser`.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: userActualizado }`
+ * - 404 Not Found: si el usuario no existe.
+ * - 400 Bad Request: si los datos recibidos no son válidos.
+ *
+ * @async
+ * @function updateUserProfile
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const updateUserProfile = async (req, res) => {
   try {
@@ -104,7 +179,26 @@ const updateUserProfile = async (req, res) => {
 };
 
 /**
- * Cambiar contraseña
+ * Cambiar la contraseña de un usuario.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador del usuario.
+ *
+ * El cuerpo de la petición debe incluir los campos necesarios para
+ * `userService.changePassword` (por ejemplo, contraseña actual y nueva contraseña).
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, message }` si la contraseña se actualiza correctamente.
+ * - 404 Not Found: si el usuario no existe.
+ * - 401 Unauthorized: si la contraseña actual es incorrecta.
+ * - 400 Bad Request: si faltan credenciales requeridas o no cumplen las validaciones.
+ * - 500 Internal Server Error: si se produce un error inesperado.
+ *
+ * @async
+ * @function changePassword
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const changePassword = async (req, res) => {
   try {
@@ -129,7 +223,21 @@ const changePassword = async (req, res) => {
 };
 
 /**
- * Eliminar usuario
+ * Eliminar un usuario.
+ *
+ * Parámetros de ruta:
+ * - `id` (string): identificador del usuario a eliminar.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, message }` si se ha eliminado correctamente.
+ * - 404 Not Found: si el usuario no existe.
+ * - 500 Internal Server Error: si se produce un error inesperado.
+ *
+ * @async
+ * @function deleteUser
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const deleteUser = async (req, res) => {
   try {
@@ -150,7 +258,20 @@ const deleteUser = async (req, res) => {
 };
 
 /**
- * Obtener todos los usuarios (admin)
+ * Obtener todos los usuarios (uso típico: administración).
+ *
+ * Los parámetros de paginación y filtrado se leen de `req.query` y
+ * se pasan directamente a `userService.getAllUsers`.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, ...pagination, data: users }`
+ * - 500 Internal Server Error: si se produce un error inesperado.
+ *
+ * @async
+ * @function getAllUsers
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getAllUsers = async (req, res) => {
   try {

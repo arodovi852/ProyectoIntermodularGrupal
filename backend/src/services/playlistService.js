@@ -1,6 +1,22 @@
 /**
- * Servicio de Playlists
- * Contiene toda la lógica de negocio relacionada con playlists
+ * Servicio de Playlists.
+ *
+ * Contiene toda la lógica de negocio relacionada con playlists, incluyendo:
+ * - Creación y actualización de playlists
+ * - Gestión de canciones (añadir, eliminar, reordenar)
+ * - Obtención de detalles con estadísticas
+ * - Búsqueda y listado de playlists por usuario
+ * - Duplicación de playlists
+ * - Cálculo de duraciones y metadatos
+ *
+ * Este servicio valida referencias entre playlists, usuarios y canciones,
+ * asegurando integridad referencial y aplicando reglas de negocio.
+ *
+ * @module services/playlistService
+ * @requires ../models
+ * @requires ../dto/PlaylistDTO
+ * @requires ../dto/SongDTO
+ * @singleton
  */
 
 const { Playlist, Song, User } = require('../models');
@@ -9,9 +25,34 @@ const SongDTO = require('../dto/SongDTO');
 
 class PlaylistService {
   /**
-   * Crear una nueva playlist
-   * @param {Object} playlistData - Datos de la playlist
-   * @returns {Object} Playlist creada
+   * Crea una nueva playlist vacía con configuración de recomendaciones.
+   *
+   * Proceso:
+   * 1. Valida datos mediante PlaylistDTO.toCreate()
+   * 2. Verifica que el usuario existe
+   * 3. Si hay tracks iniciales, verifica que existan en BD
+   * 4. Crea la playlist
+   * 5. Retorna playlist formateada
+   *
+   * @async
+   * @method createPlaylist
+   * @param {Object} playlistData - Datos de la nueva playlist
+   * @param {string} playlistData.name - Nombre (1-200 caracteres)
+   * @param {string} playlistData.userId - ID del usuario propietario
+   * @param {Object} playlistData.config - Configuración de recomendaciones
+   * @param {number} playlistData.config.size - Número de tracks (1-100)
+   * @param {string[]} playlistData.config.seeds - Semillas (1-5)
+   * @param {string[]} [playlistData.config.negativeSeeds] - Semillas negativas (0-5)
+   * @param {string[]} [playlistData.tracks] - IDs de tracks iniciales (opcional)
+   * @returns {Promise<Object>} Playlist creada
+   * @throws {Error} Si usuario no existe, tracks inválidos, o datos inválidos
+   *
+   * @example
+   * const playlist = await playlistService.createPlaylist({
+   *   name: 'My Playlist',
+   *   userId: '507f1f77bcf86cd799439011',
+   *   config: { size: 30, seeds: ['track1', 'artist2'] }
+   * });
    */
   async createPlaylist(playlistData) {
     try {
@@ -45,9 +86,16 @@ class PlaylistService {
   }
 
   /**
-   * Obtener playlist por ID
-   * @param {String} playlistId - ID de la playlist
-   * @returns {Object} Playlist encontrada
+   * Obtiene los datos básicos de una playlist.
+   *
+   * @async
+   * @method getPlaylistById
+   * @param {string} playlistId - ID de la playlist
+   * @returns {Promise<Object>} Datos básicos de la playlist
+   * @throws {Error} Si playlist no encontrada
+   *
+   * @example
+   * const playlist = await playlistService.getPlaylistById(playlistId);
    */
   async getPlaylistById(playlistId) {
     try {
@@ -64,9 +112,23 @@ class PlaylistService {
   }
 
   /**
-   * Obtener detalles completos de una playlist (con canciones)
-   * @param {String} playlistId - ID de la playlist
-   * @returns {Object} Playlist con canciones completas
+   * Obtiene los detalles completos de una playlist incluyendo todas sus canciones.
+   *
+   * Realiza múltiples operaciones:
+   * 1. Obtiene la playlist
+   * 2. Obtiene todas las canciones referenciadas
+   * 3. Calcula la duración total
+   * 4. Combina en respuesta detallada
+   *
+   * @async
+   * @method getPlaylistDetails
+   * @param {string} playlistId - ID de la playlist
+   * @returns {Promise<Object>} Playlist con todas las canciones y metadatos
+   * @throws {Error} Si playlist no encontrada
+   *
+   * @example
+   * const details = await playlistService.getPlaylistDetails(playlistId);
+   * // { id, name, songs: [...], totalDuration: '1h 45m', config: {...} }
    */
   async getPlaylistDetails(playlistId) {
     try {
@@ -89,10 +151,23 @@ class PlaylistService {
   }
 
   /**
-   * Obtener todas las playlists de un usuario
-   * @param {String} userId - ID del usuario
-   * @param {Object} options - Opciones de filtrado
-   * @returns {Array} Array de playlists
+   * Obtiene todas las playlists de un usuario específico.
+   *
+   * Soporta filtrado y búsqueda por nombre.
+   * Las playlists se ordenan de más reciente a más antigua.
+   *
+   * @async
+   * @method getUserPlaylists
+   * @param {string} userId - ID del usuario propietario
+   * @param {Object} [options={}] - Opciones de filtrado
+   * @param {string} [options.search] - Búsqueda por nombre de playlist
+   * @param {number} [options.page] - Página para paginación
+   * @param {number} [options.limit] - Límite por página
+   * @returns {Promise<Object[]>} Array de playlists del usuario
+   * @throws {Error} Si usuario no encontrado
+   *
+   * @example
+   * const userPlaylists = await playlistService.getUserPlaylists(userId);
    */
   async getUserPlaylists(userId, options = {}) {
     try {
@@ -114,10 +189,26 @@ class PlaylistService {
   }
 
   /**
-   * Actualizar una playlist
-   * @param {String} playlistId - ID de la playlist
+   * Actualiza los datos de una playlist.
+   *
+   * Permite actualizar nombre, portada y configuración.
+   * Si se actualizan los tracks, verifica que existan en BD.
+   *
+   * @async
+   * @method updatePlaylist
+   * @param {string} playlistId - ID de la playlist
    * @param {Object} updateData - Datos a actualizar
-   * @returns {Object} Playlist actualizada
+   * @param {string} [updateData.name] - Nuevo nombre
+   * @param {string} [updateData.cover_image_url] - Nueva URL de portada
+   * @param {Object} [updateData.config] - Nueva configuración
+   * @param {string[]} [updateData.tracks] - Nuevo array de tracks
+   * @returns {Promise<Object>} Playlist actualizada
+   * @throws {Error} Si playlist no encontrada, tracks inválidos, o datos inválidos
+   *
+   * @example
+   * const updated = await playlistService.updatePlaylist(playlistId, {
+   *   name: 'Updated Name'
+   * });
    */
   async updatePlaylist(playlistId, updateData) {
     try {
@@ -152,10 +243,26 @@ class PlaylistService {
   }
 
   /**
-   * Añadir canciones a una playlist
-   * @param {String} playlistId - ID de la playlist
-   * @param {Object} tracksData - Datos con IDs de canciones
-   * @returns {Object} Playlist actualizada
+   * Añade una o más canciones a una playlist existente.
+   *
+   * Comportamiento:
+   * 1. Valida IDs de canciones
+   * 2. Verifica que todas las canciones existen en BD
+   * 3. Evita añadir duplicados (si ya existe, no se añade)
+   * 4. Añade al final de la playlist
+   *
+   * @async
+   * @method addTracksToPlaylist
+   * @param {string} playlistId - ID de la playlist
+   * @param {Object} tracksData - Objeto con array de track IDs
+   * @param {string[]} tracksData.tracks - Array de IDs de Spotify
+   * @returns {Promise<Object>} Playlist actualizada
+   * @throws {Error} Si playlist no encontrada, tracks inválidos, o todos ya existen
+   *
+   * @example
+   * const updated = await playlistService.addTracksToPlaylist(playlistId, {
+   *   tracks: ['id1', 'id2', 'id3']
+   * });
    */
   async addTracksToPlaylist(playlistId, tracksData) {
     try {
@@ -193,10 +300,17 @@ class PlaylistService {
   }
 
   /**
-   * Eliminar canciones de una playlist
-   * @param {String} playlistId - ID de la playlist
-   * @param {Array} trackIds - IDs de canciones a eliminar
-   * @returns {Object} Playlist actualizada
+   * Elimina una o más canciones de una playlist.
+   *
+   * @async
+   * @method removeTracksFromPlaylist
+   * @param {string} playlistId - ID de la playlist
+   * @param {string[]} trackIds - Array de IDs de canciones a eliminar
+   * @returns {Promise<Object>} Playlist actualizada
+   * @throws {Error} Si playlist no encontrada o trackIds inválidos
+   *
+   * @example
+   * const updated = await playlistService.removeTracksFromPlaylist(playlistId, ['id1', 'id2']);
    */
   async removeTracksFromPlaylist(playlistId, trackIds) {
     try {
@@ -224,10 +338,20 @@ class PlaylistService {
   }
 
   /**
-   * Reordenar canciones en una playlist
-   * @param {String} playlistId - ID de la playlist
-   * @param {Array} newOrder - Nuevo orden de IDs
-   * @returns {Object} Playlist actualizada
+   * Reordena las canciones en una playlist.
+   *
+   * Valida que el nuevo orden contenga exactamente los mismos tracks.
+   * Permite reorganizar la playlist sin añadir ni eliminar canciones.
+   *
+   * @async
+   * @method reorderTracks
+   * @param {string} playlistId - ID de la playlist
+   * @param {string[]} newOrder - Array con IDs en nuevo orden
+   * @returns {Promise<Object>} Playlist con tracks reordenados
+   * @throws {Error} Si playlist no encontrada, orden inválido, o faltan IDs
+   *
+   * @example
+   * const updated = await playlistService.reorderTracks(playlistId, ['id3', 'id1', 'id2']);
    */
   async reorderTracks(playlistId, newOrder) {
     try {
@@ -265,9 +389,19 @@ class PlaylistService {
   }
 
   /**
-   * Eliminar una playlist
-   * @param {String} playlistId - ID de la playlist
-   * @returns {Boolean} true si se eliminó exitosamente
+   * Elimina permanentemente una playlist.
+   *
+   * Importante: La eliminación es PERMANENTE.
+   * No elimina las canciones de la BD, solo la referencia.
+   *
+   * @async
+   * @method deletePlaylist
+   * @param {string} playlistId - ID de la playlist a eliminar
+   * @returns {Promise<boolean>} true si se eliminó exitosamente
+   * @throws {Error} Si playlist no encontrada
+   *
+   * @example
+   * await playlistService.deletePlaylist(playlistId);
    */
   async deletePlaylist(playlistId) {
     try {
@@ -284,11 +418,25 @@ class PlaylistService {
   }
 
   /**
-   * Duplicar una playlist
-   * @param {String} playlistId - ID de la playlist a duplicar
-   * @param {String} userId - ID del usuario propietario
-   * @param {String} newName - Nombre opcional para la nueva playlist
-   * @returns {Object} Playlist duplicada
+   * Duplica una playlist con un nuevo nombre.
+   *
+   * Crea una copia exacta de la playlist original con:
+   * - Nuevo nombre (o mismo + " (copia)")
+   * - Mismo usuario propietario
+   * - Mismas canciones
+   * - Misma configuración
+   * - Nueva ID de documento
+   *
+   * @async
+   * @method duplicatePlaylist
+   * @param {string} playlistId - ID de la playlist a duplicar
+   * @param {string} userId - ID del usuario propietario
+   * @param {string} [newName] - Nombre opcional para la copia
+   * @returns {Promise<Object>} Playlist duplicada
+   * @throws {Error} Si playlist no encontrada
+   *
+   * @example
+   * const copy = await playlistService.duplicatePlaylist(playlistId, userId, 'Mi Copia');
    */
   async duplicatePlaylist(playlistId, userId, newName = null) {
     try {
