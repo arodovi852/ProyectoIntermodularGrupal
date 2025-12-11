@@ -445,15 +445,15 @@ Ayudas para digitalización de pequeñas empresas y autónomos.
 - **Startup Capital:** Hasta 50.000 €
 
 **Ventajas generales:**
-- ✅ Fondos no reembolsables (en muchos casos)
-- ✅ Sin dilución
-- ✅ Validación institucional
+- Fondos no reembolsables (en muchos casos)
+- Sin dilución
+- Validación institucional
 
 **Desventajas generales:**
-- ❌ Procesos largos y burocráticos
-- ❌ Alta competencia
-- ❌ Justificación exhaustiva de gastos
-- ❌ Requisitos estrictos
+- Procesos largos y burocráticos
+- Alta competencia
+- Justificación exhaustiva de gastos
+- Requisitos estrictos
 
 **Aplicabilidad al proyecto:**
 - **MEDIA** - Investigar convocatorias locales específicas
@@ -480,18 +480,18 @@ Inversores privados que aportan capital y conocimiento a cambio de participació
 - SeedRocket Angels
 
 **Ventajas:**
-- ✅ Aporte de experiencia y contactos
-- ✅ Sin obligación de devolución
-- ✅ Validación del modelo de negocio
-- ✅ Acceso a network profesional
-- ✅ Flexibilidad
+- Aporte de experiencia y contactos
+- Sin obligación de devolución
+- Validación del modelo de negocio
+- Acceso a network profesional
+- Flexibilidad
 
 **Desventajas:**
-- ❌ Dilución del capital (10-25%)
-- ❌ Pérdida parcial de control
-- ❌ Proceso de búsqueda puede ser largo
-- ❌ Expectativas de crecimiento alto
-- ❌ Requiere pitch y business plan sólido
+- Dilución del capital (10-25%)
+- Pérdida parcial de control
+- Proceso de búsqueda puede ser largo
+- Expectativas de crecimiento alto
+- Requiere pitch y business plan sólido
 
 **Aplicabilidad al proyecto:**
 - **MEDIA-ALTA** si se busca crecimiento rápido
@@ -521,18 +521,18 @@ Fondos de inversión especializados en startups tecnológicas con alto potencial
 - Ship2B Ventures
 
 **Ventajas:**
-- ✅ Cantidades significativas
-- ✅ Experiencia en escalado
-- ✅ Red de contactos amplia
-- ✅ Seguimiento en rondas posteriores
-- ✅ Credibilidad en el mercado
+- Cantidades significativas
+- Experiencia en escalado
+- Red de contactos amplia
+- Seguimiento en rondas posteriores
+- Credibilidad en el mercado
 
 **Desventajas:**
-- ❌ Alta dilución (15-40%)
-- ❌ Presión por resultados y crecimiento
-- ❌ Pérdida significativa de control
-- ❌ Proceso muy competitivo
-- ❌ Requiere tracción y métricas sólidas
+- Alta dilución (15-40%)
+- Presión por resultados y crecimiento
+- Pérdida significativa de control
+- Proceso muy competitivo
+- Requiere tracción y métricas sólidas
 
 **Aplicabilidad al proyecto:**
 - **MUY BAJA** en fase actual
@@ -593,18 +593,18 @@ Plataformas: GoFundMe, Patreon
 ---
 
 **Ventajas Crowdfunding:**
-- ✅ Validación de mercado
-- ✅ Construcción de comunidad
-- ✅ Marketing y visibilidad
-- ✅ Sin garantías personales
-- ✅ Proceso relativamente rápido
+- Validación de mercado
+- Construcción de comunidad
+- Marketing y visibilidad
+- Sin garantías personales
+- Proceso relativamente rápido
 
 **Desventajas:**
-- ❌ No garantiza alcanzar objetivo
-- ❌ Requiere campaña de marketing intensiva
-- ❌ Comisiones de plataforma (5-10%)
-- ❌ Compromiso de entrega de recompensas
-- ❌ Exposición pública del proyecto
+- No garantiza alcanzar objetivo
+- Requiere campaña de marketing intensiva
+- Comisiones de plataforma (5-10%)
+- Compromiso de entrega de recompensas
+- Exposición pública del proyecto
 
 **Recomendación para el proyecto:**
 - **ALTA** - Crowdfunding de recompensas (Verkami, Goteo)
@@ -660,19 +660,19 @@ Programas que ofrecen financiación, formación, mentoring y networking.
 ---
 
 **Ventajas Aceleradoras:**
-- ✅ Formación y mentoring especializado
-- ✅ Networking y contactos
-- ✅ Credibilidad y validación
-- ✅ Acceso a inversores
-- ✅ Espacios de trabajo (coworking)
-- ✅ Créditos en servicios (AWS, Google Cloud, Azure)
+- Formación y mentoring especializado
+- Networking y contactos
+- Credibilidad y validación
+- Acceso a inversores
+- Espacios de trabajo (coworking)
+- Créditos en servicios (AWS, Google Cloud, Azure)
 
 **Desventajas:**
-- ❌ Muy competitivas (tasa aceptación <5%)
-- ❌ Dilución de equity (variable)
-- ❌ Compromiso de tiempo intensivo
-- ❌ Ubicación geográfica específica
-- ❌ Requiere dedicación exclusiva
+- Muy competitivas (tasa aceptación <5%)
+- Dilución de equity (variable)
+- Compromiso de tiempo intensivo
+- Ubicación geográfica específica
+- Requiere dedicación exclusiva
 
 **Aplicabilidad al proyecto:**
 - **ALTA** - Proyecto tecnológico ideal para aceleradoras
@@ -917,13 +917,13 @@ Dadas las características del proyecto (presupuesto moderado, proyecto tecnoló
 
 ### 7.2 Ventajas de Este Modelo
 
-✅ **Preservación de equity:** 0% dilución en Año 1  
-✅ **Sin carga financiera:** No hay deuda que devolver con intereses  
-✅ **Validación progresiva:** Cada fase valida la anterior  
-✅ **Flexibilidad máxima:** Posibilidad de pivotar sin restricciones  
-✅ **Construcción de tracción:** Base sólida para rondas futuras  
-✅ **Aprendizaje acelerado:** El equipo crece con el proyecto  
-✅ **Comunidad desde día 1:** El crowdfunding crea embajadores  
+**Preservación de equity:** 0% dilución en Año 1  
+**Sin carga financiera:** No hay deuda que devolver con intereses  
+**Validación progresiva:** Cada fase valida la anterior  
+**Flexibilidad máxima:** Posibilidad de pivotar sin restricciones  
+**Construcción de tracción:** Base sólida para rondas futuras  
+**Aprendizaje acelerado:** El equipo crece con el proyecto  
+**Comunidad desde día 1:** El crowdfunding crea embajadores  
 
 ---
 
@@ -1061,12 +1061,12 @@ El proyecto será atractivo si demuestra:
 
 El **Plan de Financiación Propuesto** para este proyecto es **viable, equilibrado y óptimo** para las necesidades reales:
 
-**✅ Presupuesto:** 6.532 € cubierto con estrategia mixta  
-**✅ Dilución:** 0% en Año 1 (preservación control)  
-**✅ Deuda:** 0 € (sin carga financiera)  
-**✅ Timing:** Financiación progresiva alineada con milestones  
-**✅ Riesgo:** Mitigado con múltiples fuentes complementarias  
-**✅ Flexibilidad:** Capacidad de ajuste según resultados  
+**Presupuesto:** 6.532 € cubierto con estrategia mixta  
+**Dilución:** 0% en Año 1 (preservación control)  
+**Deuda:** 0 € (sin carga financiera)  
+**Timing:** Financiación progresiva alineada con milestones  
+**Riesgo:** Mitigado con múltiples fuentes complementarias  
+**Flexibilidad:** Capacidad de ajuste según resultados  
 
 **La clave del éxito financiero no está en conseguir la mayor cantidad de dinero, sino en:**
 1. Obtener los fondos justos cuando se necesitan
