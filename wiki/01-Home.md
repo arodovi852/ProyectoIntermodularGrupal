@@ -4,7 +4,7 @@
 
 **Proyecto:** Generador de Playlists por Estado de Ánimo  
 **Tecnologías:** MERN Stack (MongoDB, Express, React, Node.js)  
-**Período de Desarrollo:** 20 de octubre - 11 de diciembre 2024  
+**Período de Desarrollo:** 20 de octubre - 11 de diciembre 2025  
 **Equipo:** 3 desarrolladores  
 **Metodología:** SCRUM (Sprints semanales)
 
@@ -109,5 +109,5 @@ Para más información sobre el proyecto, consulta los issues del repositorio o 
 
 ---
 
-**Última actualización:** Diciembre 2024  
+**Última actualización:** Diciembre 2025  
 **Versión:** 1.0
