@@ -2,7 +2,7 @@
 
 **Proyecto:** Sistema de Gestión Intermodular  
 **Fecha:** 10 de diciembre de 2025  
-**Presupuesto Total:** 3.962,00 €
+**Presupuesto Total:** 3.940,00 €
 
 ---
 
@@ -20,16 +20,16 @@
 
 ## 1. Resumen Ejecutivo
 
-El proyecto requiere una inversión total de **3.962,00 €** para su desarrollo e implementación inicial. Esta inversión cubre los costes de infraestructura tecnológica, desarrollo, despliegue y operaciones durante el primer año. El análisis contempla diversas fuentes de financiación adecuadas para un proyecto tecnológico en fase inicial.
+El proyecto requiere una inversión total de **3.940,00 €** para su desarrollo e implementación inicial. Esta inversión cubre los costes de infraestructura tecnológica, desarrollo, despliegue y operaciones durante el primer año. El análisis contempla diversas fuentes de financiación adecuadas para un proyecto tecnológico en fase inicial.
 
 ### Necesidades Totales de Financiación
 
 | Concepto | Importe |
 |----------|---------|
-| Inversión Inicial (Año 1) | 3.962,00 € |
+| Inversión Inicial (Año 1) | 3.940,00 € |
 | Capital de Trabajo (3 meses) | 990,50 € |
 | Marketing y Lanzamiento | 1.500,00 € |
-| **TOTAL NECESIDADES** | **6.452,50 €** |
+| **TOTAL NECESIDADES** | **6.432,50 €** |
 
 ---
 
@@ -302,17 +302,17 @@ El capital de trabajo de **990,50 €** garantiza:
 Financiación con recursos propios del equipo fundador sin inversores externos.
 
 **Ventajas:**
-- ✅ Control total sobre el proyecto
-- ✅ Sin dilución del capital
-- ✅ Flexibilidad en la toma de decisiones
-- ✅ Sin obligaciones de devolución
-- ✅ Aprendizaje y responsabilidad directa
+- Control total sobre el proyecto
+- Sin dilución del capital
+- Flexibilidad en la toma de decisiones
+- Sin obligaciones de devolución
+- Aprendizaje y responsabilidad directa
 
 **Desventajas:**
-- ❌ Recursos limitados
-- ❌ Crecimiento más lento
-- ❌ Riesgo financiero personal
-- ❌ Puede limitar el alcance inicial
+- Recursos limitados
+- Crecimiento más lento
+- Riesgo financiero personal
+- Puede limitar el alcance inicial
 
 **Aplicabilidad al proyecto:**
 - **ALTA** - El presupuesto de 3.962 € es asumible para un equipo pequeño
@@ -342,16 +342,16 @@ Financiación mediante crédito de entidades bancarias tradicionales.
    - Aval: SGR o garantía personal
 
 **Ventajas:**
-- ✅ Sin dilución del capital
-- ✅ Cantidades significativas disponibles
-- ✅ Plazos de devolución flexibles
-- ✅ Intereses fiscalmente deducibles
+- Sin dilución del capital
+- Cantidades significativas disponibles
+- Plazos de devolución flexibles
+- Intereses fiscalmente deducibles
 
 **Desventajas:**
-- ❌ Requiere garantías personales o avales
-- ❌ Carga financiera fija mensual
-- ❌ Proceso de aprobación lento
-- ❌ Riesgo en caso de fracaso del proyecto
+- Requiere garantías personales o avales
+- Carga financiera fija mensual
+- Proceso de aprobación lento
+- Riesgo en caso de fracaso del proyecto
 
 **Aplicabilidad al proyecto:**
 - **MEDIA-BAJA** para esta cuantía
@@ -384,16 +384,16 @@ Préstamos participativos para emprendedores menores de 40 años.
 - Innovador y tecnológico
 
 **Ventajas:**
-- ✅ Sin garantías personales
-- ✅ Carencia de 2 años
-- ✅ Interés competitivo
-- ✅ Mejora el balance (fondos propios)
+- Sin garantías personales
+- Carencia de 2 años
+- Interés competitivo
+- Mejora el balance (fondos propios)
 
 **Desventajas:**
-- ❌ Proceso de solicitud complejo
-- ❌ Requiere empresa constituida
-- ❌ Mínimo 25.000 € (por encima de nuestras necesidades)
-- ❌ Tiempo de resolución: 3-6 meses
+- Proceso de solicitud complejo
+- Requiere empresa constituida
+- Mínimo 25.000 € (por encima de nuestras necesidades)
+- Tiempo de resolución: 3-6 meses
 
 **Aplicabilidad al proyecto:**
 - **BAJA** - Importe mínimo excede necesidades
