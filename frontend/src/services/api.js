@@ -48,4 +48,13 @@ export const checkHealth = async () => {
     return response.data;
 };
 
+/**
+ * Obtiene la versión del backend
+ * @returns {Promise<Object>} { version: string, status: string }
+ */
+export const getVersion = async () => {
+    const response = await api.get('/api/version');
+    return response.data;
+};
+
 export default api;

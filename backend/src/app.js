@@ -168,6 +168,20 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Backend funcionando', timestamp: new Date().toISOString() });
 });
 
+// Endpoint para exponer versión del servidor
+// Lee la versión desde package.json si es posible, con fallback hardcodeado
+app.get('/api/version', (req, res) => {
+    try {
+        // Intentamos leer la versión del package.json del backend
+        const pkg = require(path.join(__dirname, '..', 'package.json'));
+        const version = pkg && pkg.version ? pkg.version : '0.0.0';
+        return res.json({ version, status: 'OK' });
+    } catch (err) {
+        // En caso de error, devolvemos una versión por defecto
+        return res.json({ version: '0.0.0', status: 'OK' });
+    }
+});
+
 /**
  * Rutas de API v1.
  *

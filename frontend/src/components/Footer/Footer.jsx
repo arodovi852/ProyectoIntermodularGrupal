@@ -49,25 +49,26 @@
  * <Hero /> // que incluye Footer internamente
  */
 
-import { Link } from '../atoms/Link'
 import { SocialIcon } from '../atoms/SocialIcon'
 import styles from '../../styles/Footer.module.css'
 import {NavLink} from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { getVersion } from '../../services/api'
 
-/**
- * Componente Footer Principal.
- *
- * Renderiza el pie de página con navegación y redes sociales.
- *
- * Estructura:
- * - Array de links de navegación
- * - Array de redes sociales
- * - Mapeo a componentes NavLink y SocialIcon
- * - Separador especial "/" entre secciones
- *
- * @component
- * @returns {React.ReactElement} Footer con navegación y redes sociales
- */
+/*
+  * Componente Footer Principal.
+  *
+  * Renderiza el pie de página con navegación y redes sociales.
+  *
+  * Estructura:
+  * - Array de links de navegación
+  * - Array de redes sociales
+  * - Mapeo a componentes NavLink y SocialIcon
+  * - Separador especial "/" entre secciones
+  *
+  * @component
+  * @returns {React.ReactElement} Footer con navegación y redes sociales
+  */
 export const Footer = () => {
     const links = [
         { text: 'About', href: '/About' },
@@ -86,6 +87,23 @@ export const Footer = () => {
         { type: 'facebook', href: '#facebook' },
         { type: 'instagram', href: '#instagram' }
     ]
+
+    const [serverVersion, setServerVersion] = useState(null)
+
+    useEffect(() => {
+        let mounted = true
+        getVersion()
+            .then((data) => {
+                if (mounted && data && data.version) {
+                    setServerVersion(data.version)
+                }
+            })
+            .catch((err) => {
+                // Silencioso: no hacemos nada si falla
+                console.error('Error obteniendo versión del servidor', err)
+            })
+        return () => { mounted = false }
+    }, [])
 
     return (
         <footer className={styles.footer}>
@@ -106,8 +124,14 @@ export const Footer = () => {
                 {socials.map((social, index) => (
                     <SocialIcon key={`social-${index}`} type={social.type} href={social.href} />
                 ))}
+
+                {/* Mostrar versión del servidor de forma discreta */}
+                {serverVersion && (
+                    <span className={styles.serverVersion} title={`Backend version ${serverVersion}`}>
+                        v{serverVersion}
+                    </span>
+                )}
             </nav>
         </footer>
     )
 }
-
