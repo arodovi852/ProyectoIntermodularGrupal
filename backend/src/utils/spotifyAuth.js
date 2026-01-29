@@ -20,6 +20,7 @@
  */
 
 const axios = require('axios');
+const logger = require('./logger');
 
 let accessToken = null;
 let tokenExpiry = null;
@@ -81,11 +82,13 @@ async function getSpotifyAccessToken() {
         accessToken = response.data.access_token;
         // Set expiry to 5 minutes before actual expiry for safety
         tokenExpiry = Date.now() + ((response.data.expires_in - 300) * 1000);
-        
-        console.log('Spotify access token obtained, expires in', response.data.expires_in, 'seconds');
+
+        logger.info(`Spotify access token obtained, expires in ${response.data.expires_in} seconds`);
         return accessToken;
     } catch (error) {
-        console.error('Failed to get Spotify access token:', error.response?.data || error.message);
+        logger.error('Failed to get Spotify access token:', {
+            error: error.response?.data || error.message
+        });
         throw new Error('Failed to authenticate with Spotify');
     }
 }

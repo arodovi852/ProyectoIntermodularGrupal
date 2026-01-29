@@ -16,13 +16,6 @@ const Playlist = () => {
             try {
                 const token = localStorage.getItem('token');
 
-                // Debug: verificar el token
-                console.log('=== DEBUG TOKEN ===');
-                console.log('Token:', token);
-                console.log('Token tipo:', typeof token);
-                console.log('Token es null/undefined:', token === null || token === undefined);
-                console.log('Token es string "undefined":', token === 'undefined');
-                console.log('===================');
 
                 if (!token || token === 'undefined' || token === 'null') {
                     throw new Error('No hay sesión activa. Por favor, inicia sesión nuevamente.');
@@ -49,8 +42,6 @@ const Playlist = () => {
                     throw new Error(json.error || 'No se pudo cargar la playlist');
                 }
 
-                setPlaylist(json.data); // PlaylistDTO.toDetailedResponse
-            } catch (err) {
                 console.error('Error completo:', err);
                 setError(err.message);
             } finally {
@@ -60,7 +51,6 @@ const Playlist = () => {
 
         fetchPlaylist();
     }, [id]);
-
     if (loading) return <p>Cargando playlist...</p>;
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
     if (!playlist) return <p>No se encontró la playlist.</p>;

@@ -41,6 +41,8 @@ const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
 
+const winstonLogger = require('./utils/logger');
+
 const connectDB = require('./config/database');
 const indexRouter = require('../routes/index');
 const usersRouter = require('../routes/users');
@@ -332,11 +334,13 @@ app.use(function(err, req, res, next) {
     errorResponse.details = err;
   }
 
-  // Log del error en servidor (para debugging)
-  console.error(`[ERROR ${statusCode}]`, message);
-  if (req.app.get('env') === 'development') {
-    console.error(err.stack);
-  }
+  // Log del error en servidor usando Winston
+  winstonLogger.error(`[ERROR ${statusCode}] ${message}`, {
+    statusCode,
+    path: req.path,
+    method: req.method,
+    stack: err.stack
+  });
 
   // Enviar respuesta JSON
   res.status(statusCode).json(errorResponse);
