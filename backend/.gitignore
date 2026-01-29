@@ -1,8 +1,22 @@
-# Dependencies
+# ============================
+# DEPENDENCIES
+# ============================
 node_modules/
 package-lock.json
+pnpm-lock.yaml
 
-# Environment variables
+# Yarn 2+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+# ============================
+# ENVIRONMENT VARIABLES
+# ============================
 .env
 .env.local
 .env.*.local
@@ -12,33 +26,70 @@ package-lock.json
 !.env.production.example
 !.env.docker
 
-# Logs
+# ============================
+# LOGS
+# ============================
 logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Test reports
+# ============================
+# TEST REPORTS & COVERAGE
+# ============================
 tests/reports/
 newman/
+coverage/
+.nyc_output/
+*.lcov
+test-results/
+junit.xml
 
+# ============================
+# BUILD & DISTRIBUTION
+# ============================
+dist/
+build/
+out/
+.turbo/
+.cache/
+.parcel-cache/
+
+# ============================
+# TEMPORALES
+# ============================
+tmp/
+temp/
+*.tmp
+*.pid
+*.seed
+*.pid.lock
+
+# ============================
+# UPLOADS
+# ============================
+uploads/*
+!uploads/.gitkeep
+
+# ============================
 # OS
+# ============================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 Thumbs.db
+Desktop.ini
+ehthumbs.db
 
+# ============================
 # IDE
+# ============================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-
-# Uploads
-uploads/*
-!uploads/.gitkeep
-
-# Build
-dist/
-build/
 
