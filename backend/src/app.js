@@ -36,7 +36,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
+
+const winstonLogger = require('./utils/logger');
 
 const connectDB = require('./config/database');
 const indexRouter = require('../routes/index');
@@ -67,25 +72,132 @@ const app = express();
 connectDB();
 
 /**
- * Configuración de CORS (Cross-Origin Resource Sharing).
+ * =========================================
+ * CONFIGURACIÓN DE SEGURIDAD - MIDDLEWARES
+ * =========================================
+ * Orden crítico para máxima seguridad:
+ * 1. Helmet (headers de seguridad)
+ * 2. CORS (control de acceso)
+ * 3. Body parsers con límites
+ * 4. Sanitización
+ * 5. Rate limiting
+ * 6. Logging
+ */
+
+/**
+ * 1. Helmet - Configura headers HTTP de seguridad.
  *
- * Permite solicitudes desde:
- * - Método GET, POST, PUT, DELETE, PATCH
- * - Origen: * (todas las direcciones - para desarrollo)
- * - Credenciales: true (permite cookies y headers de autorización)
+ * Protege contra vulnerabilidades comunes:
+ * - XSS (Cross-Site Scripting)
+ * - Clickjacking
+ * - MIME sniffing
+ * - Información del servidor expuesta
  *
- * Nota: En producción, especificar origin: 'https://dominio.com'
- * en lugar de '*' para mayor seguridad.
+ * @middleware helmet
+ */
+app.use(helmet());
+
+/**
+ * 2. CORS - Control de acceso entre orígenes.
+ *
+ * Configuración segura:
+ * - origin: Solo el dominio del frontend (desde variable de entorno)
+ * - credentials: true (permite cookies y headers de autorización)
+ * - methods: GET, POST, PUT, DELETE, PATCH
+ *
+ * IMPORTANTE: En producción, FRONTEND_URL debe ser tu dominio real.
+ * Ejemplo: https://playthemood.com
  *
  * @middleware cors
  */
-// CORS - permitir frontend de Vite (puerto 5173)
 app.use(cors({
-    // origin: 'http://localhost:5173',
-    origin: '*',
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true
 }));
+
+/**
+ * 3. Body Parsers con límite de tamaño.
+ *
+ * Previene ataques de denegación de servicio (DoS) mediante payloads enormes.
+ * Límite: 10MB (ajustar según necesidades de la aplicación)
+ *
+ * @middleware express.json
+ * @middleware express.urlencoded
+ */
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
+
+/**
+ * 4. Sanitización contra inyección NoSQL.
+ *
+ * Express Mongo Sanitize elimina caracteres peligrosos como $ y .
+ * que podrían usarse en ataques de inyección NoSQL.
+ *
+ * Ejemplos bloqueados:
+ * - {"$gt": ""} en passwords
+ * - {"username": {"$ne": null}}
+ *
+ * @middleware mongoSanitize
+ */
+app.use(mongoSanitize());
+
+/**
+ * 5. Rate Limiting - Limita peticiones por IP.
+ *
+ * Rate Limiter General: 100 peticiones cada 15 minutos
+ * Aplica a todas las rutas excepto /api/health
+ *
+ * Previene:
+ * - Ataques de fuerza bruta
+ * - DDoS básicos
+ * - Abuso de API
+ *
+ * @middleware rateLimit
+ */
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // 100 peticiones por ventana
+    message: {
+        error: 'Demasiadas peticiones desde esta IP, por favor intenta de nuevo en 15 minutos'
+    },
+    standardHeaders: true, // Retorna info de rate limit en headers `RateLimit-*`
+    legacyHeaders: false, // Desactiva headers `X-RateLimit-*`
+    // Excluir health check del rate limiting
+    skip: (req) => req.path === '/api/health'
+});
+
+/**
+ * Rate Limiter Estricto para Login/Registro.
+ *
+ * Solo 5 intentos cada 15 minutos para rutas de autenticación.
+ * Previene ataques de fuerza bruta en credenciales.
+ *
+ * @middleware rateLimit
+ */
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 5, // Solo 5 peticiones por ventana
+    message: {
+        error: 'Demasiados intentos de autenticación desde esta IP, por favor intenta de nuevo en 15 minutos'
+    },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+// Aplicar rate limiter general a todas las rutas
+app.use(generalLimiter);
+
+/**
+ * 6. Otros middlewares.
+ *
+ * - cookieParser: Parsea cookies
+ * - morgan: Logging de requests HTTP
+ * - express.static: Sirve archivos estáticos
+ */
+app.use(cookieParser());
+app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 /**
  * Configuración de vistas (EJS).
@@ -100,33 +212,6 @@ app.use(cors({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-/**
- * Middleware de logging (Morgan).
- *
- * Registra todas las requests HTTP en consola.
- * Formato 'dev' incluye: método, ruta, estado, tiempo, bytes enviados.
- *
- * @middleware morgan
- */
-app.use(logger('dev'));
-
-/**
- * Middleware de parsing.
- *
- * - express.json(): Parsea request bodies con Content-Type: application/json
- * - express.urlencoded(): Parsea formularios URL-encoded
- * - cookieParser(): Parsea cookies
- * - express.static(): Sirve archivos estáticos (public/)
- *
- * @middleware express.json
- * @middleware express.urlencoded
- * @middleware cookieParser
- * @middleware express.static
- */
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
 /**
  * Rutas Legacy.
@@ -172,7 +257,7 @@ app.get('/api/health', (req, res) => {
  * Rutas de API v1.
  *
  * Montaje de todas las rutas API organizadas por recurso:
- * - /api/auth - Autenticación (registro, login)
+ * - /api/auth - Autenticación (registro, login) - CON RATE LIMITING ESTRICTO
  * - /api/users - Gestión de usuarios
  * - /api/playlists - Gestión de playlists
  * - /api/songs - Gestión de canciones
@@ -185,7 +270,9 @@ app.get('/api/health', (req, res) => {
  * @route /api/generate - {@link module:routes/generateRoutes}
  */
 // Rutas de la API
-app.use('/api/auth', authRoutes);
+// Auth con rate limiting estricto (5 intentos cada 15 min)
+app.use('/api/auth', authLimiter, authRoutes);
+// Otras rutas con rate limiting general
 app.use('/api/users', userRoutesAPI);
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/songs', songRoutes);
@@ -194,26 +281,32 @@ app.use('/api/generate', generateRoutes);
 /**
  * Middleware de manejo de 404.
  *
- * Captura todas las rutas no encontradas y crea un error 404.
- * El error se pasa al siguiente middleware (error handler).
+ * Captura todas las rutas no encontradas y retorna error 404 en formato JSON.
  *
  * @middleware 404 handler
  */
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  res.status(404).json({
+    error: 'Not Found',
+    message: `La ruta ${req.method} ${req.path} no existe`,
+    path: req.path,
+    method: req.method
+  });
 });
 
 /**
  * Middleware de manejo de errores global.
  *
  * Procesa todos los errores lanzados en la aplicación.
- * En desarrollo, retorna el stack de error completo.
- * En producción, oculta detalles del error por seguridad.
+ * Retorna respuesta en formato JSON apropiado para API REST.
  *
- * Renderiza la vista error.ejs con detalles del error.
+ * En desarrollo:
+ * - Incluye stack trace completo del error
+ * - Incluye detalles del error
+ *
+ * En producción:
+ * - Oculta detalles internos por seguridad
+ * - Solo muestra mensaje genérico
  *
  * @middleware error handler
  * @param {Error} err - Error capturado
@@ -221,15 +314,36 @@ app.use(function(req, res, next) {
  * @param {express.Response} res - Response Express
  * @param {Function} next - Siguiente middleware (no usado en error handler)
  */
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // Determinar código de estado
+  const statusCode = err.status || err.statusCode || 500;
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  // Mensaje de error
+  const message = err.message || 'Error interno del servidor';
+
+  // Respuesta base
+  const errorResponse = {
+    error: true,
+    message: message,
+    status: statusCode
+  };
+
+  // En desarrollo, incluir detalles adicionales
+  if (req.app.get('env') === 'development') {
+    errorResponse.stack = err.stack;
+    errorResponse.details = err;
+  }
+
+  // Log del error en servidor usando Winston
+  winstonLogger.error(`[ERROR ${statusCode}] ${message}`, {
+    statusCode,
+    path: req.path,
+    method: req.method,
+    stack: err.stack
+  });
+
+  // Enviar respuesta JSON
+  res.status(statusCode).json(errorResponse);
 });
 
 module.exports = app;

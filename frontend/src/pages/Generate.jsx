@@ -98,26 +98,15 @@ const Generate = () => {
                 params.negativeSeeds = dislikedSongs.map(s => s.id).join(',');
             }
 
-            console.log('=== FRONTEND DEBUG ===');
-            console.log('Slider values before sending:');
-            console.log('- Loudness:', loudness, typeof loudness);
-            console.log('- Mode:', mode, typeof mode);
-            console.log('- Acousticness:', acousticness, typeof acousticness);
-            console.log('Full params object:', params);
-            console.log('===================');
-
             const res = await api.get('/api/generate/get-recommendation', { params });
-
-            // Log the response for debugging
-            console.log('Playlist generated from ReccoBeats:', res.data);
 
             // Save the generated playlist data
             setGeneratedPlaylist(res.data)
         } catch (err) {
-            console.error('Generation error:', err);
+            // Handle error silently or show user-friendly message
             setGeneratedPlaylist({
-                error: err.response?.data?.error || err.message || 'Failed to generate playlist'
-            })
+                error: 'Error al generar la playlist. Por favor, intenta de nuevo.'
+            });
         } finally {
             setGenerationLoading(false)
         }
@@ -348,7 +337,7 @@ const Generate = () => {
             {/* Section 2: Songs */}
             <section className={styles.songSection}>
                 <h2 className={styles.sectionTitle}>2. Añade hasta 5 canciones que te gusten o no</h2>
-                
+
                 <div className={styles.searchBarWrapper}>
                     <SearchBar
                         value={query}

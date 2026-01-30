@@ -8,8 +8,9 @@
  * - Devuelve respuestas JSON normalizadas con las claves `success`, `data` y `error`.
  */
 
-
 const playlistService = require('../services/playlistService');
+const { SUCCESS, CLIENT_ERROR, SERVER_ERROR } = require('../constants/httpStatusCodes');
+const { AUTH_ERRORS } = require('../constants/errorMessages');
 
 /**
  * Obtener todas las playlists de un usuario autenticado.
@@ -35,31 +36,33 @@ const playlistService = require('../services/playlistService');
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getUserPlaylists = async (req, res) => {
-  try {
-    const { userId } = req.params;
+    try {
+        const { userId } = req.params;
 
-    // Comprobar que el token pertenezca al usuario solicitado
-    if (String(userId) !== String(req.user?.id)) {
-      return res.status(403).json({
-        success: false,
-        error: 'No autorizado para ver estas playlists'
-      });
+        // Comprobar que el token pertenezca al usuario solicitado
+        if (String(userId) !== String(req.user?.id)) {
+            return res.status(CLIENT_ERROR.FORBIDDEN).json({
+                success: false,
+                error: AUTH_ERRORS.UNAUTHORIZED_ACCESS
+            });
+        }
+
+        const playlists = await playlistService.getUserPlaylists(userId, req.query);
+
+        res.status(SUCCESS.OK).json({
+            success: true,
+            count: playlists.length,
+            data: playlists
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrado')
+            ? CLIENT_ERROR.NOT_FOUND
+            : SERVER_ERROR.INTERNAL_SERVER_ERROR;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
     }
-
-    const playlists = await playlistService.getUserPlaylists(userId, req.query);
-
-    res.status(200).json({
-      success: true,
-      count: playlists.length,
-      data: playlists
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrado') ? 404 : 500;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
 };
 
 /**
@@ -84,20 +87,22 @@ const getUserPlaylists = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const createPlaylist = async (req, res) => {
-  try {
-    const playlist = await playlistService.createPlaylist(req.body);
+    try {
+        const playlist = await playlistService.createPlaylist(req.body);
 
-    res.status(201).json({
-      success: true,
-      data: playlist
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrado') ? 404 : 400;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(SUCCESS.CREATED).json({
+            success: true,
+            data: playlist
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrado')
+            ? CLIENT_ERROR.NOT_FOUND
+            : CLIENT_ERROR.BAD_REQUEST;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -120,31 +125,33 @@ const createPlaylist = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getPlaylistDetails = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // Verificar propietario usando el service (lanza si no existe)
-    const isOwner = await playlistService.isOwner(id, req.user?.id);
-    if (!isOwner) {
-      return res.status(403).json({
-        success: false,
-        error: 'No autorizado para ver esta playlist'
-      });
+        // Verificar propietario usando el service (lanza si no existe)
+        const isOwner = await playlistService.isOwner(id, req.user?.id);
+        if (!isOwner) {
+            return res.status(CLIENT_ERROR.FORBIDDEN).json({
+                success: false,
+                error: AUTH_ERRORS.UNAUTHORIZED_ACCESS
+            });
+        }
+
+        const playlist = await playlistService.getPlaylistDetails(id);
+
+        res.status(SUCCESS.OK).json({
+            success: true,
+            data: playlist
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrada')
+            ? CLIENT_ERROR.NOT_FOUND
+            : SERVER_ERROR.INTERNAL_SERVER_ERROR;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
     }
-
-    const playlist = await playlistService.getPlaylistDetails(id);
-
-    res.status(200).json({
-      success: true,
-      data: playlist
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrada') ? 404 : 500;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
 };
 
 /**
@@ -174,31 +181,33 @@ const getPlaylistDetails = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const updatePlaylist = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // Verificar propietario
-    const isOwner = await playlistService.isOwner(id, req.user?.id);
-    if (!isOwner) {
-      return res.status(403).json({
-        success: false,
-        error: 'No autorizado para modificar esta playlist'
-      });
+        // Verificar propietario
+        const isOwner = await playlistService.isOwner(id, req.user?.id);
+        if (!isOwner) {
+            return res.status(CLIENT_ERROR.FORBIDDEN).json({
+                success: false,
+                error: AUTH_ERRORS.UNAUTHORIZED_ACCESS
+            });
+        }
+
+        const playlist = await playlistService.updatePlaylist(id, req.body);
+
+        res.status(SUCCESS.OK).json({
+            success: true,
+            data: playlist
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrada')
+            ? CLIENT_ERROR.NOT_FOUND
+            : CLIENT_ERROR.BAD_REQUEST;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
     }
-
-    const playlist = await playlistService.updatePlaylist(id, req.body);
-
-    res.status(200).json({
-      success: true,
-      data: playlist
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrada') ? 404 : 400;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
 };
 
 /**
@@ -221,31 +230,33 @@ const updatePlaylist = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const deletePlaylist = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // Verificar propietario
-    const isOwner = await playlistService.isOwner(id, req.user?.id);
-    if (!isOwner) {
-      return res.status(403).json({
-        success: false,
-        error: 'No autorizado para eliminar esta playlist'
-      });
+        // Verificar propietario
+        const isOwner = await playlistService.isOwner(id, req.user?.id);
+        if (!isOwner) {
+            return res.status(CLIENT_ERROR.FORBIDDEN).json({
+                success: false,
+                error: AUTH_ERRORS.UNAUTHORIZED_ACCESS
+            });
+        }
+
+        await playlistService.deletePlaylist(id);
+
+        res.status(SUCCESS.OK).json({
+            success: true,
+            data: {}
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrada')
+            ? CLIENT_ERROR.NOT_FOUND
+            : SERVER_ERROR.INTERNAL_SERVER_ERROR;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
     }
-
-    await playlistService.deletePlaylist(id);
-
-    res.status(200).json({
-      success: true,
-      data: {}
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrada') ? 404 : 500;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
 };
 
 /**
@@ -272,38 +283,40 @@ const deletePlaylist = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const addTracksToPlaylist = async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    // Verificar propietario
-    const isOwner = await playlistService.isOwner(id, req.user?.id);
-    if (!isOwner) {
-      return res.status(403).json({
-        success: false,
-        error: 'No autorizado para modificar esta playlist'
-      });
+        // Verificar propietario
+        const isOwner = await playlistService.isOwner(id, req.user?.id);
+        if (!isOwner) {
+            return res.status(CLIENT_ERROR.FORBIDDEN).json({
+                success: false,
+                error: AUTH_ERRORS.UNAUTHORIZED_ACCESS
+            });
+        }
+
+        const playlist = await playlistService.addTracksToPlaylist(id, req.body);
+
+        res.status(SUCCESS.OK).json({
+            success: true,
+            data: playlist
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrada')
+            ? CLIENT_ERROR.NOT_FOUND
+            : CLIENT_ERROR.BAD_REQUEST;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
     }
-
-    const playlist = await playlistService.addTracksToPlaylist(id, req.body);
-
-    res.status(200).json({
-      success: true,
-      data: playlist
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrada') ? 404 : 400;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
 };
 
 module.exports = {
-  getUserPlaylists,
-  createPlaylist,
-  getPlaylistDetails,
-  updatePlaylist,
-  deletePlaylist,
-  addTracksToPlaylist
+    getUserPlaylists,
+    createPlaylist,
+    getPlaylistDetails,
+    updatePlaylist,
+    deletePlaylist,
+    addTracksToPlaylist
 };
