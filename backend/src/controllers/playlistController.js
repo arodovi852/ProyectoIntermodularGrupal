@@ -8,8 +8,10 @@
  * - Devuelve respuestas JSON normalizadas con las claves `success`, `data` y `error`.
  */
 
-
-const playlistService = require('../services/playlistService');
+const { SUCCESS, CLIENT_ERROR, SERVER_ERROR } = require('../constants/httpStatusCodes');
+const { SUCCESS, CLIENT_ERROR, SERVER_ERROR } = require('../constants/httpStatusCodes');
+const { AUTH_ERRORS } = require('../constants/errorMessages');
+const { AUTH_ERRORS } = require('../constants/errorMessages');
 
 /**
  * Obtener todas las playlists de un usuario autenticado.
@@ -40,21 +42,21 @@ const getUserPlaylists = async (req, res) => {
 
     // Comprobar que el token pertenezca al usuario solicitado
     if (String(userId) !== String(req.user?.id)) {
-      return res.status(403).json({
+      return res.status(CLIENT_ERROR.FORBIDDEN).json({
         success: false,
-        error: 'No autorizado para ver estas playlists'
+        error: AUTH_ERRORS.UNAUTHORIZED_ACCESS
       });
     }
 
     const playlists = await playlistService.getUserPlaylists(userId, req.query);
 
-    res.status(200).json({
+    res.status(SUCCESS.OK).json({
       success: true,
       count: playlists.length,
       data: playlists
     });
   } catch (error) {
-    const statusCode = error.message.includes('no encontrado') ? 404 : 500;
+    const statusCode = error.message.includes('no encontrado') ? CLIENT_ERROR.NOT_FOUND : SERVER_ERROR.INTERNAL_SERVER_ERROR;
     res.status(statusCode).json({
       success: false,
       error: error.message
@@ -86,12 +88,12 @@ const getUserPlaylists = async (req, res) => {
 const createPlaylist = async (req, res) => {
   try {
     const playlist = await playlistService.createPlaylist(req.body);
-
+    res.status(SUCCESS.CREATED).json({
     res.status(201).json({
       success: true,
       data: playlist
     });
-  } catch (error) {
+    const statusCode = error.message.includes('no encontrado') ? CLIENT_ERROR.NOT_FOUND : CLIENT_ERROR.BAD_REQUEST;
     const statusCode = error.message.includes('no encontrado') ? 404 : 400;
     res.status(statusCode).json({
       success: false,
