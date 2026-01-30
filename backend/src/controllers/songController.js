@@ -10,7 +10,6 @@
 
 const songService = require('../services/songService');
 const { SUCCESS, CLIENT_ERROR, SERVER_ERROR } = require('../constants/httpStatusCodes');
-const { SUCCESS, CLIENT_ERROR, SERVER_ERROR } = require('../constants/httpStatusCodes');
 
 /**
  * Obtener todas las canciones con soporte de paginación.
@@ -33,20 +32,20 @@ const { SUCCESS, CLIENT_ERROR, SERVER_ERROR } = require('../constants/httpStatus
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getAllSongs = async (req, res) => {
-  try {
-    res.status(200).json({
+    try {
+        const result = await songService.getAllSongs(req.query);
 
-    res.status(SUCCESS.OK).json({
-      success: true,
-      ...result.pagination,
-      data: result.songs
-    res.status(500).json({
-  } catch (error) {
-    res.status(SERVER_ERROR.INTERNAL_SERVER_ERROR).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(SUCCESS.OK).json({
+            success: true,
+            ...result.pagination,
+            data: result.songs
+        });
+    } catch (error) {
+        res.status(SERVER_ERROR.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -67,21 +66,23 @@ const getAllSongs = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getSongById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const song = await songService.getSongById(id);
-    res.status(SUCCESS.OK).json({
-    res.status(200).json({
-      success: true,
-      data: song
-    });
-    const statusCode = error.message.includes('no encontrada') ? CLIENT_ERROR.NOT_FOUND : SERVER_ERROR.INTERNAL_SERVER_ERROR;
-    const statusCode = error.message.includes('no encontrada') ? 404 : 500;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
+    try {
+        const { id } = req.params;
+        const song = await songService.getSongById(id);
+
+        res.status(SUCCESS.OK).json({
+            success: true,
+            data: song
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrada')
+            ? CLIENT_ERROR.NOT_FOUND
+            : SERVER_ERROR.INTERNAL_SERVER_ERROR;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -103,21 +104,21 @@ const getSongById = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const createSong = async (req, res) => {
-  try {
-    const statusCode = result.isNew ? SUCCESS.CREATED : SUCCESS.OK;
+    try {
+        const result = await songService.createOrUpdateSong(req.body);
+        const statusCode = result.isNew ? SUCCESS.CREATED : SUCCESS.OK;
 
-    const statusCode = result.isNew ? 201 : 200;
-    res.status(statusCode).json({
-      success: true,
-      created: result.isNew,
-      data: result.song
-    res.status(CLIENT_ERROR.BAD_REQUEST).json({
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(statusCode).json({
+            success: true,
+            created: result.isNew,
+            data: result.song
+        });
+    } catch (error) {
+        res.status(CLIENT_ERROR.BAD_REQUEST).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -142,22 +143,22 @@ const createSong = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const createManySongs = async (req, res) => {
-    res.status(SUCCESS.CREATED).json({
-    const result = await songService.createOrUpdateSongsBatch(req.body.songs);
+    try {
+        const result = await songService.createOrUpdateSongsBatch(req.body.songs);
 
-    res.status(201).json({
-      success: true,
-      saved: result.savedCount,
-      errors: result.errorCount,
-      data: result.saved,
-    res.status(CLIENT_ERROR.BAD_REQUEST).json({
-    });
-  } catch (error) {
-    res.status(400).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(SUCCESS.CREATED).json({
+            success: true,
+            saved: result.savedCount,
+            errors: result.errorCount,
+            data: result.saved,
+            errorDetails: result.errors
+        });
+    } catch (error) {
+        res.status(CLIENT_ERROR.BAD_REQUEST).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -177,20 +178,20 @@ const createManySongs = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const getSongsByIds = async (req, res) => {
-  try {
-    res.status(SUCCESS.OK).json({
+    try {
+        const songs = await songService.getSongsByIds(req.body.ids);
 
-    res.status(200).json({
-      success: true,
-      count: songs.length,
-      data: songs
-    res.status(SERVER_ERROR.INTERNAL_SERVER_ERROR).json({
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(SUCCESS.OK).json({
+            success: true,
+            count: songs.length,
+            data: songs
+        });
+    } catch (error) {
+        res.status(SERVER_ERROR.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -210,20 +211,20 @@ const getSongsByIds = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const searchSongs = async (req, res) => {
-  try {
-    const songs = await songService.searchSongs(req.query);
+    try {
+        const songs = await songService.searchSongs(req.query);
 
-    res.status(200).json({
-      success: true,
-      count: songs.length,
-      data: songs
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(SUCCESS.OK).json({
+            success: true,
+            count: songs.length,
+            data: songs
+        });
+    } catch (error) {
+        res.status(SERVER_ERROR.INTERNAL_SERVER_ERROR).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 /**
@@ -244,30 +245,31 @@ const searchSongs = async (req, res) => {
  * @returns {Promise<void>} Promesa que se resuelve cuando se ha enviado la respuesta.
  */
 const deleteSong = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await songService.deleteSong(id);
+    try {
+        const { id } = req.params;
+        await songService.deleteSong(id);
 
-    res.status(SUCCESS.OK).json({
-      success: true,
-      message: 'Canción eliminada exitosamente'
-    });
-  } catch (error) {
-    const statusCode = error.message.includes('no encontrada') ? CLIENT_ERROR.NOT_FOUND : SERVER_ERROR.INTERNAL_SERVER_ERROR;
-    res.status(statusCode).json({
-      success: false,
-      error: error.message
-    });
-  }
+        res.status(SUCCESS.OK).json({
+            success: true,
+            data: {}
+        });
+    } catch (error) {
+        const statusCode = error.message.includes('no encontrada')
+            ? CLIENT_ERROR.NOT_FOUND
+            : SERVER_ERROR.INTERNAL_SERVER_ERROR;
+        res.status(statusCode).json({
+            success: false,
+            error: error.message
+        });
+    }
 };
 
 module.exports = {
-  getAllSongs,
-  getSongById,
-  createSong,
-  createManySongs,
-  getSongsByIds,
-  searchSongs,
-  deleteSong
+    getAllSongs,
+    getSongById,
+    createSong,
+    createManySongs,
+    getSongsByIds,
+    searchSongs,
+    deleteSong
 };
-

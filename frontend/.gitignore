@@ -51,6 +51,12 @@ test-results
 # ============================
 .env
 .env.local
+.env.*.local
+
+# Permitir archivo de ejemplo
+!.env.example
+.env
+.env.local
 .env.production
 .env.production.local
 .env.*.local
