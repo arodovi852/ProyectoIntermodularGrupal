@@ -12,7 +12,6 @@ function Profile() {
         const fetchData = async () => {
             const element = await getUserData(token, id)
             if (element.success) {
-                console.log(element.data);
                 setPlaylists(element.data);
             }
         }
