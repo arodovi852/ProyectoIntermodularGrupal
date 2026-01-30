@@ -795,7 +795,7 @@ Reportes HTML generados en: `backend/tests/reports/`
 
 ---
 
-## Licencia
+## 12. Licencia
 
 Este proyecto es de código abierto y está disponible bajo la [Licencia MIT](LICENSE).
 
@@ -825,7 +825,7 @@ SOFTWARE.
 
 ---
 
-## Contacto y Soporte
+## 13. Contacto y Soporte
 
 Para preguntas, sugerencias o reportar problemas:
 

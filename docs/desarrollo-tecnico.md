@@ -14,6 +14,7 @@
 4. [Integración y Despliegue](#4-integración-y-despliegue)
    - 4.1. [Integración Frontend-Backend (RA3.b)](#41-integración-frontend-backend-ra3b)
    - 4.2. [Testing y Aseguramiento de Calidad (RA3.c)](#42-testing-y-aseguramiento-de-calidad-ra3c)
+      - [Ejemplo de reporte completo](https://arodovi852.github.io/ProyectoIntermodularGrupal/report-complete.html)
    - 4.3. [Despliegue y Configuración de Entornos (RA3.d)](#43-despliegue-y-configuración-de-entornos-ra3d)
 5. [Estructura del Proyecto y Tecnologías](#5-estructura-del-proyecto-y-tecnologías)
 6. [Guía de Instalación y Ejecución](#6-guía-de-instalación-y-ejecución)
@@ -974,8 +975,6 @@ Los tests de API se definen en colecciones de Postman organizadas por recurso. L
 
 #### 4.2.2. Flujos de prueba end-to-end
 
-#### 4.2.2. Flujos de prueba end-to-end
-
 Los tests implementan un flujo completo de usuario que simula casos de uso reales:
 
 1. **Registro de usuario nuevo**: Creación de cuenta con validación de datos
@@ -1027,6 +1026,10 @@ Los reportes incluyen:
 - Detalles completos de cada request/response
 - Métricas de performance
 - Assertions pasadas y fallidas
+
+<img width="1802" height="767" alt="reporte-html-completo" src="https://github.com/user-attachments/assets/29c33cd4-00fd-4dea-ba6b-38b5f7d02863" />
+
+> [Ver reporte completo](https://arodovi852.github.io/ProyectoIntermodularGrupal/report-complete.html)
 
 #### 4.2.5. Proceso de detección y corrección de defectos
 
