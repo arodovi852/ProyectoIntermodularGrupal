@@ -19,22 +19,30 @@ const api = axios.create({
 // Interceptor para logging (útil en desarrollo)
 api.interceptors.request.use(
     (config) => {
-        console.log(`📡 API Request: ${config.method.toUpperCase()} ${config.url}`);
+        if (import.meta.env.DEV) {
+            console.log(`📡 API Request: ${config.method.toUpperCase()} ${config.url}`);
+        }
         return config;
     },
     (error) => {
-        console.error('Request Error:', error);
+        if (import.meta.env.DEV) {
+            console.error('Request Error:', error);
+        }
         return Promise.reject(error);
     }
 );
 
 api.interceptors.response.use(
     (response) => {
-        console.log(`✅ API Response: ${response.status} ${response.config.url}`);
+        if (import.meta.env.DEV) {
+            console.log(`✅ API Response: ${response.status} ${response.config.url}`);
+        }
         return response;
     },
     (error) => {
-        console.error('Response Error:', error.response?.status, error.message);
+        if (import.meta.env.DEV) {
+            console.error('Response Error:', error.response?.status, error.message);
+        }
         return Promise.reject(error);
     }
 );
@@ -49,3 +57,4 @@ export const checkHealth = async () => {
 };
 
 export default api;
+

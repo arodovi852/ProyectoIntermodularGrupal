@@ -22,14 +22,16 @@
     "dotenv": "^17.2.3",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
-    "has-tostringtag": "^1.0.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^7.0.0",
     "mongoose": "^8.20.0",
-    "morgan": "^1.10.1"
+    "morgan": "^1.10.1",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
-    "newman": "^6.0.0",
+    "newman": "^6.2.1",
     "newman-reporter-htmlextra": "^1.23.1",
     "nodemon": "^3.1.11"
   }
