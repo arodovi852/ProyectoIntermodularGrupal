@@ -446,6 +446,52 @@ class UserService {
       throw error;
     }
   }
+
+  /**
+   * Exporta todos los datos del usuario en formato RGPD-compliant.
+   * Cumple con el derecho de portabilidad (Art. 20 RGPD) y derecho de acceso (Art. 15 RGPD).
+   *
+   * @async
+   * @param {string} userId - ID del usuario a exportar.
+   * @returns {Promise<Object>} Datos del usuario en formato estructurado JSON.
+   */
+  async exportUserData(userId) {
+    try {
+      const user = await User.findById(userId).select('-password');
+      if (!user) {
+        throw new Error('Usuario no encontrado');
+      }
+
+      const { Playlist } = require('../models');
+      const playlists = await Playlist.find({ userId: userId });
+
+      return {
+        exportInfo: {
+          date: new Date().toISOString(),
+          format: 'JSON',
+          version: '1.0',
+          rgpdCompliant: true,
+          description: 'Exportación de datos personales conforme al Art. 15 y 20 del RGPD'
+        },
+        userData: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          createdAt: user.created_at || user.createdAt
+        },
+        playlists: playlists.map(p => ({
+          id: p._id,
+          name: p.name,
+          description: p.description,
+          songs: p.songs,
+          createdAt: p.createdAt
+        })),
+        consents: user.consents || {}
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new UserService();

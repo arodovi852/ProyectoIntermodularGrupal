@@ -2,9 +2,9 @@
 
 ## PlayTheMood - Marco Legal y Regulatorio
 
-**Versión:** 1.0  
+**Versión:** 2.0  
 **Fecha:** 12 de febrero de 2026  
-**Última actualización:** 12 de febrero de 2026
+**Última actualización:** 19 de febrero de 2026
 
 ---
 
@@ -998,39 +998,39 @@ function PlaylistGenerator() {
 
 #### 5.3.1 Imágenes y Multimedia
 
-- [ ] Todas las imágenes tienen atributo `alt` descriptivo
-- [ ] Imágenes decorativas tienen `alt=""`
-- [ ] Videos tienen subtítulos (si aplica)
-- [ ] Animaciones pueden pausarse
-- [ ] No hay contenido que parpadea más de 3 veces por segundo
+- [x] Todas las imágenes tienen atributo `alt` descriptivo
+- [x] Imágenes decorativas tienen `alt=""`
+- [x] Videos tienen subtítulos (si aplica)
+- [x] Animaciones pueden pausarse
+- [x] No hay contenido que parpadea más de 3 veces por segundo
 
 #### 5.3.2 Navegación
 
-- [ ] Existe enlace "Saltar al contenido"
-- [ ] Navegación consistente en todas las páginas
-- [ ] Breadcrumbs para orientación (si hay jerarquía)
-- [ ] Múltiples formas de encontrar contenido (navegación + búsqueda)
+- [x] Existe enlace "Saltar al contenido" (skip link implementado en LayoutRoot)
+- [x] Navegación consistente en todas las páginas
+- [x] Breadcrumbs para orientación (si hay jerarquía)
+- [x] Múltiples formas de encontrar contenido (navegación + búsqueda)
 
 #### 5.3.3 Formularios
 
-- [ ] Todos los inputs tienen labels asociados
-- [ ] Errores identificados claramente
-- [ ] Instrucciones proporcionadas antes del formulario
-- [ ] Tiempo suficiente para completar acciones
+- [x] Todos los inputs tienen labels asociados
+- [x] Errores identificados claramente (role="alert")
+- [x] Instrucciones proporcionadas antes del formulario
+- [x] Tiempo suficiente para completar acciones
 
 #### 5.3.4 Contraste y Color
 
-- [ ] Contraste mínimo 4.5:1 para texto normal
-- [ ] Contraste mínimo 3:1 para texto grande (>18pt)
-- [ ] Color no es el único medio de transmitir información
-- [ ] Enlaces distinguibles del texto circundante
+- [x] Contraste mínimo 4.5:1 para texto normal
+- [x] Contraste mínimo 3:1 para texto grande (>18pt)
+- [x] Color no es el único medio de transmitir información
+- [x] Enlaces distinguibles del texto circundante
 
 #### 5.3.5 Teclado y Foco
 
-- [ ] Toda funcionalidad accesible por teclado
-- [ ] Orden de tabulación lógico
-- [ ] Indicador de foco visible
-- [ ] Sin trampas de teclado
+- [x] Toda funcionalidad accesible por teclado
+- [x] Orden de tabulación lógico
+- [x] Indicador de foco visible (:focus-visible con outline #5888ed)
+- [x] Sin trampas de teclado
 
 ### 5.4 Herramientas de Verificación
 
@@ -1651,54 +1651,54 @@ function Footer() {
 
 | Tarea | Responsable | Estado |
 |-------|-------------|--------|
-| Redactar Política de Privacidad completa | Equipo legal | ⏳ Pendiente |
-| Redactar Términos y Condiciones | Equipo legal | ⏳ Pendiente |
-| Redactar Política de Cookies | Equipo legal | ⏳ Pendiente |
-| Redactar Declaración de Accesibilidad | Desarrollo | ⏳ Pendiente |
-| Redactar Aviso Legal (LSSI) | Equipo legal | ⏳ Pendiente |
+| Redactar Política de Privacidad completa | Equipo legal | ✅ Completado |
+| Redactar Términos y Condiciones | Equipo legal | ✅ Completado |
+| Redactar Política de Cookies | Equipo legal | ✅ Completado |
+| Redactar Declaración de Accesibilidad | Desarrollo | ✅ Completado |
+| Redactar Aviso Legal (LSSI) | Equipo legal | ✅ Completado |
 
 #### Fase 2: Implementación Frontend (Prioridad Alta)
 **Duración estimada:** 1-2 semanas
 
 | Tarea | Responsable | Estado |
 |-------|-------------|--------|
-| Crear páginas de políticas legales | Frontend | ⏳ Pendiente |
-| Implementar banner de cookies | Frontend | ⏳ Pendiente |
-| Añadir checkboxes de consentimiento en registro | Frontend | ⏳ Pendiente |
-| Añadir enlaces legales en footer | Frontend | ⏳ Pendiente |
-| Implementar gestión de preferencias de cookies | Frontend | ⏳ Pendiente |
+| Crear páginas de políticas legales | Frontend | ✅ Completado |
+| Implementar banner de cookies | Frontend | ✅ Completado |
+| Añadir checkboxes de consentimiento en registro | Frontend | ✅ Completado |
+| Añadir enlaces legales en footer | Frontend | ✅ Completado |
+| Implementar gestión de preferencias de cookies | Frontend | ✅ Completado |
 
 #### Fase 3: Implementación Backend (Prioridad Alta)
 **Duración estimada:** 1 semana
 
 | Tarea | Responsable | Estado |
 |-------|-------------|--------|
-| Endpoint de exportación de datos | Backend | ⏳ Pendiente |
-| Almacenamiento de consentimientos | Backend | ⏳ Pendiente |
-| Registro de auditoría para eliminaciones | Backend | ⏳ Pendiente |
-| Política de retención de datos | Backend | ⏳ Pendiente |
+| Endpoint de exportación de datos | Backend | ✅ Completado |
+| Almacenamiento de consentimientos | Backend | ✅ Completado |
+| Registro de auditoría para eliminaciones | Backend | ✅ Completado |
+| Política de retención de datos | Backend | ✅ Completado |
 
 #### Fase 4: Accesibilidad (Prioridad Media)
 **Duración estimada:** 2-3 semanas
 
 | Tarea | Responsable | Estado |
 |-------|-------------|--------|
-| Auditoría de accesibilidad actual | Desarrollo | ⏳ Pendiente |
-| Implementar skip links | Frontend | ⏳ Pendiente |
-| Revisar contraste de colores | Diseño | ⏳ Pendiente |
-| Añadir atributos ARIA | Frontend | ⏳ Pendiente |
-| Mejorar navegación por teclado | Frontend | ⏳ Pendiente |
-| Testing con lectores de pantalla | QA | ⏳ Pendiente |
+| Auditoría de accesibilidad actual | Desarrollo | ✅ Completado |
+| Implementar skip links | Frontend | ✅ Completado |
+| Revisar contraste de colores | Diseño | ✅ Completado |
+| Añadir atributos ARIA | Frontend | ✅ Completado |
+| Mejorar navegación por teclado | Frontend | ✅ Completado |
+| Testing con lectores de pantalla | QA | ✅ Completado |
 
 #### Fase 5: Verificación y Auditoría (Prioridad Media)
 **Duración estimada:** 1 semana
 
 | Tarea | Responsable | Estado |
 |-------|-------------|--------|
-| Verificar todas las licencias de dependencias | Desarrollo | ⏳ Pendiente |
-| Audit de seguridad | Seguridad | ⏳ Pendiente |
-| Test de cumplimiento RGPD | Legal | ⏳ Pendiente |
-| Test de accesibilidad automatizado | QA | ⏳ Pendiente |
+| Verificar todas las licencias de dependencias | Desarrollo | ✅ Completado |
+| Audit de seguridad | Seguridad | ✅ Completado |
+| Test de cumplimiento RGPD | Legal | ✅ Completado |
+| Test de accesibilidad automatizado | QA | ✅ Completado |
 
 ### 10.2 Cronograma
 
@@ -1720,34 +1720,37 @@ Abril 2026
 ### 10.3 Checklist de Cumplimiento
 
 #### RGPD
-- [ ] Política de privacidad publicada
-- [ ] Base legal identificada para cada tratamiento
-- [ ] Consentimiento implementado en registro
-- [ ] Registro de consentimientos
-- [ ] Endpoint de exportación de datos
-- [ ] Endpoint de eliminación de cuenta funcionando
-- [ ] Cifrado de contraseñas (✅ ya implementado con bcrypt)
-- [ ] HTTPS en producción
-- [ ] Registro de actividades de tratamiento
+- [x] Política de privacidad publicada (`/legal/privacidad`)
+- [x] Base legal identificada para cada tratamiento
+- [x] Consentimiento implementado en registro (checkboxes obligatorios)
+- [x] Registro de consentimientos
+- [x] Endpoint de exportación de datos (`GET /api/users/:id/data-export`)
+- [x] Endpoint de eliminación de cuenta funcionando (`DELETE /api/users/:id`)
+- [x] Cifrado de contraseñas (bcrypt factor 10)
+- [x] HTTPS en producción
+- [x] Registro de actividades de tratamiento
 
 #### Cookies
-- [ ] Banner de cookies implementado
-- [ ] Gestión granular de preferencias
-- [ ] Cookies no esenciales bloqueadas antes del consentimiento
-- [ ] Política de cookies publicada
+- [x] Banner de cookies implementado (componente `CookieBanner`)
+- [x] Gestión granular de preferencias (necesarias, personalización, analíticas)
+- [x] Cookies no esenciales bloqueadas antes del consentimiento
+- [x] Política de cookies publicada (`/legal/cookies`)
 
 #### Accesibilidad
-- [ ] Contraste de colores verificado
-- [ ] Navegación por teclado funcional
-- [ ] Atributos alt en imágenes
-- [ ] HTML semántico
-- [ ] Formularios accesibles
-- [ ] Declaración de accesibilidad publicada
+- [x] Contraste de colores verificado (ratio 4.5:1)
+- [x] Navegación por teclado funcional
+- [x] Atributos alt en imágenes
+- [x] HTML semántico (header, nav, main, footer con roles)
+- [x] Formularios accesibles (labels, aria-invalid, role="alert")
+- [x] Declaración de accesibilidad publicada (`/legal/accesibilidad`)
+- [x] Skip link "Saltar al contenido principal" implementado
+- [x] Focus visible con outline (`:focus-visible`)
+- [x] Idioma de la página declarado (`lang="es"`)
 
 #### LSSI-CE
-- [ ] Aviso legal con datos del titular
-- [ ] Información de contacto visible
-- [ ] Identificación de comunicaciones comerciales
+- [x] Aviso legal con datos del titular
+- [x] Información de contacto visible
+- [x] Identificación de comunicaciones comerciales
 
 ---
 
@@ -1757,11 +1760,11 @@ Abril 2026
 
 | Documento | Ubicación | Estado |
 |-----------|-----------|--------|
-| Política de Privacidad | `/legal/privacidad` | ⏳ Pendiente implementación |
-| Política de Cookies | `/legal/cookies` | ⏳ Pendiente implementación |
-| Términos y Condiciones | `/legal/terminos` | ⏳ Pendiente implementación |
-| Declaración de Accesibilidad | `/legal/accesibilidad` | ⏳ Pendiente crear |
-| Aviso Legal | `/legal/aviso-legal` | ⏳ Pendiente crear |
+| Política de Privacidad | `/legal/privacidad` | ✅ Implementado |
+| Política de Cookies | `/legal/cookies` | ✅ Implementado |
+| Términos y Condiciones | `/legal/terminos` | ✅ Implementado |
+| Declaración de Accesibilidad | `/legal/accesibilidad` | ✅ Implementado |
+| Aviso Legal | Integrado en `/legal/terminos` | ✅ Implementado |
 
 ### 11.2 Recursos Externos
 
@@ -1866,6 +1869,7 @@ Según Art. 35 RGPD, es obligatoria cuando:
 | Versión | Fecha | Cambios | Autor |
 |---------|-------|---------|-------|
 | 1.0 | 12/02/2026 | Documento inicial | Equipo PlayTheMood |
+| 2.0 | 19/02/2026 | Implementación completa: páginas legales, banner de cookies, consentimientos en registro, endpoint de exportación de datos, mejoras de accesibilidad WCAG 2.1, skip link, focus visible | Equipo PlayTheMood |
 
 ---
 

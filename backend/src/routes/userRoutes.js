@@ -248,4 +248,26 @@ router.delete('/:id', verifyOwnership, userController.deleteUser);
 // Cambiar contraseña
 router.put('/:id/change-password', verifyOwnership, userController.changePassword);
 
+/**
+ * GET /users/:id/data-export
+ *
+ * Exporta todos los datos del usuario en formato JSON (RGPD).
+ * Cumple con el derecho de acceso (Art. 15) y portabilidad (Art. 20) del RGPD.
+ *
+ * Seguridad:
+ * - Requiere autenticación.
+ * - Middleware `verifyOwnership` verifica que solo el usuario acceda a sus propios datos.
+ *
+ * Respuestas:
+ * - **200**: Datos del usuario exportados en JSON.
+ * - **401**: Token no proporcionado o inválido.
+ * - **403**: Intento de exportar datos de otro usuario.
+ * - **404**: Usuario no encontrado.
+ * - **500**: Error del servidor.
+ *
+ * @route GET /users/:id/data-export
+ * @access Private (Solo propietario)
+ */
+router.get('/:id/data-export', verifyOwnership, userController.exportUserData);
+
 module.exports = router;

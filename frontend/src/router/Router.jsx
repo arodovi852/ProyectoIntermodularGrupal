@@ -17,6 +17,10 @@ import PrivateLayoutRoot from "../layouts/PrivateLayoutRoot.jsx";
 import Landing from "../pages/Landing.jsx";
 import Playlist from "../pages/Playlist.jsx";
 import Generate from "../pages/Generate.jsx";
+import PrivacyPolicy from "../pages/legal/PrivacyPolicy.jsx";
+import CookiesPolicy from "../pages/legal/CookiesPolicy.jsx";
+import TermsConditions from "../pages/legal/TermsConditions.jsx";
+import AccessibilityStatement from "../pages/legal/AccessibilityStatement.jsx";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +39,11 @@ const router = createBrowserRouter([
             { path: "/privacy", Component: Terms },
             { path: "/api", Component: API },
             { path: "/roadmap", Component: Roadmap },
+            // Páginas legales (RGPD, Cookies, Términos, Accesibilidad)
+            { path: "/legal/privacidad", Component: PrivacyPolicy },
+            { path: "/legal/cookies", Component: CookiesPolicy },
+            { path: "/legal/terminos", Component: TermsConditions },
+            { path: "/legal/accesibilidad", Component: AccessibilityStatement },
             { Component: PrivateLayoutRoot,
                 children: [
                     { path: "/dashboard", Component: DashBoard },

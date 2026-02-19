@@ -290,6 +290,43 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+/**
+ * Exportar todos los datos del usuario (RGPD - Derecho de portabilidad y acceso).
+ *
+ * Cumple con los Art. 15 (Acceso) y Art. 20 (Portabilidad) del RGPD.
+ * Devuelve todos los datos personales del usuario en formato JSON estructurado.
+ *
+ * Respuestas:
+ * - 200 OK: `{ success: true, data: exportData }`
+ * - 404 Not Found: si el usuario no existe.
+ * - 500 Internal Server Error: si se produce un error inesperado.
+ *
+ * @async
+ * @function exportUserData
+ * @param {import('express').Request} req Objeto de petición HTTP.
+ * @param {import('express').Response} res Objeto de respuesta HTTP.
+ * @returns {Promise<void>}
+ */
+const exportUserData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const exportData = await userService.exportUserData(id);
+
+    res.setHeader('Content-Disposition', 'attachment; filename=mis-datos-playthemood.json');
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({
+      success: true,
+      data: exportData
+    });
+  } catch (error) {
+    const statusCode = error.message.includes('no encontrado') ? 404 : 500;
+    res.status(statusCode).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -297,6 +334,7 @@ module.exports = {
   updateUserProfile,
   changePassword,
   deleteUser,
-  getAllUsers
+  getAllUsers,
+  exportUserData
 };
 

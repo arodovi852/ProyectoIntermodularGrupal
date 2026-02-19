@@ -1,0 +1,136 @@
+/* Estilos para las páginas legales */
+.legalPage {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem 2.5rem;
+    background: rgba(30, 30, 30, 0.85);
+    border-radius: 16px;
+    color: rgba(255, 255, 255, 0.87);
+    line-height: 1.8;
+    backdrop-filter: blur(10px);
+}
+
+.legalPage h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    color: #5888ed;
+    border-bottom: 2px solid #5888ed;
+    padding-bottom: 0.5rem;
+}
+
+.legalPage h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    color: #7aa2f7;
+}
+
+.legalPage h3 {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #9bb5ed;
+}
+
+.legalPage p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.legalPage ul,
+.legalPage ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.legalPage li {
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.legalPage a {
+    color: #5888ed;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.legalPage a:hover {
+    color: #7aa2f7;
+}
+
+.legalPage table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.legalPage th,
+.legalPage td {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.6rem 1rem;
+    text-align: left;
+}
+
+.legalPage th {
+    background: rgba(88, 136, 237, 0.2);
+    color: #7aa2f7;
+    font-weight: 600;
+}
+
+.legalPage td {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.lastUpdated {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.contactBox {
+    background: rgba(88, 136, 237, 0.1);
+    border: 1px solid rgba(88, 136, 237, 0.3);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.contactBox p {
+    margin-bottom: 0.3rem;
+}
+
+.highlight {
+    background: rgba(88, 136, 237, 0.08);
+    border-left: 4px solid #5888ed;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    border-radius: 0 8px 8px 0;
+}
+
+@media (max-width: 768px) {
+    .legalPage {
+        margin: 1rem;
+        padding: 1.5rem 1.2rem;
+    }
+
+    .legalPage h1 {
+        font-size: 1.6rem;
+    }
+
+    .legalPage h2 {
+        font-size: 1.25rem;
+    }
+
+    .legalPage table {
+        font-size: 0.8rem;
+    }
+
+    .legalPage th,
+    .legalPage td {
+        padding: 0.4rem 0.6rem;
+    }
+}

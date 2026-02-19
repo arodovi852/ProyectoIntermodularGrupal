@@ -1,0 +1,164 @@
+/* Estilos del Banner de Cookies */
+.cookieOverlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cookieBanner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    background: rgba(30, 30, 30, 0.97);
+    border-top: 3px solid #5888ed;
+    border-radius: 16px 16px 0 0;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+.cookieBanner h2 {
+    font-size: 1.2rem;
+    margin: 0 0 0.6rem 0;
+    color: #fff;
+}
+
+.cookieBanner > p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 1rem 0;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.optionItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+}
+
+.optionItem input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: #5888ed;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.optionItem input[type="checkbox"]:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.optionLabel {
+    display: flex;
+    flex-direction: column;
+}
+
+.optionLabel span:first-child {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.optionLabel small {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.78rem;
+}
+
+.actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.primary {
+    background: #5888ed;
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.4rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.primary:hover {
+    background: #4070d0;
+}
+
+.primary:focus-visible {
+    outline: 3px solid #7aa2f7;
+    outline-offset: 2px;
+}
+
+.secondary {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.55rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.secondary:hover {
+    border-color: #5888ed;
+    color: #5888ed;
+}
+
+.secondary:focus-visible {
+    outline: 3px solid #7aa2f7;
+    outline-offset: 2px;
+}
+
+.cookieLink {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.82rem;
+    color: #5888ed;
+    text-decoration: underline;
+}
+
+.cookieLink:hover {
+    color: #7aa2f7;
+}
+
+@media (max-width: 600px) {
+    .cookieBanner {
+        padding: 1.2rem 1rem;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .primary,
+    .secondary {
+        width: 100%;
+        text-align: center;
+    }
+}

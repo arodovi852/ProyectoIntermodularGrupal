@@ -73,8 +73,10 @@ export const Footer = () => {
         { text: 'About', href: '/About' },
         { text: 'Contact', href: '/Contact' },
         { text: 'News', href: '/News' },
-        { text: 'Terms', href: '/Terms' },
-        { text: 'Privacy', href: '/Privacy' },
+        { text: 'Privacidad', href: '/legal/privacidad' },
+        { text: 'Cookies', href: '/legal/cookies' },
+        { text: 'Términos', href: '/legal/terminos' },
+        { text: 'Accesibilidad', href: '/legal/accesibilidad' },
         { text: 'API', href: '/API' },
         { text: 'Roadmap', href: '/Roadmap' },
         { text: '/', href: '#', isSpecial: true }
@@ -88,8 +90,8 @@ export const Footer = () => {
     ]
 
     return (
-        <footer className={styles.footer}>
-            <nav className={styles.nav}>
+        <footer className={styles.footer} role="contentinfo">
+            <nav className={styles.nav} aria-label="Enlaces del pie de página">
                 {/* Enlaces de navegación */}
                 {links.map((link, index) => (
                     link.isSpecial ? (
@@ -102,11 +104,35 @@ export const Footer = () => {
                         </NavLink>
                     )
                 ))}
+                {/* Botón para reabrir banner de cookies */}
+                <button
+                    onClick={() => {
+                        localStorage.removeItem('cookieConsent');
+                        window.location.reload();
+                    }}
+                    className={styles.links}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                        font: 'inherit',
+                        color: 'inherit',
+                        textDecoration: 'underline',
+                        fontSize: 'inherit'
+                    }}
+                    aria-label="Configurar preferencias de cookies"
+                >
+                    Configurar cookies
+                </button>
                 {/* Iconos sociales */}
                 {socials.map((social, index) => (
                     <SocialIcon key={`social-${index}`} type={social.type} href={social.href} />
                 ))}
             </nav>
+            <p style={{ fontSize: '0.75rem', opacity: 0.5, marginTop: '0.5rem', textAlign: 'center' }}>
+                © 2026 PlayTheMood. Todos los derechos reservados. Contenido musical proporcionado por Spotify®.
+            </p>
         </footer>
     )
 }
